@@ -1,0 +1,22 @@
+dependencies {
+    testCompile("org.mockito:mockito-all:1.10.19")
+    testCompileOnly(
+            'junit:junit:4.12'
+    )
+    testImplementation(
+            'org.junit.jupiter:junit-jupiter-api:5.2.0'
+    )
+    testRuntimeOnly(
+            'org.junit.jupiter:junit-jupiter-engine:5.2.0',
+            'org.junit.vintage:junit-vintage-engine:5.2.0'
+    )
+}
+
+test {
+    useJUnitPlatform()
+
+    reports {
+        junitXml.enabled = true
+        html.enabled = true
+    }
+}
