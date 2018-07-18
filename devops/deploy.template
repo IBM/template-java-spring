@@ -1,0 +1,4 @@
+APP_BASENAME="myapp"
+
+IBMCLOUD_ORG="myorg"
+IBMCLOUD_SPACE="space"

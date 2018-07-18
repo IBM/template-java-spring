@@ -1,0 +1,33 @@
+{
+  "name": "template-spring-boot",
+  "version": "0.1.0",
+  "description": "Spring Boot application",
+  "main": "index.js",
+  "scripts": {
+    "build": "yarn build:yarn",
+    "build:yarn": "./gradlew assemble",
+    "lint": "yarn check:yarn",
+    "check": "yarn check:yarn",
+    "check:yarn": "./gradlew check",
+    "clean": "yarn clean:yarn",
+    "clean:yarn": "./gradlew clean",
+    "test": "yarn test:yarn",
+    "test:yarn": "./gradlew test",
+    "start": "yarn start:yarn",
+    "start:yarn": "./gradlew bootRun",
+    "push": "yarn push:yarn",
+    "push:yarn": "./devops/deploy.sh",
+    "push:dev": "yarn push:dev:yarn",
+    "push:dev:yarn": "./devops/deploy.sh dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.ibm.com:seansund/template-spring-boot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "yarn": "^1.7.0"
+  },
+  "dependencies": {}
+}

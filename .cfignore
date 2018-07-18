@@ -1,0 +1,12 @@
+**/*.jar
+.gradle/
+.idea/
+build/classes/
+build/resources/
+build/tmp/
+build/wlp/
+config/
+gradle/
+node_modules/
+out/
+src/
