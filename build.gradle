@@ -16,6 +16,9 @@ buildscript {
 
         // Needed for build-testlogger
         classpath 'com.adarshr:gradle-test-logger-plugin:1.3.1'
+
+        // Needed for liberty
+        classpath 'net.wasdev.wlp.gradle.plugins:liberty-gradle-plugin:2.4.1'
     }
 }
 
@@ -34,6 +37,13 @@ ext {
             ],
             testLogger: [
                     theme: 'mocha'
+            ],
+            liberty: [
+                    appName: project.name,
+                    appWarFile: project.name + '-' + project.version + '.war',
+                    testServerHttpPort: 9080,
+                    testServerHttpsPort: 9443,
+                    warContext: project.name
             ]
     ]
 }
@@ -55,7 +65,7 @@ apply from:   'gradle/build-jacoco.gradle'
 apply from:   'gradle/build-swagger.gradle'
 apply from:   'gradle/build-springactuator.gradle'
 apply from:   'gradle/build-githooks.gradle'
-//apply from:   'gradle/build-liberty.gradle'
+apply from:   'gradle/build-liberty.gradle'
 
 repositories {
     mavenCentral()
