@@ -45,7 +45,12 @@ apply from:   'gradle/build-war.gradle'
 apply from:   'gradle/build-springboot.gradle'
 apply from:   'gradle/build-junit5.gradle'
 apply from:   'gradle/build-testlogger.gradle'
-apply from:   'gradle/build-checkstyle.gradle'
+if (!project.hasProperty("skipCheckstyle")) {
+    println("No `skipCheckstyle` flag. Applying build script")
+    apply from: 'gradle/build-checkstyle.gradle'
+} else {
+    println("`skipCheckstyle` set. Will not apply build script")
+}
 apply from:   'gradle/build-jacoco.gradle'
 apply from:   'gradle/build-swagger.gradle'
 apply from:   'gradle/build-springactuator.gradle'
@@ -55,7 +60,3 @@ apply from:   'gradle/build-githooks.gradle'
 repositories {
     mavenCentral()
 }
-
-// TODO should these be moved into springboot file?
-sourceCompatibility = 1.8
-targetCompatibility = 1.8

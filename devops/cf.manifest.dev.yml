@@ -7,4 +7,3 @@ applications:
   buildpack: liberty-for-java
   memory: 512M
 
-  path: ../build/libs/template-spring-boot-0.1.0.war

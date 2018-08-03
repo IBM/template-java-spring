@@ -6,9 +6,8 @@
   "scripts": {
     "build": "yarn build:yarn",
     "build:yarn": "./gradlew assemble",
-    "lint": "yarn check:yarn",
-    "check": "yarn check:yarn",
-    "check:yarn": "./gradlew check",
+    "verify": "yarn verify:yarn",
+    "verify:yarn": "./gradlew check",
     "clean": "yarn clean:yarn",
     "clean:yarn": "./gradlew clean",
     "test": "yarn test:yarn",
@@ -29,5 +28,9 @@
   "devDependencies": {
     "yarn": "^1.7.0"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "engines": {
+    "node": ">= v8.11.1",
+    "npm": ">= 5.6.0"
+  }
 }

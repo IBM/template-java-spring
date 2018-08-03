@@ -31,7 +31,7 @@ fi
 ### project repo
 echo -e -n "  project repo url: "
 
-read project_repo_url
+read project_repo
 
 echo ""
 
@@ -63,31 +63,28 @@ if [[ -z "$template_origin" ]]; then
     git remote add template_origin "${current_origin}"
 fi
 
-if [[ -z "$project_repo_url" && -n "$current_origin" ]]; then
+if [[ -z "$project_repo" && -n "$current_origin" ]]; then
     echo -e "    \033[1;37mRemoving origin url\033[0m"
     git remote remove origin
 
-    sed -i -r "s/    \"url\":.*/    \"url\": \"\",/g" ./package.json
+    sed -i -r "s~    \"url\":.*~    \"url\": \"\",~g" ./package.json
     rm ./package.json-*
 
-elif [[ -n "$project_repo_url" ]]; then
-    echo -e "    \033[1;37mSetting origin url:\033[0m ${project_repo_url}"
+elif [[ -n "$project_repo" ]]; then
+    echo -e "    \033[1;37mSetting origin url:\033[0m ${project_repo}"
     if [[ -z "$current_origin" ]]; then
-        git remote add origin "${project_repo_url}"
+        git remote add origin "${project_repo}"
     else
-        git remote set-url origin "${project_repo_url}"
+        git remote set-url origin "${project_repo}"
     fi
 
-    sed -i -r "s/    \"url\":.*/    \"url\": \"${project_repo_url}\",/g" ./package.json
+    sed -i -r "s~    \"url\":.*~    \"url\": \"${project_repo}\",~g" ./package.json
     rm ./package.json-*
+
+    # Convert an ssh url to https. If it is already an https url then it will be left alone.
+    project_repo_url=$(echo ${project_repo} | sed "s~git@\(.*\):\(.*\)~https://\1/\2~g")
+
+    sed "s~REPO_URL~${project_repo_url}~g" ./PIPELINE-template.md > ./PIPELINE.md
 fi
 
 echo ""
-
-#########################################
-#        Graft template history         #
-#########################################
-
-templateHead=$(git log --name-status HEAD^..HEAD | grep -e "^commit" | sed "s/commit \(.*\)/\1/")
-
-echo "${templateHead}" > .git/info/grafts
