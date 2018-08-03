@@ -44,10 +44,10 @@ echo -e "    \033[1;37mSetting project name:\033[0m ${project_name}"
 
 # update rootProject.name value in settings.gradle
 sed -i -e "s/rootProject.name.*/rootProject.name = '${project_name}'/g" ./settings.gradle
-rm ./settings.gradle-e
+rm ./settings.gradle-*
 
 sed -i -r "s/  \"name\":.*/  \"name\": \"${project_name}\",/g" ./package.json
-rm ./package.json-e
+rm ./package.json-*
 
 # generate new README.md
 echo "# ${project_name}" > README.md
@@ -68,7 +68,7 @@ if [[ -z "$project_repo_url" && -n "$current_origin" ]]; then
     git remote remove origin
 
     sed -i -r "s/    \"url\":.*/    \"url\": \"\",/g" ./package.json
-    rm ./package.json-e
+    rm ./package.json-*
 
 elif [[ -n "$project_repo_url" ]]; then
     echo -e "    \033[1;37mSetting origin url:\033[0m ${project_repo_url}"
@@ -79,7 +79,15 @@ elif [[ -n "$project_repo_url" ]]; then
     fi
 
     sed -i -r "s/    \"url\":.*/    \"url\": \"${project_repo_url}\",/g" ./package.json
-    rm ./package.json-e
+    rm ./package.json-*
 fi
 
 echo ""
+
+#########################################
+#        Graft template history         #
+#########################################
+
+templateHead=$(git log --name-status HEAD^..HEAD | grep -e "^commit" | sed "s/commit \(.*\)/\1/")
+
+echo "${templateHead}" > .git/info/grafts
