@@ -174,7 +174,13 @@ To run continuously and watch for changes:
 The resulting binaries will be placed in `build/libs`. If the `build-war.gradle` script is used, then a 
 war file will be generated. If the `build-jar.gradle` script is used, then a jar file will be generated.
 
-### Start the server
+### Start the server (Liberty)
+
+To run the application on Liberty, run the following:
+
+`./gradlew libertyRun`
+
+### Start the server (embedded Tomcat)
 
 To run the embedded server configured for Spring Boot, run the following:
 
@@ -199,6 +205,15 @@ That URL will give the index to the other service urls.
 The pre-commit hook can be bypassed with the following:
 
 `git commit --no-verify`
+
+### Configure the IBM Cloud Continuous Delivery toolchain and pipeline
+
+Run the script to update the toolchain config using the following:
+
+`./setup-bluemix-toolchain.sh`
+
+Once the toolchain has been updated, commit and push the changes then click the `Create toolchain` button
+in the `PIPELINE.md` file.  
 
 ## <a name="customizing"></a>Customizing behavior
 
@@ -234,7 +249,5 @@ checkstyle {
 
 ## Upcoming features
 
-* Liberty embedded server
-* DevOps scripts
 * TraceId and SpanId for logging context
 * Log incoming and outgoing request and response

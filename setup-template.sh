@@ -87,13 +87,9 @@ echo "# ${project_name}" > README.md
 
 ### project repo
 
-if [[ -z "$template_origin" && -n "$template_repo" ]]; then
-    echo -e "    \033[1;37mSetting template_origin url:\033[0m ${template_repo}"
-    git remote add template_origin "${template_repo}"
-elif [[ -n "$template_repo" ]]; then
-    echo -e "    \033[1;37mSetting template_origin url:\033[0m ${template_repo}"
-    git remote set-url template_origin "${template_repo}"
-fi
+echo -e "    \033[1;37mSetting template_origin url:\033[0m ${template_repo}"
+
+echo "${template_repo}" > ./.template_origin
 
 if [[ -z "$project_repo" && -n "$current_origin" ]]; then
     echo -e "    \033[1;37mRemoving origin url\033[0m"
