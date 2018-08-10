@@ -1,14 +1,14 @@
 dependencies {
-    testCompile("org.mockito:mockito-all:1.10.19")
+    testCompile("org.mockito:mockito-all:${mockitoVersion}")
     testCompileOnly(
             'junit:junit:4.12'
     )
     testImplementation(
-            'org.junit.jupiter:junit-jupiter-api:5.2.0'
+            "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
     )
     testRuntimeOnly(
-            'org.junit.jupiter:junit-jupiter-engine:5.2.0',
-            'org.junit.vintage:junit-vintage-engine:5.2.0'
+            "org.junit.jupiter:junit-jupiter-engine:${junitVersion}",
+            "org.junit.vintage:junit-vintage-engine:${junitVersion}"
     )
 }
 

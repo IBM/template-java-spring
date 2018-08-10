@@ -6,7 +6,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-web') {
         exclude module: "spring-boot-starter-tomcat"
     }
-    libertyRuntime group: 'io.openliberty', name: 'openliberty-runtime', version: '[18.0.0.1,)'
+    libertyRuntime group: 'io.openliberty', name: 'openliberty-runtime', version: "[${libertyVersion},)"
 }
 
 if (!project.ext.has('config')) {

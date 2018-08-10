@@ -6,6 +6,11 @@ buildscript {
     ext {
         springBootVersion = '2.0.3.RELEASE'
         pactVersion = '3.5.20'
+        checkstyleVersion = '7.6.1'
+        junitVersion = '5.2.0'
+        mockitoVersion = '1.10.19'
+        libertyVersion = '18.0.0.1'
+        swaggerVersion = '2.9.2'
     }
     repositories {
         mavenCentral()
