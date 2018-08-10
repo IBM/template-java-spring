@@ -143,6 +143,22 @@ To output a jar file, the `gradle/build-jar.gradle` build script can be included
 To output a war file, the `gradle/build-jar.gradle` build script can be included. The default configuration 
 of `build.gradle` is to produce a war file because that is the recommended way to deploy to liberty.
 
+### Pact testing
+
+The project adds support for consumer- and provider-side Pact testing via three gradle build files:
+
+* gradle/build-pact.gradle
+* gradle/build-pact-consumer.gradle
+* gradle/build-pact-provider.gradle
+
+To enable Pact testing support, simply add `apply from: 'build-pact-consumer.gradle'` and/or `apply from: 'build-pact-provider.gradle'` to
+`build.gradle` depending on the nature of the application. (The `gradle/build-pact.gradle` file is referenced within the other two files.)
+
+On the provider side, if you are not using a pact-broker then the configuration can become rather custom. In that case it
+is recommended to copy the existing build-pact-provider.gradle to another file and make approriate customizations.
+
+For more information on Pact testing see [https://docs.pact.io/](https://docs.pact.io/)
+
 ## Usage
 
 The following sections provide common actions to perform on the project.
@@ -246,6 +262,43 @@ checkstyle {
     configFile ${configDir}/checkstyle-custom.xml
 }
 ```
+
+### Pact testing
+
+Pact testing is consumer-driven contract testing, so it makes sense to start with the consumer.
+
+#### Consumer
+
+1. Add `apply from: 'gradle/build-pact-consumer.gradle'` to the `build.gradle` file.
+2. Create the Pact test to define the contract. An example consumer can be found in the 
+[seansund/hello-world-consumer](https://github.ibm.com/seansund/hello-world-consumer) repo.
+That consumer project was built using this template and does Pact testing for the HelloWorld
+service provided as the sample application for this repo.
+3. Test the pact on the consumer by running `./gradlew test`. This will validate the pact and 
+generate the pact file that should be used to validate the provider.
+4. (Optionally) The pact can be published to a pact-broker by running `./gradlew pactPublish`. 
+By default the build assumes the pact-broker is running at `http://localhost`. To override that,
+run the pactPublish command with `./gradlew pactPublish -PpactBrokerUrl={url}`
+
+#### Provider
+
+1. Add `apply from: 'gradle/build-pact-provider.gradle'` to the `build.gradle` file.
+2. Get the pact file from the consumer. By default, the build assumes that a pact broker will be 
+used and that the pact broker is running on `http://localhost`. If necessary the pact file can be
+manually copied to a directory before running but this is not recommended. To connect to a pact
+broker running other than `localhost` then pass `-PpactBrokerUrl={url}` to the verify command.
+3. Test the pact on the consumer by running `./gradlew pactVerify`. This will build the app, 
+install it to the Liberty server, start the Liberty server, validate the API using the pact 
+file provided against the running server, then stop the Liberty server. (Note: publishing the results
+back to the pact broker seems to be broken in the Junit5 implementation)
+
+#### Pact-Broker
+
+A pact broker provides a central place for consumers to publish pacts and providers to access
+those pacts for verification. A docker image exists that requires some configuration. To speed up the
+process of getting a pact broker up and running, configuration and scripts have been provided in
+[seansund/pact-broker-kube](https://github.ibm.com/seansund/pact-broker-kube). The repo contains
+scripts to run in docker image(s) or in an IBM Cloud Kubernetes container.
 
 ## Upcoming features
 

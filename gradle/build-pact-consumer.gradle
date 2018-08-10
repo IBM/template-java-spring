@@ -1,0 +1,17 @@
+apply from: 'gradle/build-pact.gradle'
+
+if (!project.ext.has('config')) {
+    project.ext['config'] = [:]
+}
+
+def myPactBrokerUrl = config.pact?.pactBrokerUrl ?: "http://localhost"
+
+pact {
+    publish {
+        pactDirectory = pactDirectory
+
+        pactBrokerUrl = myPactBrokerUrl
+//        pactBrokerUsername = myBrokerUser
+//        pactBrokerPassword = myBrokerPassword
+    }
+}

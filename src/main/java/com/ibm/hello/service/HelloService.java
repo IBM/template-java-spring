@@ -1,7 +1,5 @@
 package com.ibm.hello.service;
 
-import javax.annotation.PostConstruct;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.ibm.hello.config.HelloConfig;
+import com.ibm.hello.model.GreetingResponse;
 
 @Service
 public class HelloService {
@@ -17,12 +16,14 @@ public class HelloService {
     @Autowired
     private HelloConfig config;
 
-    public String createReply(final String nameVariable) {
+    public GreetingResponse getGreeting(final String nameVariable) {
 
         final String name = !StringUtils.isEmpty(nameVariable) ? nameVariable : "world";
 
         LOGGER.debug("Creating reply for name: " + name);
 
-        return String.format(config.getPattern(), name);
+        String greeting = String.format(config.getPattern(), name);
+
+        return new GreetingResponse().withName(name).withGreeting(greeting);
     }
 }

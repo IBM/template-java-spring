@@ -10,12 +10,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.ibm.hello.config.HelloConfig;
+import com.ibm.hello.model.GreetingResponse;
 
 @DisplayName("HelloService")
 public class HelloServiceTest {
     @Nested
-    @DisplayName("Given createReply()")
-    public class GivenCreateReply {
+    @DisplayName("Given getGreeting()")
+    public class GivenGetGreeting {
         String pattern;
         HelloService service;
 
@@ -33,14 +34,22 @@ public class HelloServiceTest {
         public void when_name_is_test_return_hellotest() {
             final String name = "test";
 
-            assertEquals(String.format(pattern, name), service.createReply(name));
+            GreetingResponse response = service.getGreeting(name);
+
+            assertEquals(String.format(pattern, name), response.getGreeting());
+            assertEquals(name, response.getName());
         }
 
         @Test
         @DisplayName("When name is null then return `Hello, world!`")
         public void when_name_is_null_return_helloworld() {
 
-            assertEquals(String.format(pattern, "world"), service.createReply(null));
+            GreetingResponse response = service.getGreeting(null);
+
+            final String name = "world";
+
+            assertEquals(String.format(pattern, name), response.getGreeting());
+            assertEquals(name, response.getName());
         }
     }
 }
