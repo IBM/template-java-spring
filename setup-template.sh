@@ -106,7 +106,7 @@ elif [[ -n "$project_repo" ]]; then
         git remote set-url origin "${project_repo}"
     fi
 
-    sed -i -r "s~    \"url\":.*~    \"url\": \"${project_repo}\",~g" ./package.json
+    sed -i -r "s~    \"url\":.*~    \"url\": \"${project_repo}\"~g" ./package.json
     rm ./package.json-*
 
     # Convert an ssh url to https. If it is already an https url then it will be left alone.

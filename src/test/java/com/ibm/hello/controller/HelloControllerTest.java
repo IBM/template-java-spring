@@ -25,7 +25,7 @@ import com.ibm.hello.service.HelloService;
 @DisplayName("HelloController")
 public class HelloControllerTest {
     @Nested
-    @DisplayName("Given /hello/{name}")
+    @DisplayName("Given /hello")
     public class GivenHello {
         HelloService serviceMock;
         HelloController controller;
@@ -47,7 +47,7 @@ public class HelloControllerTest {
 
             doReturn(new GreetingResponse()).when(serviceMock).getGreeting(anyString());
 
-            mockMvc.perform(get("/hello/name"))
+            mockMvc.perform(get("/hello?name=name"))
                     .andExpect(status().isOk());
         }
 
@@ -57,7 +57,7 @@ public class HelloControllerTest {
 
             doReturn(new GreetingResponse()).when(serviceMock).getGreeting(anyString());
 
-            mockMvc.perform(get("/hello/name"))
+            mockMvc.perform(get("/hello?name=name"))
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
         }
 
@@ -70,7 +70,7 @@ public class HelloControllerTest {
 
             doReturn(result).when(serviceMock).getGreeting(anyString());
 
-            mockMvc.perform(get("/hello/" + name))
+            mockMvc.perform(get("/hello?name=" + name))
                     .andExpect(jsonPath("$.name", is(name)))
                     .andExpect(jsonPath("$.greeting", is(result.getGreeting())));
 
@@ -78,12 +78,12 @@ public class HelloControllerTest {
         }
 
         @Test
-        @DisplayName("When called without {name} then it should return 404 status")
-        public void when_called_without_name_should_return_404() throws Exception {
+        @DisplayName("When called without {name} then it should return 406 status")
+        public void when_called_without_name_should_return_406() throws Exception {
 
             final String name = "name";
 
-            mockMvc.perform(get("/hello/"))
+            mockMvc.perform(get("/hello"))
                     .andExpect(status().is(406));
         }
     }

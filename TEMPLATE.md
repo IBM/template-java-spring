@@ -279,6 +279,10 @@ generate the pact file that should be used to validate the provider.
 4. (Optionally) The pact can be published to a pact-broker by running `./gradlew pactPublish`. 
 By default the build assumes the pact-broker is running at `http://localhost`. To override that,
 run the pactPublish command with `./gradlew pactPublish -PpactBrokerUrl={url}`
+5. (Optionally) The consumer pact can be validated against the swagger documentation of the 
+provider by running `yarn pact:test {swaggerUrl}` where {swaggerUrl} is the url to the swagger
+json file. If not provided the value defaults to `http://localhost:9080/v2/api-docs` which is the
+default url where Swagger exposes the json configuration file.
 
 #### Provider
 

@@ -15,7 +15,9 @@ pact {
             port = '9080'
             path = '/'
 
-            hasPactsFromPactBroker(myPactBrokerUrl)
+            if ('pactVerify' in gradle.startParameter.taskNames) {
+                hasPactsFromPactBroker(myPactBrokerUrl)
+            }
         }
     }
 }
