@@ -16,4 +16,22 @@ fi
 
 echo -e "\033[1;34mRefreshing project from template\033[0m\n"
 
-git pull template_origin master
+PS3='  How should the template updates be applied? (enter the #) '
+options=("rebase (recommended)" "merge" "do nothing")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "rebase (recommended)")
+            git rebase template_origin/master
+            break
+            ;;
+        "merge")
+            git pull template_origin master
+            break
+            ;;
+        "do nothing")
+            break
+            ;;
+        *) echo "invalid option $REPLY";;
+    esac
+done
