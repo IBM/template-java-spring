@@ -10,6 +10,8 @@ apply plugin: 'io.spring.dependency-management'
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.apache.httpcomponents:httpclient")
+
     // needed for IntelliJ
     compileOnly("org.springframework.boot:spring-boot-configuration-processor")
     testCompile("org.springframework.boot:spring-boot-starter-test")

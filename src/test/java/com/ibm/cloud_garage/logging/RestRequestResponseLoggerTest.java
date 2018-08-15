@@ -208,6 +208,28 @@ public class RestRequestResponseLoggerTest {
 
             verify(loggerMock).warn(anyString(), any(IOException.class));
         }
+
+        @Test
+        @DisplayName("When response is null then log responseContext")
+        public void null_response() throws URISyntaxException, JsonProcessingException {
+            doReturn(true).when(loggerMock).isDebugEnabled();
+
+            final String url = "/test";
+            HttpRequest request = mock(HttpRequest.class);
+            doReturn(new URI(url)).when(request).getURI();
+
+            doReturn(null).when(classUnderTest).getResponseBody(any());
+
+            final String contextString = "contextString";
+            doReturn(contextString).when(classUnderTest).beautifyContextString(any());
+
+            classUnderTest.traceResponse(null, request);
+
+            verify(loggerMock).debug(anyString(), eq(contextString));
+            verify(classUnderTest).beautifyContextString(
+                    new ResponseLoggingContext()
+                            .withUrl(url));
+        }
     }
 
     @Nested
