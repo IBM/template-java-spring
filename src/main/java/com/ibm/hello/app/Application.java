@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan({"com.ibm.hello.*", "com.ibm.cloud_garage.swagger"})
+@ComponentScan({"com.ibm.hello.*", "com.ibm.cloud_garage.*"})
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

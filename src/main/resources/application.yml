@@ -1,3 +1,7 @@
+spring:
+  application:
+    name: "template-spring-boot"
+
 hello:
   pattern: "Hello there, %s!"
 
@@ -22,3 +26,15 @@ management:
 
 server:
   port: 9080
+
+logging:
+  level:
+    ROOT: INFO
+    com.ibm.hello: DEBUG
+    com.ibm.cloud_garage: DEBUG
+    org.springframework: ERROR
+    org.springframework.web: WARN
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+    ch.qos.logback.classic: ERROR
+  pattern:
+    console: "%d{YYYY-dd-MM HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %X{X-B3-TraceId:-} ${spring.application.name} %logger{39}.%M %L - %msg%n"

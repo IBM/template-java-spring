@@ -6,11 +6,13 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -24,22 +26,23 @@ import com.ibm.hello.service.HelloService;
 
 @DisplayName("HelloController")
 public class HelloControllerTest {
+    HelloService serviceMock;
+    HelloController controller;
+    MockMvc mockMvc;
+
+    @BeforeEach
+    public void setup() {
+        serviceMock = mock(HelloService.class);
+
+        controller = new HelloController();
+        ReflectionTestUtils.setField(controller, "service", serviceMock);
+
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+    }
+
     @Nested
-    @DisplayName("Given /hello")
-    public class GivenHello {
-        HelloService serviceMock;
-        HelloController controller;
-        MockMvc mockMvc;
-
-        @BeforeEach
-        public void setup() {
-            serviceMock = mock(HelloService.class);
-
-            controller = new HelloController();
-            ReflectionTestUtils.setField(controller, "service", serviceMock);
-
-            mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
-        }
+    @DisplayName("Given [GET] /hello")
+    public class GivenGetHello {
 
         @Test
         @DisplayName("When called with {name} then it should return a 200 status")
@@ -85,6 +88,56 @@ public class HelloControllerTest {
 
             mockMvc.perform(get("/hello"))
                     .andExpect(status().is(406));
+        }
+    }
+
+    @Nested
+    @DisplayName("Given [POST] /hello")
+    public class GivenPostHello {
+        @Test
+        @DisplayName("When called with empty body then it should return `400`")
+        public void empty_body() throws Exception {
+            mockMvc.perform(
+                    post("/hello")
+                            .contentType("application/json"))
+                    .andExpect(status().is(400));
+        }
+
+        @Test
+        @DisplayName("When called without a content type then it should return `415`")
+        public void missing_content_type() throws Exception {
+            mockMvc.perform(
+                    post("/hello")
+                            .content("{}"))
+                    .andExpect(status().is(415));
+        }
+
+        @Test
+        @DisplayName("When called with an empty object then it should return `406`")
+        public void empty_object_in_body() throws Exception {
+            mockMvc.perform(
+                    post("/hello")
+                            .contentType("application/json")
+                            .content("{}"))
+                    .andExpect(status().is(406));
+        }
+
+        @Test
+        @DisplayName("When called with a name then it should return `200` and a greeting")
+        public void name_in_body() throws Exception {
+            final String name = "John";
+            final String greeting = "greeting";
+
+            GreetingResponse response = new GreetingResponse().withName(name).withGreeting(greeting);
+            doReturn(response).when(serviceMock).getGreeting(name);
+
+            mockMvc.perform(
+                    post("/hello")
+                            .contentType("application/json")
+                            .content(String.format("{\"name\":\"%s\"}", name)))
+                    .andExpect(status().is(200))
+                    .andExpect(content().string(
+                            String.format("{\"name\":\"%s\",\"greeting\":\"%s\"}", name, greeting)));
         }
     }
 }
