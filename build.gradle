@@ -4,7 +4,7 @@
  */
 buildscript {
     ext {
-        springBootVersion = '2.0.3.RELEASE'
+        springBootVersion = '2.0.1.RELEASE'
         pactVersion = '3.5.20'
         checkstyleVersion = '7.6.1'
         junitVersion = '5.2.0'
@@ -79,6 +79,7 @@ if (!project.hasProperty("skipCheckstyle")) {
 apply from:   'gradle/build-jacoco.gradle'
 apply from:   'gradle/build-swagger.gradle'
 apply from:   'gradle/build-springactuator.gradle'
+apply from:   'gradle/build-springsleuth.gradle'
 apply from:   'gradle/build-githooks.gradle'
 apply from:   'gradle/build-liberty.gradle'
 apply from:   'gradle/build-pact-provider.gradle'
