@@ -1,0 +1,37 @@
+
+apply plugin: 'org.openrepose.gradle.plugins.jaxb'
+
+configurations {
+    jaxb
+}
+
+if (!project.ext.has('config')) {
+    project.ext['config'] = [:]
+}
+
+def generatedDir = "${project.buildDir}/generated-sources/xjc"
+def modelPackageName = config.jaxb?.modelPackageName ?: null
+
+jaxb {
+    xsdIncludes = ["*.wsdl","*.xsd"]
+    xjc {
+        destinationDir = "$generatedDir"
+        generatePackage = "$modelPackageName"
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs += "$generatedDir"
+        }
+    }
+}
+
+dependencies {
+    compile("wsdl4j:wsdl4j:${wsdlVersion}")
+    jaxb("org.glassfish.jaxb:jaxb-xjc:${jaxbVersion}")
+    jaxb("org.glassfish.jaxb:jaxb-runtime:${jaxbVersion}")
+}
+
+compileJava.dependsOn xjc

@@ -11,6 +11,8 @@ buildscript {
         mockitoVersion = '1.10.19'
         libertyVersion = '18.0.0.1'
         swaggerVersion = '2.9.2'
+        jaxbVersion = '2.2.11'
+        wsdlVersion = '1.6.1'
     }
     repositories {
         mavenCentral()
@@ -31,6 +33,9 @@ buildscript {
 
         // needed for build-pact
         classpath("au.com.dius:pact-jvm-provider-gradle_2.12:${pactVersion}")
+
+        // needed for build-jaxb
+        classpath("gradle.plugin.org.openrepose:gradle-jaxb-plugin:2.5.0")
     }
 }
 

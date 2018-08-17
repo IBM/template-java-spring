@@ -1,0 +1,5 @@
+apply from: 'gradle/build-jaxb.gradle'
+
+dependencies {
+    compile("org.springframework.ws:spring-ws-core")
+}
