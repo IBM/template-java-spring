@@ -1,0 +1,47 @@
+<component name="ProjectCodeStyleConfiguration">
+  <code_scheme name="Project" version="173">
+    <JavaCodeStyleSettings>
+      <option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="21" />
+      <option name="NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND" value="21" />
+      <option name="IMPORT_LAYOUT_TABLE">
+        <value>
+          <package name="" withSubpackages="true" static="true" />
+          <emptyLine />
+          <package name="java" withSubpackages="true" static="false" />
+          <package name="javax" withSubpackages="true" static="false" />
+          <emptyLine />
+          <package name="au.com.dius.pact" withSubpackages="true" static="false" />
+          <package name="com.fasterxml" withSubpackages="true" static="false" />
+          <package name="com.google" withSubpackages="true" static="false" />
+          <package name="io.swagger" withSubpackages="true" static="false" />
+          <package name="org.apache" withSubpackages="true" static="false" />
+          <package name="org.aspectj" withSubpackages="true" static="false" />
+          <package name="org.hamcrest" withSubpackages="true" static="false" />
+          <package name="org.jetbrains" withSubpackages="true" static="false" />
+          <package name="org.json" withSubpackages="true" static="false" />
+          <package name="org.junit" withSubpackages="true" static="false" />
+          <package name="org.mockito" withSubpackages="true" static="false" />
+          <package name="org.slf4j" withSubpackages="true" static="false" />
+          <package name="org.springframework" withSubpackages="true" static="false" />
+          <emptyLine />
+          <package name="com.fasterxml" withSubpackages="true" static="false" />
+          <package name="com.netflix" withSubpackages="true" static="false" />
+          <package name="com.orange" withSubpackages="true" static="false" />
+          <package name="springfox" withSubpackages="true" static="false" />
+          <emptyLine />
+          <package name="" withSubpackages="true" static="false" />
+        </value>
+      </option>
+    </JavaCodeStyleSettings>
+    <TypeScriptCodeStyleSettings>
+      <option name="USE_DOUBLE_QUOTES" value="false" />
+    </TypeScriptCodeStyleSettings>
+    <codeStyleSettings language="TypeScript">
+      <indentOptions>
+        <option name="INDENT_SIZE" value="2" />
+        <option name="CONTINUATION_INDENT_SIZE" value="2" />
+        <option name="TAB_SIZE" value="2" />
+      </indentOptions>
+    </codeStyleSettings>
+  </code_scheme>
+</component>

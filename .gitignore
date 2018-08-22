@@ -13,10 +13,12 @@
 !gradle-wrapper.jar
 
 ### IntelliJ ###
-.idea/
 *.iml
 *.ipr
 *.iws
+.idea/*.xml
+.idea/**/*.xml
+!.idea/codeStyles/*.xml
 
 ### Node files ###
 node_modules/
