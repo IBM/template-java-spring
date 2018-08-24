@@ -17,9 +17,7 @@ import org.slf4j.LoggerFactory;
 public class ResettableHttpServletRequest extends HttpServletRequestWrapper {
     private static Logger logger = LoggerFactory.getLogger(ResettableHttpServletRequest.class);
 
-    private final HttpServletRequest request;
-    private SimpleServletInputStream servletStream;
-
+    private final SimpleServletInputStream servletStream;
     private byte[] rawData;
 
     public ResettableHttpServletRequest(ServletRequest request) {
@@ -28,24 +26,28 @@ public class ResettableHttpServletRequest extends HttpServletRequestWrapper {
 
     public ResettableHttpServletRequest(HttpServletRequest request) {
         super(request);
-        this.request = request;
-        this.servletStream = new SimpleServletInputStream(request);
-    }
 
-    public void resetInputStream() {
-        if (rawData != null) {
-            servletStream.setInputStream(new ByteArrayInputStream(rawData));
-        }
+        this.servletStream = new SimpleServletInputStream();
     }
 
     @Override
     public ServletInputStream getInputStream() throws IOException {
-        if (rawData == null) {
-            rawData = ReaderHelper.readerToByteArray(this.request.getReader());
-            servletStream.setInputStream(new ByteArrayInputStream(rawData));
+        if (!inputStreamHasBeenRead()) {
+            rawData = ReaderHelper.readerToByteArray(super.getReader());
+            servletStream.setInputStreamData(rawData);
         }
 
         return servletStream;
+    }
+
+    public void resetInputStream() {
+        if (inputStreamHasBeenRead()) {
+            servletStream.setInputStreamData(rawData);
+        }
+    }
+
+    protected boolean inputStreamHasBeenRead() {
+        return rawData != null;
     }
 
     @Override
@@ -53,16 +55,19 @@ public class ResettableHttpServletRequest extends HttpServletRequestWrapper {
         return new BufferedReader(new InputStreamReader(getInputStream(), getCharacterEncoding()));
     }
 
-    private class SimpleServletInputStream extends ServletInputStream {
-        private final HttpServletRequest originalRequest;
+    protected void setReadListener(ReadListener listener) {
+        try {
+            super.getInputStream().setReadListener(listener);
+        } catch (IOException e) {
+            logger.error("Unable to get input stream to set read listener", e);
+        }
+    }
+
+    protected class SimpleServletInputStream extends ServletInputStream {
         private InputStream inputStream;
 
-        public SimpleServletInputStream(HttpServletRequest originalRequest) {
-            this.originalRequest = originalRequest;
-        }
-
-        public InputStream getInputStream() {
-            return inputStream;
+        public void setInputStreamData(byte[] rawData) {
+            setInputStream(new ByteArrayInputStream(rawData));
         }
 
         public void setInputStream(InputStream inputStream) {
@@ -89,11 +94,7 @@ public class ResettableHttpServletRequest extends HttpServletRequestWrapper {
 
         @Override
         public void setReadListener(ReadListener listener) {
-            try {
-                originalRequest.getInputStream().setReadListener(listener);
-            } catch (IOException e) {
-                logger.error("Unable to getInputStream()");
-            }
+            ResettableHttpServletRequest.this.setReadListener(listener);
         }
 
         @Override

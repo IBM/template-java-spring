@@ -6,13 +6,30 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import org.springframework.http.HttpHeaders;
 
-@JsonRootName(value = "HttpRequestLoggingContext")
+@JsonRootName(value = "RequestLoggingContext")
 @JsonPropertyOrder({ "url", "method", "headers", "body" })
 public class RequestLoggingContext implements LoggingContext {
     private String url;
     private String method;
     private HttpHeaders headers;
     private Object body;
+
+    public RequestLoggingContext() {
+        super();
+    }
+
+    public RequestLoggingContext(RequestLoggingContext context) {
+        super();
+
+        if (context == null) {
+            throw new IllegalArgumentException("context cannot be null");
+        }
+
+        setUrl(context.getUrl());
+        setMethod(context.getMethod());
+        setHeaders(context.getHeaders());
+        setBody(context.getBody());
+    }
 
     public String getUrl() {
         return url;

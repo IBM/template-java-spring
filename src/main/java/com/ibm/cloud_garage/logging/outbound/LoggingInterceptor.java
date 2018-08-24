@@ -10,7 +10,7 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 
 import com.ibm.cloud_garage.logging.RequestResponseLogger;
-import com.ibm.cloud_garage.logging.RestRequestResponseLogger;
+import com.ibm.cloud_garage.logging.RequestResponseLoggerImpl;
 
 public class LoggingInterceptor implements ClientHttpRequestInterceptor {
     private static Logger logger = LoggerFactory.getLogger(LoggingInterceptor.class);
@@ -18,7 +18,7 @@ public class LoggingInterceptor implements ClientHttpRequestInterceptor {
     private final RequestResponseLogger delegate;
 
     public LoggingInterceptor() {
-        this.delegate = new RestRequestResponseLogger(logger);
+        this.delegate = new RequestResponseLoggerImpl(logger);
     }
 
     @Override

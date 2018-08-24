@@ -1,9 +1,17 @@
 package com.ibm.cloud_garage.logging.inbound;
 
+import static junit.framework.TestCase.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,10 +21,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpHeaders;
 
 @DisplayName("HttpRequestWrapper")
 public class HttpRequestWrapperTest {
-    private HttpRequestWrapper httpRequestWrapperSpy;
+    private HttpRequestWrapper classUnderTest;
     private HttpServletRequest requestMock;
 
     @BeforeEach
@@ -24,7 +33,63 @@ public class HttpRequestWrapperTest {
         requestMock = mock(HttpServletRequest.class);
         HttpRequestWrapper original = new HttpRequestWrapper(requestMock);
 
-        httpRequestWrapperSpy = spy(original);
+        classUnderTest = spy(original);
+    }
+
+    @Nested
+    @DisplayName("Given getMethodValue()")
+    public class GivenGetMethodValue {
+        @Nested
+        @DisplayName("When called")
+        public class WhenCalled {
+            @Test
+            @DisplayName("Then return request.getMethod()")
+            public void thenReturnRequestGetMethod() {
+                final String expected = "method";
+                when(requestMock.getMethod()).thenReturn(expected);
+
+                final String actual = classUnderTest.getMethodValue();
+
+                assertEquals(expected, actual);
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("Given getURI()")
+    public class GivenGetUri {
+        @Nested
+        @DisplayName("When called successfully")
+        public class WhenCalledSuccessfully {
+            @Test
+            @DisplayName("Then return URI")
+            public void thenReturnUri() throws URISyntaxException {
+                final String requestPath = "/request";
+                final String requestUri = "/requestURI";
+                final Map<String, String[]> parameterMap = new HashMap<>();
+
+                when(requestMock.getRequestURI()).thenReturn(requestUri);
+                when(requestMock.getParameterMap()).thenReturn(parameterMap);
+
+                doReturn(requestPath).when(classUnderTest).getRequestPath(requestUri, parameterMap);
+
+                final URI actual = classUnderTest.getURI();
+
+                assertEquals(new URI(requestPath), actual);
+            }
+        }
+
+        @Nested
+        @DisplayName("When exception thrown")
+        public class WhenExceptionThrown {
+            @Test
+            @DisplayName("Then return null")
+            public void thenReturnNull() {
+                when(requestMock.getRequestURI()).thenThrow(URISyntaxException.class);
+
+                assertNull(classUnderTest.getURI());
+            }
+        }
     }
 
     @Nested
@@ -33,7 +98,7 @@ public class HttpRequestWrapperTest {
         @Test
         @DisplayName("When requestUri is null then return '/'")
         public void null_request_uri_return_forward_slash() {
-            assertEquals("/", httpRequestWrapperSpy.getRequestPath(null, new HashMap<>()));
+            assertEquals("/", classUnderTest.getRequestPath(null, new HashMap<>()));
         }
 
         @Test
@@ -41,7 +106,7 @@ public class HttpRequestWrapperTest {
         public void null_parameterMap_returns_requestUri() {
             final String requestUri = "/test";
 
-            assertEquals(requestUri, httpRequestWrapperSpy.getRequestPath(requestUri, null));
+            assertEquals(requestUri, classUnderTest.getRequestPath(requestUri, null));
         }
 
         @Test
@@ -56,7 +121,7 @@ public class HttpRequestWrapperTest {
 
             assertEquals(
                     requestUri + "?" + paramName + "=" + paramValue,
-                    httpRequestWrapperSpy.getRequestPath(requestUri, parameterMap));
+                    classUnderTest.getRequestPath(requestUri, parameterMap));
         }
 
         @Test
@@ -73,7 +138,7 @@ public class HttpRequestWrapperTest {
 
             assertEquals(
                     requestUri + "?" + paramName + "=" + paramValue1 + "&" + paramName + "=" + paramValue2,
-                    httpRequestWrapperSpy.getRequestPath(requestUri, parameterMap));
+                    classUnderTest.getRequestPath(requestUri, parameterMap));
         }
 
         @Test
@@ -92,7 +157,57 @@ public class HttpRequestWrapperTest {
 
             assertEquals(
                     requestUri + "?" + paramName1 + "=" + paramValue1 + "&" + paramName2 + "=" + paramValue2,
-                    httpRequestWrapperSpy.getRequestPath(requestUri, parameterMap));
+                    classUnderTest.getRequestPath(requestUri, parameterMap));
+        }
+    }
+
+    @Nested
+    @DisplayName("Given getHeaders()")
+    public class GivenGetHeaders {
+        @Nested
+        @DisplayName("When no headerNames")
+        public class WhenNoHeaderNames {
+            @Test
+            @DisplayName("Then return empty HttpHeaders")
+            public void thenReturnEmptyHttpHeaders() {
+                final Enumeration headerNames = mock(Enumeration.class);
+                when(headerNames.hasMoreElements()).thenReturn(false);
+
+                when(requestMock.getHeaderNames()).thenReturn(headerNames);
+
+                final HttpHeaders actual = classUnderTest.getHeaders();
+
+                assertEquals(new HttpHeaders(), actual);
+            }
+        }
+
+        @Nested
+        @DisplayName("When one header name")
+        public class WhenOneHeaderName {
+            @Test
+            @DisplayName("Then return HttpHeaders with single value")
+            public void thenReturnHttpHeadersWithSingleValue() {
+                final Enumeration headerNames = mock(Enumeration.class);
+                when(headerNames.hasMoreElements()).thenReturn(true, false);
+
+                final String headerName = "header";
+                when(headerNames.nextElement()).thenReturn(headerName);
+
+                final Enumeration headers = mock(Enumeration.class);
+                when(headers.hasMoreElements()).thenReturn(true, true, false);
+
+                final String value1 = "value1";
+                final String value2 = "value2";
+                when(headers.nextElement()).thenReturn(value1, value2);
+
+                when(requestMock.getHeaderNames()).thenReturn(headerNames);
+                when(requestMock.getHeaders(headerName)).thenReturn(headers);
+
+                final HttpHeaders actual = classUnderTest.getHeaders();
+
+                assertTrue(actual.containsKey(headerName));
+                assertEquals(Arrays.asList(value1, value2), actual.get(headerName));
+            }
         }
     }
 }

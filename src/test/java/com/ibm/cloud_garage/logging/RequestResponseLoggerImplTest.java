@@ -12,12 +12,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,17 +36,17 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.test.util.ReflectionTestUtils;
 
 @DisplayName("RequestResponseLogger")
-public class RestRequestResponseLoggerTest {
+public class RequestResponseLoggerImplTest {
 
     private Logger loggerMock;
     private ObjectMapper objectMapperSpy;
-    private RestRequestResponseLogger classUnderTest;
+    private RequestResponseLoggerImpl classUnderTest;
 
     @BeforeEach
     public void setup() {
         loggerMock = mock(Logger.class);
 
-        RestRequestResponseLogger original = new RestRequestResponseLogger(loggerMock);
+        RequestResponseLoggerImpl original = new RequestResponseLoggerImpl(loggerMock);
 
         objectMapperSpy = spy(new ObjectMapper());
         ReflectionTestUtils.setField(original, "objectMapper", objectMapperSpy);
@@ -111,18 +113,94 @@ public class RestRequestResponseLoggerTest {
     }
 
     @Nested
-    @DisplayName("Given getRequestBody()")
-    public class GivenGetRequestBody {
-        @Test
-        @DisplayName("When body is null then return null")
-        public void null_body() throws UnsupportedEncodingException {
-            assertNull(classUnderTest.getRequestBody(null));
+    @DisplayName("Given getStatusCode()")
+    public class GivenGetStatusCode {
+        @Nested
+        @DisplayName("When statusCode is available")
+        public class WhenStatusCodeIsAvailable {
+            @Test
+            @DisplayName("Then return statusCode")
+            public void thenReturnStatusCode() throws IOException {
+                final HttpStatus expected = HttpStatus.OK;
+
+                ClientHttpResponse response = mock(ClientHttpResponse.class);
+                when(response.getStatusCode()).thenReturn(expected);
+
+                final HttpStatus actual = classUnderTest.getStatusCode(response);
+
+                assertEquals(expected, actual);
+            }
         }
 
-        @Test
-        @DisplayName("When body is empty then return null")
-        public void empty_body() throws UnsupportedEncodingException {
-            assertNull(classUnderTest.getRequestBody(new byte[] {}));
+        @Nested
+        @DisplayName("When getStatusCode throws exception")
+        public class WhenGetStatusCodeThrowsException {
+            @Test
+            @DisplayName("Then return null")
+            public void thenReturnNull() throws IOException {
+                ClientHttpResponse response = mock(ClientHttpResponse.class);
+                when(response.getStatusCode()).thenThrow(IOException.class);
+
+                assertNull(classUnderTest.getStatusCode(response));
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("Given getStatusText()")
+    public class GivenGetStatusText {
+        @Nested
+        @DisplayName("When statusText is available")
+        public class WhenStatusTextIsAvailable {
+            @Test
+            @DisplayName("Then return statusText")
+            public void thenReturnStatusText() throws IOException {
+                final String expected = "text";
+
+                ClientHttpResponse response = mock(ClientHttpResponse.class);
+                when(response.getStatusText()).thenReturn(expected);
+
+                final String actual = classUnderTest.getStatusText(response);
+
+                assertEquals(expected, actual);
+            }
+        }
+
+        @Nested
+        @DisplayName("When getStatusText throws exception")
+        public class WhenGetStatusTextThrowsException {
+            @Test
+            @DisplayName("Then return null")
+            public void thenReturnNull() throws IOException {
+                ClientHttpResponse response = mock(ClientHttpResponse.class);
+                when(response.getStatusText()).thenThrow(IOException.class);
+
+                assertNull(classUnderTest.getStatusText(response));
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("Given getRequestBody()")
+    public class GivenGetRequestBody {
+        @Nested
+        @DisplayName("When body is null")
+        public class WhenBodyIsNull {
+            @Test
+            @DisplayName("Then return null")
+            public void thenReturnNull() throws UnsupportedEncodingException {
+                assertNull(classUnderTest.getRequestBody(null));
+            }
+        }
+
+        @Nested
+        @DisplayName("When body is empty")
+        public class WhenBodyIsEmpty {
+            @Test
+            @DisplayName("Then return null")
+            public void thenReturnNull() throws UnsupportedEncodingException {
+                assertNull(classUnderTest.getRequestBody(new byte[] {}));
+            }
         }
 
         @Test

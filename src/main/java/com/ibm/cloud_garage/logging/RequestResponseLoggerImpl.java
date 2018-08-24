@@ -3,6 +3,7 @@ package com.ibm.cloud_garage.logging;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.nio.charset.Charset;
 import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -13,11 +14,11 @@ import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 
-public class RestRequestResponseLogger implements RequestResponseLogger {
+public class RequestResponseLoggerImpl implements RequestResponseLogger {
     private final Logger logger;
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    public RestRequestResponseLogger(Logger logger) {
+    public RequestResponseLoggerImpl(Logger logger) {
         this.logger = logger;
     }
 
@@ -44,12 +45,12 @@ public class RestRequestResponseLogger implements RequestResponseLogger {
         }
     }
 
-    protected Object getRequestBody(byte[] body) throws UnsupportedEncodingException {
+    protected Object getRequestBody(byte[] body) {
         if (body != null && body.length > 0) {
             try {
                 return objectMapper.readValue(body, Object.class);
             } catch (IOException e) {
-                return (new String(body, "UTF-8"));
+                return new String(body, Charset.forName("UTF-8"));
             }
         } else {
             return null;

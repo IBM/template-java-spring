@@ -68,7 +68,7 @@ public class HttpRequestWrapper implements HttpRequest {
         return headers;
     }
 
-    public static class IterableEnumeration<T> implements Iterable<T> {
+    private static class IterableEnumeration<T> implements Iterable<T> {
         private final Enumeration<T> enumeration;
 
         public IterableEnumeration(Enumeration<T> enumeration) {
@@ -81,7 +81,7 @@ public class HttpRequestWrapper implements HttpRequest {
         }
     }
 
-    public static class EnumerationIterator<T> implements Iterator<T> {
+    private static class EnumerationIterator<T> implements Iterator<T> {
         private final Enumeration<T> enumeration;
 
         public EnumerationIterator(Enumeration<T> enumeration) {
