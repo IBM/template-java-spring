@@ -26,17 +26,24 @@ import com.ibm.cloud_garage.logging.outbound.LoggingInterceptor;
 public class RestTemplateBuilder {
     private static final Logger LOGGER = LoggerFactory.getLogger(RestTemplateBuilder.class);
 
-    private static final int MILLISECONDS_PER_SECOND = 1000;
+    static final int MILLISECONDS_PER_SECOND = 1000;
 
     public RestTemplate build(RestTemplateProperties restTemplateProperties) {
         RestTemplate restTemplate = new RestTemplate();
 
-        restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(
-                new HttpComponentsClientHttpRequestFactory(
-                        buildHttpClient(restTemplateProperties))));
-        restTemplate.setInterceptors(buildInterceptors(restTemplateProperties.getLoggingInterceptor()));
+        if (restTemplateProperties != null) {
+            restTemplate.setRequestFactory(buildClientHttpRequestFactory(restTemplateProperties));
+            restTemplate.setInterceptors(buildInterceptors(restTemplateProperties.getLoggingInterceptor()));
+        }
 
         return restTemplate;
+    }
+
+    protected ClientHttpRequestFactory buildClientHttpRequestFactory(RestTemplateProperties restTemplateProperties) {
+
+        return new BufferingClientHttpRequestFactory(
+                new HttpComponentsClientHttpRequestFactory(
+                        buildHttpClient(restTemplateProperties)));
     }
 
     protected HttpClient buildHttpClient(RestTemplateProperties restTemplateProperties) {
@@ -45,7 +52,8 @@ public class RestTemplateBuilder {
                 .setKeepAliveStrategy(buildConnectionKeepAliveStrategy())
                 .setConnectionManager(buildConnectionManager(restTemplateProperties))
                 .setDefaultRequestConfig(buildRequestConfig(restTemplateProperties))
-                .setProxy(buildProxySettings(restTemplateProperties)).build();
+                .setProxy(buildProxySettings(restTemplateProperties))
+                .build();
     }
 
     protected ConnectionKeepAliveStrategy buildConnectionKeepAliveStrategy() {
@@ -72,7 +80,7 @@ public class RestTemplateBuilder {
     }
 
     protected HttpHost buildProxySettings(RestTemplateProperties restTemplateProperties) {
-        return Optional.ofNullable(restTemplateProperties)
+        return Optional.of(restTemplateProperties)
                 .filter(RestTemplateProperties::isProxyRequired)
                 .map(p -> new HttpHost(
                         restTemplateProperties.getProxyHostname(),
@@ -96,4 +104,6 @@ public class RestTemplateBuilder {
             }
         }
     }
+
+
 }

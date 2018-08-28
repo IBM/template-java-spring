@@ -1,8 +1,10 @@
 package com.ibm.cloud_garage.rest_template;
 
+import java.util.Objects;
+
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 
-public class SimpleRestTemplateProperties implements RestTemplateProperties {
+public class SimpleRestTemplateProperties implements RestTemplateProperties<SimpleRestTemplateProperties> {
 
     private String providerEndpoint;
     private int maxTotalConnections = DEFAULT_CONNECTIONS;
@@ -12,6 +14,23 @@ public class SimpleRestTemplateProperties implements RestTemplateProperties {
     private String proxyHostname;
     private int proxyPort = 0;
     private ClientHttpRequestInterceptor loggingInterceptor;
+
+    public SimpleRestTemplateProperties() {
+        super();
+    }
+
+    public SimpleRestTemplateProperties(RestTemplateProperties properties) {
+        super();
+
+        setProviderEndpoint(properties.getProviderEndpoint());
+        setMaxTotalConnections(properties.getMaxTotalConnections());
+        setConnectTimeOutInSeconds(properties.getConnectTimeOutInSeconds());
+        setSocketTimeOutInSeconds(properties.getSocketTimeOutInSeconds());
+        setConnectionRequestTimeOutInSeconds(properties.getConnectionRequestTimeOutInSeconds());
+        setProxyHostname(properties.getProxyHostname());
+        setProxyPort(properties.getProxyPort());
+        setLoggingInterceptor(properties.getLoggingInterceptor());
+    }
 
     @Override
     public String getProviderEndpoint() {
@@ -91,5 +110,15 @@ public class SimpleRestTemplateProperties implements RestTemplateProperties {
     @Override
     public void setLoggingInterceptor(ClientHttpRequestInterceptor loggingInterceptor) {
         this.loggingInterceptor = loggingInterceptor;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return defaultEquals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return defaultHashCode();
     }
 }

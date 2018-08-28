@@ -1,124 +1,215 @@
 package com.ibm.cloud_garage.http;
 
+import static com.ibm.cloud_garage.http.HttpConnectionKeepAliveStrategy.DEFAULT_KEEP_ALIVE_DURATION;
+import static com.ibm.cloud_garage.http.HttpConnectionKeepAliveStrategy.MILLISECONDS_PER_SECOND;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Matchers.any;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
+import org.apache.http.Header;
 import org.apache.http.HeaderElement;
-import org.apache.http.HeaderElementIterator;
 import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.util.ReflectionTestUtils;
 
 @DisplayName("HttpConnectionKeepAliveStrategy")
 public class HttpConnectionKeepAliveStrategyTest {
     private HttpConnectionKeepAliveStrategy classUnderTest;
+    private HttpResponse mockResponse;
+    private HttpContext mockContext;
 
     @BeforeEach
     public void setup() {
+        mockResponse = mock(HttpResponse.class);
+        mockContext = mock(HttpContext.class);
+
         classUnderTest = spy(new HttpConnectionKeepAliveStrategy());
     }
 
     @Nested
     @DisplayName("Given getKeepAliveDuration()")
     public class GivenGetKeepAliveDuration {
-        HeaderElementIterator iteratorMock;
-        int defaultValue;
 
-        public long getKeepAliveDuration() {
-            HttpResponse response = mock(HttpResponse.class);
-            HttpContext context = mock(HttpContext.class);
-
-            return classUnderTest.getKeepAliveDuration(response, context);
-        }
+        Header header;
+        HeaderElement headerElement;
+        long timeoutValue = 500;
 
         @BeforeEach
         public void setup() {
-            iteratorMock = mock(HeaderElementIterator.class);
-            doReturn(iteratorMock).when(classUnderTest).buildHeaderElementIterator(any());
+            header = mock(Header.class);
+            headerElement = mock(HeaderElement.class);
 
-            defaultValue = (Integer) ReflectionTestUtils.getField(
-                    HttpConnectionKeepAliveStrategy.class,
-                    "MILLISECONDS_PER_MINUTE");
+            when(mockResponse.getHeaders(anyString())).thenReturn(new Header[] {header});
+
+            when(header.getElements()).thenReturn(new HeaderElement[] {headerElement});
+
+            when(headerElement.getName()).thenReturn("timeout");
+            when(headerElement.getValue()).thenReturn(String.valueOf(timeoutValue));
         }
 
-        @Test
-        @DisplayName("When timeout value provided then return timeout in milliseconds")
-        public void timeout_in_milliseconds() {
-            when(iteratorMock.hasNext()).thenReturn(true, false);
-            HeaderElement headerElement = mock(HeaderElement.class);
-            when(iteratorMock.nextElement()).thenReturn(headerElement);
+        @Nested
+        @DisplayName("When headers are empty")
+        class WhenHeadersAreEmpty {
+            @Test
+            @DisplayName("Then return default timeout")
+            void thenReturnDefaultTimeout() {
 
-            final int value = 2;
-            when(headerElement.getValue()).thenReturn(String.valueOf(value));
+                when(mockResponse.getHeaders(anyString())).thenReturn(new Header[] {});
 
-            doReturn(true).when(classUnderTest).isNonNullTimeoutParamValue(anyString(), anyString());
-
-            assertEquals(value * 1000, getKeepAliveDuration());
+                assertEquals(
+                        DEFAULT_KEEP_ALIVE_DURATION,
+                        classUnderTest.getKeepAliveDuration(mockResponse, mockContext));
+            }
         }
 
-        @Test
-        @DisplayName("When timeout is NaN then return default timeout")
-        public void timeout_NaN() {
-            when(iteratorMock.hasNext()).thenReturn(true, false);
-            HeaderElement headerElement = mock(HeaderElement.class);
-            when(iteratorMock.nextElement()).thenReturn(headerElement);
+        @Nested
+        @DisplayName("When header contains a null element")
+        class WhenHeaderContainsANullElement {
+            @Test
+            @DisplayName("Then return default timeout")
+            void thenReturnDefaultTimeout() {
 
-            doReturn(true).when(classUnderTest).isNonNullTimeoutParamValue(anyString(), anyString());
+                when(mockResponse.getHeaders(anyString())).thenReturn(new Header[] {null});
 
-            assertEquals(defaultValue, getKeepAliveDuration());
+                assertEquals(
+                        DEFAULT_KEEP_ALIVE_DURATION,
+                        classUnderTest.getKeepAliveDuration(mockResponse, mockContext));
+            }
         }
 
-        @Test
-        @DisplayName("When no timeout value provided then return default timeout")
-        public void no_timeout() {
-            when(iteratorMock.hasNext()).thenReturn(true, false);
-            HeaderElement headerElement = mock(HeaderElement.class);
-            when(iteratorMock.nextElement()).thenReturn(headerElement);
+        @Nested
+        @DisplayName("When headerElements are empty")
+        class WhenHeaderElementsAreEmpty {
+            @Test
+            @DisplayName("Then return default timeout")
+            void thenReturnDefaultTimeout() {
 
-            doReturn(false).when(classUnderTest).isNonNullTimeoutParamValue(anyString(), anyString());
+                when(header.getElements()).thenReturn(new HeaderElement[] {});
 
-            assertEquals(defaultValue, getKeepAliveDuration());
+                assertEquals(
+                        DEFAULT_KEEP_ALIVE_DURATION,
+                        classUnderTest.getKeepAliveDuration(mockResponse, mockContext));
+            }
         }
 
-        @Test
-        @DisplayName("When no headers provided then return default timeout")
-        public void no_headers() {
-            when(iteratorMock.hasNext()).thenReturn(false);
+        @Nested
+        @DisplayName("When headerElements contains a null value")
+        class WhenHeaderElementsContainsANullValue {
+            @Test
+            @DisplayName("Then return default timeout")
+            void thenReturnDefaultTimeout() {
 
-            assertEquals(defaultValue, getKeepAliveDuration());
+                when(header.getElements()).thenReturn(new HeaderElement[] {null});
+
+                assertEquals(
+                        DEFAULT_KEEP_ALIVE_DURATION,
+                        classUnderTest.getKeepAliveDuration(mockResponse, mockContext)
+                );
+            }
+        }
+
+        @Nested
+        @DisplayName("When headerElement does not contain timeout parameter")
+        class WhenHeaderElementDoesNotContainTimeoutParameter {
+            @Test
+            @DisplayName("Then return default timeout")
+            void thenReturnDefaultTimeout() {
+
+                when(headerElement.getName()).thenReturn("not-timeout");
+
+                assertEquals(
+                        DEFAULT_KEEP_ALIVE_DURATION,
+                        classUnderTest.getKeepAliveDuration(mockResponse, mockContext));
+            }
+        }
+
+        @Nested
+        @DisplayName("When headerElement contains a NaN timeout parameter")
+        class WhenHeaderElementContainsANaNTimeoutParameter {
+            @Test
+            @DisplayName("Then return default timeout")
+            void thenReturnDefaultTimeout() {
+
+                when(headerElement.getValue()).thenReturn("value");
+
+                assertEquals(
+                        DEFAULT_KEEP_ALIVE_DURATION,
+                        classUnderTest.getKeepAliveDuration(mockResponse, mockContext));
+            }
+        }
+
+        @Nested
+        @DisplayName("When headerElement contains a null value for timeout parameter")
+        class WhenHeaderElementContainsANullValueForTimeoutParameter {
+            @Test
+            @DisplayName("Then return default timeout")
+            void thenReturnDefaultTimeout() {
+
+                when(headerElement.getValue()).thenReturn(null);
+
+                assertEquals(
+                        DEFAULT_KEEP_ALIVE_DURATION,
+                        classUnderTest.getKeepAliveDuration(mockResponse, mockContext));
+            }
+        }
+
+        @Nested
+        @DisplayName("When headerElement contains a timeout parameter")
+        class WhenHeaderElementContainsATimeoutParameter {
+            @Test
+            @DisplayName("Then return the timeout")
+            void thenReturnTheTimeout() {
+
+                assertEquals(
+                        timeoutValue * MILLISECONDS_PER_SECOND,
+                        classUnderTest.getKeepAliveDuration(mockResponse, mockContext)
+                );
+            }
         }
     }
 
     @Nested
-    @DisplayName("Given isNonNullTimeoutParamValue()")
-    public class GivenIsNonNullTimeoutParamValue {
-        @Test
-        @DisplayName("When value is null then return false")
-        public void null_value() {
-            assertFalse(classUnderTest.isNonNullTimeoutParamValue("timeout", null));
+    @DisplayName("Given getTimeoutInMilliseconds()")
+    class GivenGetTimeoutInMilliseconds {
+        @Nested
+        @DisplayName("When timeoutValue is null")
+        class WhenTimeoutValueIsNull {
+            @Test
+            @DisplayName("Then return null")
+            void thenReturnNull() {
+                assertNull(classUnderTest.getTimeoutInMilliseconds(null));
+            }
         }
 
-        @Test
-        @DisplayName("When param is null then return false")
-        public void null_param() {
-            assertFalse(classUnderTest.isNonNullTimeoutParamValue(null, "1"));
+        @Nested
+        @DisplayName("When timeoutValue is NaN")
+        class WhenTimeoutValueIsNaN {
+            @Test
+            @DisplayName("Then return null")
+            void thenReturnNull() {
+                assertNull(classUnderTest.getTimeoutInMilliseconds("value"));
+            }
         }
 
-        @Test
-        @DisplayName("When value is not null and param is 'timeout' then return true")
-        public void nonNull_value_and_param_timeout() {
-            assertTrue(classUnderTest.isNonNullTimeoutParamValue("timeout", "1"));
+        @Nested
+        @DisplayName("When timeoutValue is a number")
+        class WhenTimeoutValueIsANumber {
+            @Test
+            @DisplayName("Then return number value * 1000")
+            void thenReturnNumberValue1000() {
+                int value = 500;
+
+                assertEquals(
+                        Long.valueOf(500 * 1000),
+                        classUnderTest.getTimeoutInMilliseconds(String.valueOf(value))
+                );
+            }
         }
     }
 }

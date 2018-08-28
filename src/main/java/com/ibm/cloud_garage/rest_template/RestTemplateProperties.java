@@ -1,5 +1,7 @@
 package com.ibm.cloud_garage.rest_template;
 
+import java.util.Objects;
+
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.util.StringUtils;
 
@@ -82,4 +84,35 @@ public interface RestTemplateProperties<T extends RestTemplateProperties<T>> {
         this.setLoggingInterceptor(loggingInterceptor);
         return (T) this;
     }
+
+    default boolean defaultEquals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof RestTemplateProperties)) {
+            return false;
+        }
+        RestTemplateProperties that = (RestTemplateProperties) o;
+        return getMaxTotalConnections() == that.getMaxTotalConnections()
+                && getConnectTimeOutInSeconds() == that.getConnectTimeOutInSeconds()
+                && getSocketTimeOutInSeconds() == that.getSocketTimeOutInSeconds()
+                && getConnectionRequestTimeOutInSeconds() == that.getConnectionRequestTimeOutInSeconds()
+                && getProxyPort() == that.getProxyPort()
+                && Objects.equals(getProviderEndpoint(), that.getProviderEndpoint())
+                && Objects.equals(getProxyHostname(), that.getProxyHostname())
+                && Objects.equals(getLoggingInterceptor(), that.getLoggingInterceptor());
+    }
+
+    default int defaultHashCode() {
+        return Objects.hash(
+                getProviderEndpoint(),
+                getMaxTotalConnections(),
+                getConnectTimeOutInSeconds(),
+                getSocketTimeOutInSeconds(),
+                getConnectionRequestTimeOutInSeconds(),
+                getProxyHostname(),
+                getProxyPort(),
+                getLoggingInterceptor());
+    }
+
 }
