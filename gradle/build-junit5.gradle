@@ -12,8 +12,22 @@ dependencies {
     )
 }
 
+
 test {
-    useJUnitPlatform()
+    useJUnitPlatform {
+        excludeTags "integration"
+    }
+
+    reports {
+        junitXml.enabled = true
+        html.enabled = true
+    }
+}
+
+task integrationTest(type: Test) {
+    useJUnitPlatform {
+        includeTags "integration"
+    }
 
     reports {
         junitXml.enabled = true
