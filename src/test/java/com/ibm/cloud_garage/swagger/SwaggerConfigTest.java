@@ -26,16 +26,16 @@ public class SwaggerConfigTest {
         String licenseUrl = "licenseUrl";
         List<VendorExtension> vendorExtensions = new ArrayList<>();
 
-        SwaggerConfig classUnderTest = new SwaggerConfig();
-        classUnderTest.setBaseApiPackage(baseApiPackage);
-        classUnderTest.setTitle(title);
-        classUnderTest.setDescription(description);
-        classUnderTest.setVersion(version);
-        classUnderTest.setTermsOfServiceUrl(termsOfServiceUrl);
-        classUnderTest.setContact(contact);
-        classUnderTest.setLicense(license);
-        classUnderTest.setLicenseUrl(licenseUrl);
-        classUnderTest.setVendorExtensions(vendorExtensions);
+        SwaggerConfig classUnderTest = new SwaggerConfig()
+                .withBaseApiPackage(baseApiPackage)
+                .withTitle(title)
+                .withDescription(description)
+                .withVersion(version)
+                .withTermsOfServiceUrl(termsOfServiceUrl)
+                .withContact(contact)
+                .withLicense(license)
+                .withLicenseUrl(licenseUrl)
+                .withVendorExtensions(vendorExtensions);
 
         assertEquals(baseApiPackage, classUnderTest.getBaseApiPackage());
         assertEquals(title, classUnderTest.getTitle());
@@ -50,10 +50,9 @@ public class SwaggerConfigTest {
 
     @Test
     public void vendor_extensions_handle_null() {
-        List<VendorExtension> vendorExtensions = null;
 
         SwaggerConfig classUnderTest = new SwaggerConfig();
-        classUnderTest.setVendorExtensions(vendorExtensions);
+        classUnderTest.setVendorExtensions(null);
 
         assertEquals(new ArrayList<>(), classUnderTest.getVendorExtensions());
     }

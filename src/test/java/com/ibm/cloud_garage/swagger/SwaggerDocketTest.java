@@ -1,6 +1,7 @@
 package com.ibm.cloud_garage.swagger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
@@ -41,6 +42,20 @@ public class SwaggerDocketTest {
     }
 
     @Nested
+    @DisplayName("Given api()")
+    class GivenApi {
+        @Nested
+        @DisplayName("When called")
+        class WhenCalled {
+            @Test
+            @DisplayName("Then build non-null Docket instance")
+            void thenBuildNonNullDocketInstance() {
+                assertNotNull(classUnderTest.api());
+            }
+        }
+    }
+
+    @Nested
     @DisplayName("Given buildApiRequestHandler()")
     public class GivenBuildApiRequestHandler {
         @Test
@@ -63,6 +78,20 @@ public class SwaggerDocketTest {
 
             assertEquals(mock, actual);
             verify(classUnderTestSpy).buildBasePackageRequestHandler(baseApiPackage);
+        }
+    }
+
+    @Nested
+    @DisplayName("Given guildBasePackageRequestHandler()")
+    class GivenGuildBasePackageRequestHandler {
+        @Nested
+        @DisplayName("When called with a baseApiPackage")
+        class WhenCalledWithABaseApiPackage {
+            @Test
+            @DisplayName("Then should return non-null result")
+            void thenShouldReturnNonNullResult() {
+                assertNotNull(classUnderTest.buildBasePackageRequestHandler("com.test"));
+            }
         }
     }
 
