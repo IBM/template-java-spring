@@ -9,6 +9,7 @@ buildscript {
         checkstyleVersion = '7.6.1'
         junitVersion = '5.2.0'
         mockitoVersion = '1.10.19'
+        powermockMockitoVersion = '1.7.4'
         libertyVersion = '18.0.0.1'
         swaggerVersion = '2.9.2'
         jaxbVersion = '2.2.11'
