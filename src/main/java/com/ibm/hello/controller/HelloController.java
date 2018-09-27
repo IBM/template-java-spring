@@ -1,5 +1,9 @@
 package com.ibm.hello.controller;
 
+import static com.ibm.hello.service.ServiceNameConstants.HELLO_NAME;
+import static com.ibm.hello.service.ServiceNameConstants.HOLA_NAME;
+
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
@@ -20,6 +24,7 @@ import com.ibm.hello.model.GreetingRequest;
 import com.ibm.hello.model.GreetingResponse;
 import com.ibm.hello.service.GreetingService;
 import com.ibm.hello.service.ServiceName;
+import com.ibm.hello.service.ServiceNameConstants;
 
 @RestController
 public class HelloController {
@@ -39,7 +44,10 @@ public class HelloController {
     })
     public ResponseEntity<GreetingResponse> helloWorld(
             @RequestParam(name = "name", required = false) final String name,
-            @RequestHeader(value = "serviceName", required = false) final String serviceName
+            @ApiParam(
+                    allowableValues = HELLO_NAME + "," + HOLA_NAME,
+                    value = "the beanName for the service implementation that should be used to fulfill the request")
+            @RequestHeader(name = "serviceName", required = false) final String serviceName
     ) {
 
         LOGGER.debug("Processing name: " + name);
@@ -64,7 +72,10 @@ public class HelloController {
     })
     public ResponseEntity<GreetingResponse> helloWorld(
             @RequestBody GreetingRequest request,
-            @RequestHeader(value = "serviceName", required = false) final String serviceName
+            @ApiParam(
+                    allowableValues = HELLO_NAME + "," + HOLA_NAME,
+                    value = "the beanName for the service implementation that should be used to fulfill the request")
+            @RequestHeader(name = "serviceName", required = false) final String serviceName
     ) {
 
         LOGGER.debug("Processing name: " + request.getName());
