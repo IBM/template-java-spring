@@ -9,13 +9,14 @@ import org.springframework.util.StringUtils;
 import com.ibm.hello.config.HelloConfig;
 import com.ibm.hello.model.GreetingResponse;
 
-@Service
-public class HelloService {
+@Service(ServiceNameConstants.HELLO_NAME)
+public class HelloService implements GreetingService {
     private static final Logger LOGGER = LoggerFactory.getLogger(HelloService.class);
 
     @Autowired
     private HelloConfig config;
 
+    @Override
     public GreetingResponse getGreeting(final String nameVariable) {
 
         final String name = !StringUtils.isEmpty(nameVariable) ? nameVariable : "world";

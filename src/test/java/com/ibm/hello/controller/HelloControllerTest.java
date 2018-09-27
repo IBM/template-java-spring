@@ -1,10 +1,15 @@
 package com.ibm.hello.controller;
 
 import static org.hamcrest.core.Is.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
+import static org.powermock.api.mockito.PowerMockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -12,30 +17,38 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.http.MediaType;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.ibm.hello.config.ServiceConfig;
 import com.ibm.hello.model.GreetingResponse;
-import com.ibm.hello.service.HelloService;
+import com.ibm.hello.service.GreetingService;
+import com.ibm.hello.service.ServiceName;
 
 @DisplayName("HelloController")
 public class HelloControllerTest {
-    HelloService serviceMock;
     HelloController controller;
+
+    GreetingService serviceMock;
     MockMvc mockMvc;
+    BeanFactory beanFactory;
+    ServiceConfig serviceConfig;
 
     @BeforeEach
     public void setup() {
-        serviceMock = mock(HelloService.class);
+        serviceMock = mock(GreetingService.class);
+        beanFactory = mock(BeanFactory.class);
+        serviceConfig = new ServiceConfig();
 
-        controller = new HelloController();
-        ReflectionTestUtils.setField(controller, "service", serviceMock);
+        controller = spy(new HelloController(beanFactory, serviceConfig));
+
+        doReturn(serviceMock).when(controller).getGreetingService(anyString());
+        when(beanFactory.getBean(anyString(), eq(GreetingService.class))).thenReturn(serviceMock);
 
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
@@ -44,11 +57,18 @@ public class HelloControllerTest {
     @DisplayName("Given [GET] /hello")
     public class GivenGetHello {
 
+        private GreetingResponse greetingResponse;
+
+        @BeforeEach
+        void setup() {
+
+            greetingResponse = new GreetingResponse();
+            doReturn(greetingResponse).when(serviceMock).getGreeting(anyString());
+        }
+
         @Test
         @DisplayName("When called with {name} then it should return a 200 status")
         public void when_called_with_name_should_return_200_status() throws Exception {
-
-            doReturn(new GreetingResponse()).when(serviceMock).getGreeting(anyString());
 
             mockMvc.perform(get("/hello?name=name"))
                     .andExpect(status().isOk());
@@ -57,8 +77,6 @@ public class HelloControllerTest {
         @Test
         @DisplayName("When called with {name} then it should return a 200 status")
         public void when_called_with_name_should_return_json_contentType() throws Exception {
-
-            doReturn(new GreetingResponse()).when(serviceMock).getGreeting(anyString());
 
             mockMvc.perform(get("/hello?name=name"))
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
@@ -69,13 +87,11 @@ public class HelloControllerTest {
         public void when_called_with_name_should_call_service_createReply() throws Exception {
 
             final String name = "name";
-            final GreetingResponse result = new GreetingResponse().withName(name).withGreeting("Result");
-
-            doReturn(result).when(serviceMock).getGreeting(anyString());
+            greetingResponse.withName(name).withGreeting("Result");
 
             mockMvc.perform(get("/hello?name=" + name))
                     .andExpect(jsonPath("$.name", is(name)))
-                    .andExpect(jsonPath("$.greeting", is(result.getGreeting())));
+                    .andExpect(jsonPath("$.greeting", is(greetingResponse.getGreeting())));
 
             verify(serviceMock).getGreeting(name);
         }
@@ -88,6 +104,24 @@ public class HelloControllerTest {
 
             mockMvc.perform(get("/hello"))
                     .andExpect(status().is(406));
+        }
+
+        @Nested
+        @DisplayName("When called with 'serviceName' header")
+        class WhenCalledWithServiceNameHeader {
+
+            @Test
+            @DisplayName("Then it should use the header value to get the service")
+            void thenItShouldUseTheHeaderValueToGetTheService() throws Exception {
+
+                final String mockBeanName = "mock";
+                mockMvc.perform(
+                        get("/hello?name=name")
+                                .header("serviceName", mockBeanName))
+                        .andExpect(status().isOk());
+
+                verify(controller).getGreetingService(mockBeanName);
+            }
         }
     }
 
@@ -138,6 +172,94 @@ public class HelloControllerTest {
                     .andExpect(status().is(200))
                     .andExpect(content().string(
                             String.format("{\"name\":\"%s\",\"greeting\":\"%s\"}", name, greeting)));
+        }
+
+        @Nested
+        @DisplayName("When called with 'serviceName' header")
+        class WhenCalledWithServiceNameHeader {
+
+            @Test
+            @DisplayName("Then it should use the header to get the service")
+            void thenItShouldUseTheHeaderToGetTheService() throws Exception {
+                final String name = "John";
+                final String mockServiceName = "mock";
+
+                doReturn(new GreetingResponse()).when(serviceMock).getGreeting(name);
+
+                mockMvc.perform(
+                        post("/hello")
+                                .header("serviceName", mockServiceName)
+                                .contentType("application/json")
+                                .content(String.format("{\"name\":\"%s\"}", name)))
+                        .andExpect(status().is(200));
+
+                verify(controller).getGreetingService(mockServiceName);
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("Given getGreetingService()")
+    class GivenGetGreetingService {
+
+        final String beanName = ServiceName.HOLA_NAME;
+
+        @BeforeEach
+        void setup() {
+            doCallRealMethod().when(controller).getGreetingService(anyString());
+            serviceConfig.setBeanName(beanName);
+        }
+
+        @Nested
+        @DisplayName("When called with null header value")
+        class WhenCalledWithNullHeaderValue {
+
+            @Test
+            @DisplayName("Then should return GreetingService instance from BeanFactory")
+            void thenShouldReturnGreetingServiceInstanceFromBeanFactory() {
+
+                GreetingService actualService = controller.getGreetingService(null);
+
+                assertEquals(serviceMock, actualService);
+            }
+
+            @Test
+            @DisplayName("Then should use service bean name from config")
+            void thenShouldUseServiceBeanNameFromConfig() {
+
+                controller.getGreetingService(null);
+
+                verify(beanFactory).getBean(beanName, GreetingService.class);
+            }
+        }
+
+        @Nested
+        @DisplayName("When called with valid service name in header value")
+        class WhenCalledWithValidServiceNameInHeaderValue {
+
+            @Test
+            @DisplayName("Then use the header value to lookup the service")
+            void thenUseTheHeaderValueToLookupTheService() {
+
+                final String validServiceName = ServiceName.HELLO_NAME;
+                controller.getGreetingService(validServiceName);
+
+                verify(beanFactory).getBean(validServiceName, GreetingService.class);
+            }
+        }
+
+        @Nested
+        @DisplayName("When called with invalid service name in header value")
+        class WhenCalledWithInvalidServiceNameInHeaderValue {
+
+            @Test
+            @DisplayName("Then use the bean name from the config")
+            void thenUseTheBeanNameFromTheConfig() {
+
+                controller.getGreetingService("bogus");
+
+                verify(beanFactory).getBean(beanName, GreetingService.class);
+            }
         }
     }
 }

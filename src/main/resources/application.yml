@@ -5,6 +5,9 @@ spring:
 hello:
   pattern: "Hello there, %s!"
 
+greetingservice:
+  beanName: "hola"
+
 swagger:
   baseApiPackage: "com.ibm.hello"
   title: "Sample API Documentation"

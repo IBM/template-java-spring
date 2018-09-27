@@ -4,29 +4,33 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ibm.hello.config.ServiceConfig;
 import com.ibm.hello.model.GreetingRequest;
 import com.ibm.hello.model.GreetingResponse;
-import com.ibm.hello.service.HelloService;
+import com.ibm.hello.service.GreetingService;
+import com.ibm.hello.service.ServiceName;
 
 @RestController
 public class HelloController {
     private static final Logger LOGGER = LoggerFactory.getLogger(HelloController.class);
 
-    @Autowired
-    private HelloService service;
+    private final BeanFactory beanFactory;
+    private final ServiceConfig serviceConfig;
 
-    public HelloController() {
-        super();
+    public HelloController(BeanFactory beanFactory, ServiceConfig serviceConfig) {
+        this.beanFactory = beanFactory;
+        this.serviceConfig = serviceConfig;
     }
 
     @GetMapping(value = "/hello", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -34,7 +38,8 @@ public class HelloController {
             @ApiResponse(code = 406, message = "Name parameter missing")
     })
     public ResponseEntity<GreetingResponse> helloWorld(
-            @RequestParam(name = "name", required = false) final String name
+            @RequestParam(name = "name", required = false) final String name,
+            @RequestHeader(value = "serviceName", required = false) final String serviceName
     ) {
 
         LOGGER.debug("Processing name: " + name);
@@ -43,7 +48,9 @@ public class HelloController {
             return ResponseEntity.status(406).build();
         }
 
-        return ResponseEntity.ok(service.getGreeting(name));
+        return ResponseEntity.ok(
+                getGreetingService(serviceName)
+                        .getGreeting(name));
     }
 
     @PostMapping(
@@ -56,7 +63,8 @@ public class HelloController {
             @ApiResponse(code = 415, message = "Missing content type")
     })
     public ResponseEntity<GreetingResponse> helloWorld(
-            @RequestBody GreetingRequest request
+            @RequestBody GreetingRequest request,
+            @RequestHeader(value = "serviceName", required = false) final String serviceName
     ) {
 
         LOGGER.debug("Processing name: " + request.getName());
@@ -65,6 +73,14 @@ public class HelloController {
             return ResponseEntity.status(406).build();
         }
 
-        return ResponseEntity.ok(service.getGreeting(request.getName()));
+        return ResponseEntity.ok(getGreetingService(serviceName).getGreeting(request.getName()));
+    }
+
+    protected GreetingService getGreetingService(String serviceNameHeader) {
+        final ServiceName serviceName = ServiceName.safeValueOf(
+                serviceNameHeader,
+                serviceConfig.getBeanName());
+
+        return beanFactory.getBean(serviceName.simpleName(), GreetingService.class);
     }
 }
