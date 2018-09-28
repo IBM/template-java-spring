@@ -2,6 +2,7 @@ package com.ibm.hello.controller;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.doCallRealMethod;
@@ -259,6 +260,25 @@ public class HelloControllerTest {
                 controller.getGreetingService("bogus");
 
                 verify(beanFactory).getBean(beanName, GreetingService.class);
+            }
+        }
+
+        @Nested
+        @DisplayName("When serviceName is null")
+        class WhenServiceNameIsNull {
+
+            @BeforeEach
+            void setup() {
+                serviceConfig.setBeanName((ServiceName) null);
+            }
+
+            @Test
+            @DisplayName("Then throw exception")
+            void thenThrowException() {
+
+                assertThrows(HelloController.ApplicationConfigurationError.class, () -> {
+                    controller.getGreetingService(null);
+                });
             }
         }
     }

@@ -24,7 +24,6 @@ import com.ibm.hello.model.GreetingRequest;
 import com.ibm.hello.model.GreetingResponse;
 import com.ibm.hello.service.GreetingService;
 import com.ibm.hello.service.ServiceName;
-import com.ibm.hello.service.ServiceNameConstants;
 
 @RestController
 public class HelloController {
@@ -92,6 +91,16 @@ public class HelloController {
                 serviceNameHeader,
                 serviceConfig.getBeanName());
 
+        if (serviceName == null) {
+            throw new ApplicationConfigurationError("ServiceConfig.beanName from ");
+        }
+
         return beanFactory.getBean(serviceName.simpleName(), GreetingService.class);
+    }
+
+    public static class ApplicationConfigurationError extends RuntimeException {
+        public ApplicationConfigurationError(String message) {
+            super(message);
+        }
     }
 }
