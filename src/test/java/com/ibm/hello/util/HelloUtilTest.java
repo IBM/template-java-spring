@@ -2,12 +2,14 @@ package com.ibm.hello.util;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.validateMockitoUsage;
 import static org.powermock.api.mockito.PowerMockito.spy;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 import java.util.ArrayList;
 
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
@@ -21,6 +23,12 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(HelloUtil.class)
 public class HelloUtilTest {
+
+    @After
+    public void validate(){
+        validateMockitoUsage();
+    }
+
     @Test
     public void isEmptyStringWhenNullisProvided() {
         assertTrue(HelloUtil.isEmptyString(null));
@@ -48,6 +56,10 @@ public class HelloUtilTest {
 
         // Demo verify
         verifyStatic(HelloUtil.class, Mockito.times(1));
+        // For PowerMockito.verifyStatic() you need to invoke the static method that you want to verify
+        // AFTER the verifyStatic() call to do the check that it was called
+        HelloUtil.isEmptyString(new ArrayList<>());
+
     }
 
     @Test

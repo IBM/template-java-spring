@@ -85,7 +85,7 @@ public class HttpRequestWrapperTest {
             @Test
             @DisplayName("Then return null")
             public void thenReturnNull() {
-                when(requestMock.getRequestURI()).thenThrow(URISyntaxException.class);
+                when(requestMock.getRequestURI()).thenReturn("httpx;\\bad/url");
 
                 assertNull(classUnderTest.getURI());
             }

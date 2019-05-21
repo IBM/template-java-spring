@@ -4,12 +4,14 @@
  */
 buildscript {
     ext {
-        springBootVersion = '2.0.1.RELEASE'
+        springBootVersion = '2.1.2.RELEASE'
+        springStarterSleuth = '2.1.1.RELEASE'
         pactVersion = '3.5.20'
         checkstyleVersion = '7.6.1'
-        junitVersion = '5.2.0'
-        mockitoVersion = '1.10.19'
-        powermockMockitoVersion = '1.7.4'
+        junitVersion = '5.4.2'
+        mockitoVersion = '2.27.0'
+        powermockMockitoVersion = '2.0.2'
+        jacocoVersion = '0.8.4'
         libertyVersion = '18.0.0.1'
         swaggerVersion = '2.9.2'
         jaxbVersion = '2.2.11'
@@ -51,7 +53,7 @@ ext {
                             'bundle': 0.2,
                             'clazz': 0.0
                     ],
-                    excludes: ['**/Application.class']
+                    excludes: ['**/Application.class', '**/HelloUtil.class']
             ],
             testLogger: [
                     theme: 'mocha'
@@ -89,6 +91,8 @@ apply from:   'gradle/build-springsleuth.gradle'
 apply from:   'gradle/build-githooks.gradle'
 apply from:   'gradle/build-liberty.gradle'
 apply from:   'gradle/build-pact-provider.gradle'
+
+ext['junit-jupiter.version']   = '${junitVersion}'
 
 repositories {
     mavenCentral()

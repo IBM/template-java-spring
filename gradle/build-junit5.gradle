@@ -1,6 +1,6 @@
 dependencies {
-    testCompile("org.mockito:mockito-all:${mockitoVersion}")
-    testCompile("org.powermock:powermock-api-mockito:${powermockMockitoVersion}")
+    testCompile("org.mockito:mockito-core:${mockitoVersion}")
+    testCompile("org.powermock:powermock-api-mockito2:${powermockMockitoVersion}")
     testCompile("org.powermock:powermock-module-junit4:${powermockMockitoVersion}")
     testCompileOnly(
             'junit:junit:4.12'

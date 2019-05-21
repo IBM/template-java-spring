@@ -16,7 +16,7 @@
         </value>
       </option>
     </JavaCodeStyleSettings>
-    <TypeScriptCodeStyleSettings>
+    <TypeScriptCodeStyleSettings version="0">
       <option name="USE_DOUBLE_QUOTES" value="false" />
     </TypeScriptCodeStyleSettings>
     <codeStyleSettings language="TypeScript">

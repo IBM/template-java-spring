@@ -28,8 +28,8 @@ public class ServiceConfigTest {
         }
 
         @Nested
-        @DisplayName("When valid servie name provided")
-        class WhenValidServieNameProvided {
+        @DisplayName("When valid service name provided")
+        class WhenValidServiceNameProvided {
             @Test
             @DisplayName("Then return ServiceName instance")
             void thenReturnServiceNameInstance() {

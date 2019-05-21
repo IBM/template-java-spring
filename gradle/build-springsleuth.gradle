@@ -1,3 +1,4 @@
 dependencies {
-    compile("org.springframework.cloud:spring-cloud-starter-sleuth:${springBootVersion}")
+    compile("org.springframework.cloud:spring-cloud-starter-sleuth:${springStarterSleuth}")
 }
+ 

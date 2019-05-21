@@ -3,6 +3,7 @@ package com.ibm.hello.controller;
 import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.doCallRealMethod;
@@ -48,7 +49,7 @@ public class HelloControllerTest {
 
         controller = spy(new HelloController(beanFactory, serviceConfig));
 
-        doReturn(serviceMock).when(controller).getGreetingService(anyString());
+        doReturn(serviceMock).when(controller).getGreetingService(nullable(String.class));
         when(beanFactory.getBean(anyString(), eq(GreetingService.class))).thenReturn(serviceMock);
 
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
@@ -76,7 +77,7 @@ public class HelloControllerTest {
         }
 
         @Test
-        @DisplayName("When called with {name} then it should return a 200 status")
+        @DisplayName("When called with {name} then it should return JSON contentType")
         public void when_called_with_name_should_return_json_contentType() throws Exception {
 
             mockMvc.perform(get("/hello?name=name"))
@@ -207,7 +208,7 @@ public class HelloControllerTest {
 
         @BeforeEach
         void setup() {
-            doCallRealMethod().when(controller).getGreetingService(anyString());
+            doCallRealMethod().when(controller).getGreetingService(nullable(String.class));
             serviceConfig.setBeanName(beanName);
         }
 
