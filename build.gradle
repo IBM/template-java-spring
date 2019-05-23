@@ -6,7 +6,7 @@ buildscript {
     ext {
         springBootVersion = '2.1.2.RELEASE'
         springStarterSleuth = '2.1.1.RELEASE'
-        pactVersion = '3.5.20'
+        pactVersion = '3.6.7'
         checkstyleVersion = '7.6.1'
         junitVersion = '5.4.2'
         mockitoVersion = '2.27.0'
