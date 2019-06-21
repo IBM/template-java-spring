@@ -3,10 +3,10 @@ package com.ibm.cloud_garage.logging;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
-import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
@@ -105,7 +105,9 @@ public class RequestResponseLoggerImplTest {
             doReturn(true).when(loggerMock).isInfoEnabled();
 
             final HttpRequest request = mock(HttpRequest.class);
-            doAnswer(invocation -> {throw new IOException();}).when(request).getURI();
+            doAnswer(invocation -> {
+                throw new IOException();
+            }).when(request).getURI();
 
             classUnderTest.traceRequest(request, null);
 
@@ -281,7 +283,9 @@ public class RequestResponseLoggerImplTest {
             doReturn(true).when(loggerMock).isDebugEnabled();
 
             HttpRequest request = mock(HttpRequest.class);
-            doAnswer(invocation -> {throw new IOException();}).when(request).getURI();
+            doAnswer(invocation -> {
+                throw new IOException();
+            }).when(request).getURI();
 
             classUnderTest.traceResponse(null, request);
 

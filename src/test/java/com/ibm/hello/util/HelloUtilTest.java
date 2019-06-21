@@ -25,7 +25,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 public class HelloUtilTest {
 
     @After
-    public void validate(){
+    public void validate() {
         validateMockitoUsage();
     }
 
