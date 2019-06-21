@@ -10,24 +10,7 @@ the underlying template is updated.
 
 #### Clone the project
 
-To get started clone this repo into a local folder, preferably one with a different name:
-
-```bash
-git clone --single-branch {url} {new_name}
-```
-
-**OR**
-
-#### Create the toolchain
-
-Create the toolchain and clone the project into a new repository. There are three different destinations for 
-repositories in the IBM toolchain so there are three different branches/buttons. Click the appropriate link below
-then click the subsequent 'Create toolchain'.
-
-* [GitHub](tree/toolchain_github)
-* [IBM Hosted GitLab](tree/toolchain_gitlab)
-* [GitHub Enterprise Whitewater](tree/toolchain_ibmghe)
-
+To get started click the **Use this template** button above to create an new repository and clone it into a local folder
 
 ### Set up the project from the template
 
