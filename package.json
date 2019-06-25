@@ -16,7 +16,8 @@
     "start:liberty": "./gradlew libertyRun",
     "push": "yarn push:cf",
     "push:cf": "./devops/deploy-cf.sh",
-    "push:cf:dev": "./devops/deploy-cf.sh dev"
+    "push:cf:dev": "./devops/deploy-cf.sh dev",
+    "generate-exports": "echo \"export IMAGE_NAME=\\\"$npm_package_name\\\";\nexport IMAGE_VERSION=\\\"$npm_package_version\\\";\nexport IMAGE_BUILD_NUMBER=\\\"$BUILD_NUMBER\\\";\nexport START_TIME=\\\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\\\";\""
   },
   "repository": {
     "type": "git",
