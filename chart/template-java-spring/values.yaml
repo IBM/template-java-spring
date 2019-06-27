@@ -15,7 +15,7 @@ image:
   tag: replace
   secretName: default-us-icr-io
   pullPolicy: IfNotPresent
-  port: 3000
+  port: 8080
 
 nameOverride: ""
 fullnameOverride: ""
