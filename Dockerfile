@@ -1,16 +1,9 @@
-FROM tomcat:9-jdk11-openjdk
+FROM registry.access.redhat.com/ubi8/ubi
 
-ARG image_name
-ARG image_version
+RUN dnf install -y java-11-openjdk.x86_64
 
-RUN echo "image variables $image_name $image_version"
+COPY ./build/libs/*.jar ./server.jar
 
-RUN rm -rf /usr/local/tomcat/webapps/*
+EXPOSE 9080/tcp
 
-COPY ./build/libs/${image_name}-${image_version}.war /usr/local/tomcat/webapps/ROOT.war
-
-ENV HOST=0.0.0.0 PORT=8080
-
-EXPOSE 8080/tcp
-
-CMD ["catalina.sh","run"]
+CMD ["java", "-jar", "./server.jar"]

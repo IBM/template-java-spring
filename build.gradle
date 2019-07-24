@@ -74,7 +74,8 @@ ext {
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
-apply from:   'gradle/build-war.gradle'
+// apply from:   'gradle/build-war.gradle'
+apply from:   'gradle/build-jar.gradle'
 apply from:   'gradle/build-springboot.gradle'
 apply from:   'gradle/build-junit5.gradle'
 apply from:   'gradle/build-testlogger.gradle'
@@ -89,7 +90,7 @@ apply from:   'gradle/build-swagger.gradle'
 apply from:   'gradle/build-springactuator.gradle'
 apply from:   'gradle/build-springsleuth.gradle'
 apply from:   'gradle/build-githooks.gradle'
-apply from:   'gradle/build-liberty.gradle'
+// apply from:   'gradle/build-liberty.gradle'
 apply from:   'gradle/build-pact-provider.gradle'
 
 ext['junit-jupiter.version']   = '${junitVersion}'
