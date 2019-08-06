@@ -2,41 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f81a2f7f-94df-4279-9618-d7a0b41e8afd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.bluemix/deploy.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.bluemix/icon.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.bluemix/locales.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_de.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_en_AA.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_en_RR.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_en_ZZ.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_es.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_fr.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_it.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_ja.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_ko.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_pt_BR.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_zh.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_zh_HK.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_zh_TW.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.bluemix/pipeline.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.bluemix/toolchain-template.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.bluemix/toolchain.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.bluemix/toolchain.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.bluemix/toolchain.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.bluemix/toolchain_dark.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.cfignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PIPELINE-template.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -76,6 +46,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="spring.boot" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -89,7 +60,26 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Gradle.template-java-spring [build]">
+    <configuration name="template-java-spring [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
     <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="template-spring-boot.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.ibm.hello.app.Application" />
@@ -97,6 +87,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.template-java-spring [build]" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -106,7 +101,7 @@
       <option name="presentableId" value="Default" />
       <updated>1565053755520</updated>
       <workItem from="1565053756951" duration="85000" />
-      <workItem from="1565053852854" duration="311000" />
+      <workItem from="1565053852854" duration="1027000" />
     </task>
     <servers />
   </component>

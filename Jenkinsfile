@@ -1,5 +1,5 @@
 def buildLabel = "agent.${env.JOB_NAME}.${env.BUILD_NUMBER}".replace('-', '_').replace('/', '_')
-
+def cloudName = env.CLOUD_NAME == "openshift" ? "openshift" : "kubernetes"
 podTemplate(
         label: buildLabel,
         containers: [
@@ -40,11 +40,14 @@ podTemplate(
                                 secretEnvVar(key: 'REGISTRY_NAMESPACE', secretName: 'ibmcloud-apikey', secretKey: 'registry_namespace'),
                                 secretEnvVar(key: 'REGION', secretName: 'ibmcloud-apikey', secretKey: 'region'),
                                 secretEnvVar(key: 'CLUSTER_NAME', secretName: 'ibmcloud-apikey', secretKey: 'cluster_name'),
+                                secretEnvVar(key: 'CLUSTER_TYPE', secretName: 'ibmcloud-apikey', secretKey: 'cluster_type'),
+                                secretEnvVar(key: 'SERVER_URL', secretName: 'ibmcloud-apikey', secretKey: 'server_url'),
+                                secretEnvVar(key: 'INGRESS_SUBDOMAIN', secretName: 'ibmcloud-apikey', secretKey: 'ingress_subdomain'),
                                 envVar(key: 'CHART_NAME', value: 'template-java-spring'),
                                 envVar(key: 'CHART_ROOT', value: 'chart'),
                                 envVar(key: 'TMP_DIR', value: '.tmp'),
                                 envVar(key: 'BUILD_NUMBER', value: "${env.BUILD_NUMBER}"),
-                                envVar(key: 'HOME', value: '/root'), // needed for the ibmcloud cli to find plugins
+                                envVar(key: 'HOME', value: '/home/devops'), // needed for the ibmcloud cli to find plugins
                         ],
                 )
         ],
@@ -59,6 +62,7 @@ podTemplate(
             checkout scm
             stage('Setup') {
                 sh '''#!/bin/bash
+                    set -x
                     # Export project name, version, and build number to ./env-config
                     npm run env | grep "^npm_package_name" | sed "s/npm_package_name/IMAGE_NAME/g"  > ./env-config
                     npm run env | grep "^npm_package_version" | sed "s/npm_package_version/IMAGE_VERSION/g" >> ./env-config
@@ -94,7 +98,12 @@ podTemplate(
         container(name: 'ibmcloud', shell: '/bin/bash') {
             stage('Verify environment') {
                 sh '''#!/bin/bash
+                    set -x
+                    
+                    whoami
+                    
                     . ./env-config
+
                     if [[ -z "${APIKEY}" ]]; then
                       echo "APIKEY is required"
                       exit 1
@@ -133,9 +142,10 @@ podTemplate(
             }
             stage('Build image') {
                 sh '''#!/bin/bash
-                    . ./env-config
-                    ibmcloud login -a ${APIURL} --apikey ${APIKEY} -r ${REGION} -g ${RESOURCE_GROUP}
+                    set -x
                     
+                    . ./env-config
+
                     echo "Checking registry namespace: ${REGISTRY_NAMESPACE}"
                     NS=$( ibmcloud cr namespaces | grep ${REGISTRY_NAMESPACE} ||: )
                     if [[ -z "${NS}" ]]; then
@@ -144,13 +154,14 @@ podTemplate(
                     else
                         echo -e "Registry namespace ${REGISTRY_NAMESPACE} found."
                     fi
+
                     echo -e "Existing images in registry"
                     ibmcloud cr images --restrict "${REGISTRY_NAMESPACE}/${IMAGE_NAME}"
                     
                     echo -e "=========================================================================================="
                     echo -e "BUILDING CONTAINER IMAGE: ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}:${IMAGE_VERSION}"
                     set -x
-                    ibmcloud cr build --build-arg image_name=${IMAGE_NAME} --build-arg image_version=${IMAGE_VERSION} -t ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}:${IMAGE_VERSION}-${BUILD_NUMBER} .
+                    ibmcloud cr build -t ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}:${IMAGE_VERSION} .
                     if [[ -n "${BUILD_NUMBER}" ]]; then
                         echo -e "BUILDING CONTAINER IMAGE: ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}:${IMAGE_VERSION}-${BUILD_NUMBER}"
                         ibmcloud cr build -t ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}:${IMAGE_VERSION}-${BUILD_NUMBER} .
@@ -162,65 +173,75 @@ podTemplate(
             }
             stage('Deploy to DEV env') {
                 sh '''#!/bin/bash
+                    set -x
+
                     . ./env-config
                     
                     ENVIRONMENT_NAME=dev
+
                     CHART_PATH="${CHART_ROOT}/${CHART_NAME}"
-                    mkdir -p ${TMP_DIR}
-                    ibmcloud -version
-                    ibmcloud login -a ${APIURL} --apikey ${APIKEY} -g ${RESOURCE_GROUP} -r ${REGION}
-                    
-                    # Turn off check-version so it doesn't spit out extra info during cluster-config
-                    ibmcloud config --check-version=false
-                    ibmcloud cs cluster-config --cluster ${CLUSTER_NAME} --export > ${TMP_DIR}/.kubeconfig
-                    . ${TMP_DIR}/.kubeconfig
+
                     echo "KUBECONFIG=${KUBECONFIG}"
-                    echo "Defining RELEASE_NAME by prefixing image (app) name with namespace if not 'default' as Helm needs unique release names across namespaces"
-                    if [[ "${ENVIRONMENT_NAME}" != "default" ]]; then
-                      RELEASE_NAME="${IMAGE_NAME}-${ENVIRONMENT_NAME}"
-                    else
-                      RELEASE_NAME="${IMAGE_NAME}"
-                    fi
+
+                    RELEASE_NAME="${IMAGE_NAME}"
                     echo "RELEASE_NAME: $RELEASE_NAME"
+
                     if [[ -n "${BUILD_NUMBER}" ]]; then
                       IMAGE_VERSION="${IMAGE_VERSION}-${BUILD_NUMBER}"
                     fi
-                    if [[ $(kubectl get secrets -n default | grep icr | wc -l) -eq 0 ]]; then
-                        ibmcloud ks cluster-pull-secret-apply --cluster ${CLUSTER_NAME}
-                    fi
-                    kubectl get namespace ${ENVIRONMENT_NAME}
-                    if [[ $? -ne 0 ]]; then
-                      kubectl create namespace ${ENVIRONMENT_NAME}
-                    fi
                     
-                    # Check to see if image pull secrets exist in the namespace
-                    if [[ $(kubectl get secrets -n ${ENVIRONMENT_NAME} | grep icr | wc -l) -eq 0 ]]; then
-                        echo "Creating image pull secrets in namespace ${ENVIRONMENT_NAME}"
-                        kubectl get secrets -n default | grep icr | sed "s/\\([A-Za-z-]*\\) *.*/\\1/g" | while read default_secret; do
-                            echo "Copying secret: $default_secret"
-                            kubectl get secret ${default_secret} -o yaml | sed "s/default/${ENVIRONMENT_NAME}/g" | kubectl -n ${ENVIRONMENT_NAME} create -f -
-                        done
-                    fi
-                    
-                    echo "INITIALIZING helm with upgrade"
-                    helm init --upgrade 1> /dev/null 2> /dev/null
+                    echo "INITIALIZING helm with client-only (no Tiller)"
+                    helm init --client-only 1> /dev/null 2> /dev/null
                     
                     echo "CHECKING CHART (lint)"
                     helm lint ${CHART_PATH}
                     
                     IMAGE_REPOSITORY="${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}"
                     PIPELINE_IMAGE_URL="${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}:${IMAGE_VERSION}"
+
+                    echo "${ENVIRONMENT_NAME}.${INGRESS_SUBDOMAIN}"
+
                     # Using 'upgrade --install" for rolling updates. Note that subsequent updates will occur in the same namespace the release is currently deployed in, ignoring the explicit--namespace argument".
-                    echo -e "Dry run into: ${CLUSTER_NAME}/${ENVIRONMENT_NAME}."
-                    helm upgrade --install --debug --dry-run ${RELEASE_NAME} ${CHART_PATH} \
-                        --set image.repository=${IMAGE_REPOSITORY},image.tag=${IMAGE_VERSION},image.secretName="${ENVIRONMENT_NAME}-us-icr-io",cluster_name="${CLUSTER_NAME}",region="${REGION}",namespace="${ENVIRONMENT_NAME}",host="${IMAGE_NAME}" \
-                        --namespace ${ENVIRONMENT_NAME}
+                    helm template ${CHART_PATH} \
+                        --name ${RELEASE_NAME} \
+                        --namespace ${ENVIRONMENT_NAME} \
+                        --set nameOverride=${IMAGE_NAME} \
+                        --set image.repository=${IMAGE_REPOSITORY} \
+                        --set image.tag=${IMAGE_VERSION} \
+                        --set image.secretName="${ENVIRONMENT_NAME}-us-icr-io" \
+                        --set ingress_subdomain="${ENVIRONMENT_NAME}.${INGRESS_SUBDOMAIN}" \
+                        --set host="${IMAGE_NAME}" > ./release.yaml
+                    
+                    echo -e "Generated release yaml for: ${CLUSTER_NAME}/${ENVIRONMENT_NAME}."
+                    cat ./release.yaml
                     
                     echo -e "Deploying into: ${CLUSTER_NAME}/${ENVIRONMENT_NAME}."
-                    helm upgrade --install ${RELEASE_NAME} ${CHART_PATH} \
-                        --set image.repository=${IMAGE_REPOSITORY},image.tag=${IMAGE_VERSION},image.secretName="${ENVIRONMENT_NAME}-us-icr-io",cluster_name="${CLUSTER_NAME}",region="${REGION}",namespace="${ENVIRONMENT_NAME}",host="${IMAGE_NAME}" \
-                        --namespace ${ENVIRONMENT_NAME}
+                    kubectl apply -n ${ENVIRONMENT_NAME} -f ./release.yaml
+
                     # ${SCRIPT_ROOT}/deploy-checkstatus.sh ${ENVIRONMENT_NAME} ${IMAGE_NAME} ${IMAGE_REPOSITORY} ${IMAGE_VERSION}
+                '''
+            }
+            stage('Health Check') {
+                sh '''#!/bin/bash
+                    . ./env-config
+                    
+                    ENVIRONMENT_NAME=dev
+
+                    INGRESS_NAME="${IMAGE_NAME}"
+                    INGRESS_HOST=$(kubectl get ingress/${INGRESS_NAME} --namespace ${ENVIRONMENT_NAME} --output=jsonpath='{ .spec.rules[0].host }')
+                    PORT='80'
+
+                    # sleep for 10 seconds to allow enough time for the server to start
+                    sleep 30
+
+                    if [ $(curl -sL -w "%{http_code}\\n" "http://${INGRESS_HOST}:${PORT}/health" -o /dev/null --connect-timeout 3 --max-time 5 --retry 3 --retry-max-time 30) == "200" ]; then
+                        echo "Successfully reached health endpoint: http://${INGRESS_HOST}:${PORT}/health"
+                    echo "====================================================================="
+                        else
+                    echo "Could not reach health endpoint: http://${INGRESS_HOST}:${PORT}/health"
+                        exit 1;
+                    fi;
+
                 '''
             }
         }
