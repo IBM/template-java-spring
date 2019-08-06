@@ -1,7 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f81a2f7f-94df-4279-9618-d7a0b41e8afd" name="Default Changelist" comment="" />
+    <list default="true" id="f81a2f7f-94df-4279-9618-d7a0b41e8afd" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.bluemix/deploy.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.bluemix/icon.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.bluemix/locales.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_de.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_en_AA.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_en_RR.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_en_ZZ.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_es.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_fr.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_it.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_ja.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_ko.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_pt_BR.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_zh.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_zh_HK.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.bluemix/nls/messages_zh_TW.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.bluemix/pipeline.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.bluemix/toolchain-template.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.bluemix/toolchain.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.bluemix/toolchain.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.bluemix/toolchain.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.bluemix/toolchain_dark.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.cfignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/PIPELINE-template.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,8 +66,12 @@
       </state>
     </system>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1P1u7PEwJO0hZS0n5wixGXjc00j" />
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -49,6 +89,15 @@
       </list>
     </option>
   </component>
+  <component name="RunManager">
+    <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="template-spring-boot.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ibm.hello.app.Application" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="f81a2f7f-94df-4279-9618-d7a0b41e8afd" name="Default Changelist" comment="" />
@@ -57,11 +106,22 @@
       <option name="presentableId" value="Default" />
       <updated>1565053755520</updated>
       <workItem from="1565053756951" duration="85000" />
-      <workItem from="1565053852854" duration="121000" />
+      <workItem from="1565053852854" duration="311000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

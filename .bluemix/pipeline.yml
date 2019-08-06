@@ -1,0 +1,55 @@
+---
+stages:
+- name: BUILD
+  inputs:
+  - type: git
+    branch: master
+    service: ${SAMPLE_REPO}
+  triggers:
+  - type: commit
+  jobs:
+  - name: Build
+    type: builder
+    artifact_dir: 'archive'
+    build_type: gradle
+    script: |-
+      #!/bin/bash
+      export JAVA_HOME=$JAVA8_HOME
+      ./gradlew --version
+      ./gradlew clean check assemble -PskipCheckstyle
+
+      mkdir -p archive/build
+      cp -R devops archive
+      cp -R build/libs archive/build
+    enable_tests: true
+    test_file_pattern: 'build/test-results/test/TEST-*.xml'
+    enable_coverage: true
+    coverage_type: JACOCO
+    coverage_file_pattern: 'build/reports/jacoco/test/jacocoTestReport.xml'
+    coverage_directory: 'build/reports/jacoco/test'
+- name: DEPLOY
+  inputs:
+  - type: job
+    stage: BUILD
+    job: Build
+  triggers:
+  - type: stage
+  properties:
+  - name: CF_APP_NAME
+    value: undefined
+    type: text
+  - name: APP_URL
+    value: undefined
+    type: text
+  jobs:
+  - name: BG Deploy
+    type: deployer
+    target:
+      region_id: ${PROD_REGION_ID}
+      organization: ${PROD_ORG_NAME}
+      space: ${PROD_SPACE_NAME}
+      application: ${CF_APP_NAME}
+      api_key: ${API_KEY}
+    script: |
+      #!/bin/bash
+      ./devops/deploy.sh dev
