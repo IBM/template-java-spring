@@ -2,11 +2,36 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f81a2f7f-94df-4279-9618-d7a0b41e8afd" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.bluemix/deploy.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bluemix/icon.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bluemix/locales.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_de.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_en_AA.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_en_RR.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_en_ZZ.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_es.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_fr.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_it.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_ja.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_ko.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_pt_BR.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_zh.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_zh_HK.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_zh_TW.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bluemix/pipeline.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bluemix/toolchain-template.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bluemix/toolchain.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bluemix/toolchain.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bluemix/toolchain.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bluemix/toolchain_dark.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,12 +47,31 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="template-spring-boot" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="template-spring-boot" type="f1a62948:ProjectNode" />
+                <item name="Source Sets" type="e897c970:GradleViewContributor$SourceSetsNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="template-spring-boot" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="template-spring-boot" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="application" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -41,12 +85,23 @@
   </component>
   <component name="ProjectId" id="1P1u7PEwJO0hZS0n5wixGXjc00j" />
   <component name="PropertiesComponent">
+    <property name="ExpandSpringBootJavaOptionsPanel" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="spring.boot" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.16961133" />
+    <property name="settings.editor.selected.configurable" value="project.propDebugger" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -60,7 +115,26 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.template-java-spring [build]">
+  <component name="RunManager" selected="Gradle.template-java-spring [bootRun]">
+    <configuration name="template-java-spring [bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="bootRun" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
     <configuration name="template-java-spring [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -89,6 +163,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.template-java-spring [bootRun]" />
         <item itemvalue="Gradle.template-java-spring [build]" />
       </list>
     </recent_temporary>
@@ -101,8 +176,18 @@
       <option name="presentableId" value="Default" />
       <updated>1565053755520</updated>
       <workItem from="1565053756951" duration="85000" />
-      <workItem from="1565053852854" duration="1027000" />
+      <workItem from="1565053852854" duration="6148000" />
+      <workItem from="1565110635182" duration="606000" />
+      <workItem from="1565111293552" duration="434000" />
     </task>
+    <task id="LOCAL-00001" summary="updates to support build with Jenkins">
+      <created>1565055262978</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1565055262978</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -113,10 +198,16 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="updates to support build with Jenkins" />
+    <option name="LAST_COMMIT_MESSAGE" value="updates to support build with Jenkins" />
   </component>
 </project>
