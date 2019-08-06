@@ -1,0 +1,37 @@
+{
+  "name": "template-spring-boot",
+  "version": "0.1.0",
+  "description": "Spring Boot application",
+  "main": "index.js",
+  "scripts": {
+    "build": "./gradlew assemble",
+    "verify": "./gradlew check",
+    "verify:pact": "./gradlew pactVerify",
+    "clean": "./gradlew clean",
+    "test": "./gradlew test",
+    "test:pact": "yarn test && ./pact-validate-provider.sh ./build/pacts",
+    "publish:pact": "./gradlew pactPublish",
+    "start": "yarn start:liberty",
+    "start:tomcat": "./gradlew bootRun",
+    "start:liberty": "./gradlew libertyRun",
+    "push": "yarn push:cf",
+    "push:cf": "./devops/deploy-cf.sh",
+    "push:cf:dev": "./devops/deploy-cf.sh dev",
+    "generate-exports": "echo \"export IMAGE_NAME=\\\"$npm_package_name\\\";\nexport IMAGE_VERSION=\\\"$npm_package_version\\\";\nexport IMAGE_BUILD_NUMBER=\\\"$BUILD_NUMBER\\\";\nexport START_TIME=\\\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\\\";\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.ibm.com:seansund/template-spring-boot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "swagger-mock-validator": "^4.0.1",
+    "yarn": "^1.7.0"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">= v8.11.1",
+    "npm": ">= 5.6.0"
+  }
+}

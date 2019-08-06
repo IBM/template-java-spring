@@ -1,0 +1,38 @@
+dependencies {
+    testCompile("org.mockito:mockito-core:${mockitoVersion}")
+    testCompile("org.powermock:powermock-api-mockito2:${powermockMockitoVersion}")
+    testCompile("org.powermock:powermock-module-junit4:${powermockMockitoVersion}")
+    testCompileOnly(
+            'junit:junit:4.12'
+    )
+    testImplementation(
+            "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    )
+    testRuntimeOnly(
+            "org.junit.jupiter:junit-jupiter-engine:${junitVersion}",
+            "org.junit.vintage:junit-vintage-engine:${junitVersion}"
+    )
+}
+
+
+test {
+    useJUnitPlatform {
+        excludeTags "integration"
+    }
+
+    reports {
+        junitXml.enabled = true
+        html.enabled = true
+    }
+}
+
+task integrationTest(type: Test) {
+    useJUnitPlatform {
+        includeTags "integration"
+    }
+
+    reports {
+        junitXml.enabled = true
+        html.enabled = true
+    }
+}

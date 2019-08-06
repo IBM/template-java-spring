@@ -1,0 +1,1 @@
+{"apiVersion":"v1","kind":"BuildConfig","metadata":{"name":"ibm-garage-cloud.template-java-spring"},"spec":{"source":{"git":{"uri":"https://github.com/ibm-garage-cloud/template-java-spring.git","ref":"master"}},"strategy":{"jenkinsPipelineStrategy":{"jenkinsfilePath":"Jenkinsfile","env":[{"name":"CLOUD_NAME","value":"openshift"}]}}}}

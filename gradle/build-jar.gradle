@@ -1,0 +1,6 @@
+apply plugin: 'java'
+
+jar {
+    baseName = rootProject.name
+    version =  project.version
+}

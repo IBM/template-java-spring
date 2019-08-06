@@ -1,0 +1,17 @@
+apply plugin: 'checkstyle'
+
+if (!project.ext.has('config')) {
+    project.ext['config'] = [:]
+}
+
+def checkstyleExcludes = config.checkstyle?.excludes ?: []
+
+checkstyle {
+    toolVersion "${checkstyleVersion}"
+}
+
+if (!checkstyleExcludes.isEmpty()) {
+    tasks.withType(Checkstyle) {
+        exclude checkstyleExcludes
+    }
+}

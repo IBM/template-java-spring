@@ -1,0 +1,26 @@
+apply from: 'gradle/build-pact.gradle'
+
+if (!project.ext.has('config')) {
+    project.ext['config'] = [:]
+}
+
+def providerName = config.pact?.providerName ?: "HelloWorld_Provider"
+def myPactBrokerUrl = config.pact?.pactBrokerUrl ?: "http://localhost"
+
+pact {
+    serviceProviders {
+        "${providerName}" {
+            protocol = 'http'
+            host = 'localhost'
+            port = '9080'
+            path = '/'
+
+            if ('pactVerify' in gradle.startParameter.taskNames) {
+                hasPactsFromPactBroker(myPactBrokerUrl)
+            }
+        }
+    }
+}
+
+pactVerify.dependsOn 'installApps', 'libertyStart'
+pactVerify.finalizedBy 'libertyStop'

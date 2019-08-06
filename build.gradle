@@ -1,0 +1,100 @@
+/*
+ * This is the project build file. It can be modified as necessary as the project changes
+ * (e.g. additional dependencies, etc). However, the build scripts in the /gradle folder SHOULD NOT be modified.
+ */
+buildscript {
+    ext {
+        springBootVersion = '2.1.2.RELEASE'
+        springStarterSleuth = '2.1.1.RELEASE'
+        pactVersion = '3.6.7'
+        checkstyleVersion = '7.6.1'
+        junitVersion = '5.4.2'
+        mockitoVersion = '2.27.0'
+        powermockMockitoVersion = '2.0.2'
+        jacocoVersion = '0.8.4'
+        libertyVersion = '18.0.0.1'
+        swaggerVersion = '2.9.2'
+        jaxbVersion = '2.2.11'
+        wsdlVersion = '1.6.1'
+    }
+    repositories {
+        mavenCentral()
+
+        // Needed for build-testlogger
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+
+        // Needed for build-testlogger
+        classpath 'com.adarshr:gradle-test-logger-plugin:1.3.1'
+
+        // Needed for liberty
+        classpath 'net.wasdev.wlp.gradle.plugins:liberty-gradle-plugin:2.4.1'
+
+        // needed for build-pact
+        classpath("au.com.dius:pact-jvm-provider-gradle_2.12:${pactVersion}")
+
+        // needed for build-jaxb
+        classpath("gradle.plugin.org.openrepose:gradle-jaxb-plugin:2.5.0")
+    }
+}
+
+// rootProject.name can be found in settings.gradle
+project.version = '0.1.0'
+
+// Configuration provided to nested scripts
+ext {
+    config = [
+            jacoco: [
+                    limits: [
+                            'bundle': 0.2,
+                            'clazz': 0.0
+                    ],
+                    excludes: ['**/Application.class', '**/HelloUtil.class']
+            ],
+            testLogger: [
+                    theme: 'mocha'
+            ],
+            liberty: [
+                    appName: project.name,
+                    appWarFile: project.name + '-' + project.version + '.war',
+                    testServerHttpPort: 9080,
+                    testServerHttpsPort: 9443,
+                    warContext: project.name
+            ],
+            pact: [
+                    pactBrokerUrl: project.hasProperty('pactBrokerUrl') ? project.getProperty('pactBrokerUrl') : 'http://localhost'
+            ]
+    ]
+}
+
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+// apply from:   'gradle/build-war.gradle'
+apply from:   'gradle/build-jar.gradle'
+apply from:   'gradle/build-springboot.gradle'
+apply from:   'gradle/build-junit5.gradle'
+apply from:   'gradle/build-testlogger.gradle'
+if (!project.hasProperty("skipCheckstyle")) {
+    println("No `skipCheckstyle` flag. Applying build script")
+    apply from: 'gradle/build-checkstyle.gradle'
+} else {
+    println("`skipCheckstyle` set. Will not apply build script")
+}
+apply from:   'gradle/build-jacoco.gradle'
+apply from:   'gradle/build-swagger.gradle'
+apply from:   'gradle/build-springactuator.gradle'
+apply from:   'gradle/build-springsleuth.gradle'
+apply from:   'gradle/build-githooks.gradle'
+// apply from:   'gradle/build-liberty.gradle'
+apply from:   'gradle/build-pact-provider.gradle'
+
+ext['junit-jupiter.version']   = '${junitVersion}'
+
+repositories {
+    mavenCentral()
+}

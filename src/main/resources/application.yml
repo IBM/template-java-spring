@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: "template-spring-boot"
+
+hello:
+  pattern: "Hello there, %s!"
+
+greetingservice:
+  beanName: "hola"
+
+swagger:
+  baseApiPackage: "com.ibm.hello"
+  title: "Sample API Documentation"
+  description: "Description"
+  version: "0.1.0"
+  termsOfServiceUrl: ""
+  contact:
+    name: "John Doe"
+    email: "johndoe@ibm.com"
+  license: "MIT"
+  licenseUrl: ""
+
+management:
+  endpoints:
+    web:
+      base-path: "/metrics"
+      exposure:
+        include: "*"
+
+server:
+  port: 9080
+
+logging:
+  level:
+    ROOT: INFO
+    com.ibm.hello: DEBUG
+    com.ibm.cloud_garage: DEBUG
+    org.springframework: ERROR
+    org.springframework.web: WARN
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+    ch.qos.logback.classic: ERROR
+  pattern:
+    console: "%d{YYYY-dd-MM HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %X{X-B3-TraceId:-} ${spring.application.name} %logger{39}.%M %L - %msg%n"

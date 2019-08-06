@@ -1,0 +1,9 @@
+applications:
+- name: myapp-dev
+  hosts:
+    - myapp
+  domain: mybluemix.net
+
+  buildpack: liberty-for-java
+  memory: 512M
+

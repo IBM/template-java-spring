@@ -1,0 +1,11 @@
+apply plugin: 'au.com.dius.pact'
+
+dependencies {
+    testCompile("au.com.dius:pact-jvm-consumer-junit5_2.12:${pactVersion}")
+    testCompile("au.com.dius:pact-jvm-consumer-java8_2.12:${pactVersion}")
+}
+
+def pactDirectory = "${project.buildDir}/pacts"
+test {
+    systemProperties['pact.rootDir'] = pactDirectory
+}

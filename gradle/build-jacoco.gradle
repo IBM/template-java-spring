@@ -1,0 +1,71 @@
+apply plugin: 'jacoco'
+
+/**
+ * Configure this plugin by adding the following to the build.gradle
+ * script before applying this file:
+ * <code>
+ * ext {
+ *   config = [
+ *     jacoco: [
+ *       limits: [
+ *         'bundle': 0.2,
+ *         'clazz': 0.1
+ *       ],
+ *       excludes: ['**\/Application.class']
+ *     ]
+ *   ]
+ * }
+ * </code>
+ */
+
+jacoco {
+    toolVersion = "${jacocoVersion}"
+}
+
+if (!project.ext.has('config')) {
+    project.ext['config'] = [:]
+}
+
+def localJacocoLimitsBundle = config.jacoco?.limits?.bundle ?: 0.0
+def localJacocoLimitsClass = config.jacoco?.limits?.clazz ?: 0.0
+
+def localJacocoExcludes = config.jacoco?.excludes ?: []
+
+jacocoTestCoverageVerification {
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: localJacocoExcludes)
+        })
+    }
+
+    violationRules {
+        rule {
+            element = 'BUNDLE'
+            limit {
+                minimum = localJacocoLimitsBundle
+            }
+        }
+        rule {
+            element = 'CLASS'
+            limit {
+                minimum = localJacocoLimitsClass
+            }
+        }
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true // coveralls plugin depends on xml format report
+        html.enabled true
+    }
+
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: localJacocoExcludes)
+        })
+    }
+}
+
+check.dependsOn jacocoTestCoverageVerification
+test.finalizedBy jacocoTestReport

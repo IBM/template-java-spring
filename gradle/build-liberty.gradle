@@ -1,0 +1,39 @@
+
+apply plugin: 'liberty'
+
+dependencies {
+    // not sure this does anything here...
+    compile('org.springframework.boot:spring-boot-starter-web') {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    libertyRuntime group: 'io.openliberty', name: 'openliberty-runtime', version: "[${libertyVersion},)"
+}
+
+if (!project.ext.has('config')) {
+    project.ext['config'] = [:]
+}
+
+def localAppName = config.liberty?.appName ?: project.name
+def localAppLocation = config.liberty?.location ?: war.archivePath
+def localTestServerHttpPort = config.liberty?.testServerHttpPort ?: 9080
+def localTestServerHttpsPort = config.liberty?.testServerHttpsPort ?: 9443
+
+liberty {
+    server {
+        name = "${localAppName}Server"
+        configFile = file("src/main/liberty/config/server.xml")
+        bootstrapProperties = ['app.id': localAppName,
+                               'app.location': localAppLocation,
+                               'default.http.port': localTestServerHttpPort,
+                               'default.https.port': localTestServerHttpsPort]
+        packageLiberty {
+            archive = "$buildDir/${localAppName}.zip"
+            include = "usr"
+        }
+        looseApplication = false
+        apps = [war]
+    }
+}
+
+clean.dependsOn 'libertyStop'
+libertyPackage.dependsOn 'libertyStop'
