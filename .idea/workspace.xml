@@ -2,36 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f81a2f7f-94df-4279-9618-d7a0b41e8afd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.bluemix/deploy.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.bluemix/icon.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.bluemix/locales.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_de.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_en_AA.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_en_RR.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_en_ZZ.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_es.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_fr.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_it.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_ja.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_ko.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_pt_BR.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_zh.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_zh_HK.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.bluemix/nls/messages_zh_TW.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.bluemix/pipeline.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.bluemix/toolchain-template.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.bluemix/toolchain.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.bluemix/toolchain.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.bluemix/toolchain.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.bluemix/toolchain_dark.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -178,7 +149,7 @@
       <workItem from="1565053756951" duration="85000" />
       <workItem from="1565053852854" duration="6148000" />
       <workItem from="1565110635182" duration="606000" />
-      <workItem from="1565111293552" duration="434000" />
+      <workItem from="1565111293552" duration="1031000" />
     </task>
     <task id="LOCAL-00001" summary="updates to support build with Jenkins">
       <created>1565055262978</created>
