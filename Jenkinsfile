@@ -2,6 +2,7 @@ def buildLabel = "agent.${env.JOB_NAME}.${env.BUILD_NUMBER}".replace('-', '_').r
 def cloudName = env.CLOUD_NAME == "openshift" ? "openshift" : "kubernetes"
 podTemplate(
         label: buildLabel,
+        cloud: cloudName,
         containers: [
                 containerTemplate(
                         name: 'gradle',
