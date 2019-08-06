@@ -2,16 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f81a2f7f-94df-4279-9618-d7a0b41e8afd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ibm/health/HealthEndpoint.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application-local.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/localdev-config.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mappings.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/ibm/health/HealthEndpointTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ibm/hello/app/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ibm/hello/app/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PIPELINE-template.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -115,7 +110,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.template-java-spring [testClasses]">
+  <component name="RunManager" selected="Gradle.template-java-spring [bootRun]">
     <configuration name="template-java-spring [bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -182,8 +177,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.template-java-spring [testClasses]" />
         <item itemvalue="Gradle.template-java-spring [bootRun]" />
+        <item itemvalue="Gradle.template-java-spring [testClasses]" />
         <item itemvalue="Gradle.template-java-spring [build]" />
       </list>
     </recent_temporary>
@@ -198,7 +193,7 @@
       <workItem from="1565053756951" duration="85000" />
       <workItem from="1565053852854" duration="6148000" />
       <workItem from="1565110635182" duration="606000" />
-      <workItem from="1565111293552" duration="3945000" />
+      <workItem from="1565111293552" duration="4460000" />
     </task>
     <task id="LOCAL-00001" summary="updates to support build with Jenkins">
       <created>1565055262978</created>

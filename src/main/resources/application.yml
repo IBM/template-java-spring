@@ -9,14 +9,14 @@ greetingservice:
   beanName: "hola"
 
 swagger:
-  baseApiPackage: "com.ibm.hello"
+  baseApiPackage:
+  - "com.ibm.hello"
+  - "com.ibm.health"
   title: "Sample API Documentation"
   description: "Description"
-  version: "0.1.0"
+  version: "1.0.0"
   termsOfServiceUrl: ""
-  contact:
-    name: "John Doe"
-    email: "johndoe@ibm.com"
+
   license: "MIT"
   licenseUrl: ""
 
