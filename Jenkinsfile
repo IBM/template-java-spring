@@ -6,16 +6,13 @@ podTemplate(
         containers: [
                 containerTemplate(
                         name: 'gradle',
-                        image: 'gradle:4.10.2-jdk11',
+                        image: 'quay.io/quarkus/ubi-quarkus-native-image',
                         command: 'cat',
                         ttyEnabled: true,
                         workingDir: '/home/jenkins',
                         envVars: [
                                 envVar(key: 'GRADLE_USER_HOME', value: '/home/jenkins/.gradle/'),
                         ]),
-                containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
-                containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true),
-                containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true),
                 containerTemplate(
                         name: 'node',
                         image: 'node:11-stretch',
