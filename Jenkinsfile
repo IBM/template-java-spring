@@ -6,12 +6,12 @@ podTemplate(
         containers: [
                 containerTemplate(
                         name: 'gradle',
-                        image: 'registry.access.redhat.com/openshift3/jenkins-slave-base-rhel7',
+                        image: 'jenkins/slave:latest-jdk11',
                         command: 'cat',
                         ttyEnabled: true,
                         workingDir: '/home/jenkins',
                         envVars: [
-                                envVar(key: 'GRADLE_USER_HOME', value: '/home/jenkins/.gradle/'),
+                                envVar(key: 'GRADLE_USER_HOME', value: '/home/jenkins/.gradle/')
                         ]),
                 containerTemplate(
                         name: 'node',
