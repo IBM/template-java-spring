@@ -61,6 +61,9 @@ podTemplate(
                     npm run env | grep "^npm_package_name" | sed "s/npm_package_name/IMAGE_NAME/g"  > ./env-config
                     npm run env | grep "^npm_package_version" | sed "s/npm_package_version/IMAGE_VERSION/g" >> ./env-config
                     
+                    cat ./package.json
+                    npm run env | grep "^npm_package_name" | sed "s/npm_package_name/IMAGE_NAME/g"
+                    
                     cat ./env_config
                     pwd
                 '''
