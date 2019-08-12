@@ -98,9 +98,7 @@ podTemplate(
                     
                     pwd
                     cat ./env-config
-                    . ./env-config
-                    
- 
+                    . env-config
 
                     if [[ -z "${APIKEY}" ]]; then
                       echo "APIKEY is required"
