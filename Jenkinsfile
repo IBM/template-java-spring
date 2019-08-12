@@ -18,10 +18,7 @@ podTemplate(
                         image: 'node:11-stretch',
                         ttyEnabled: true,
                         command: '/bin/bash',
-                        workingDir: '/home/jenkins',
-                        envVars: [
-                                envVar(key: 'DOCKER_CONFIG', value: '/home/jenkins/.docker/'),
-                        ],
+                        workingDir: '/home/jenkins'
                 ),
                 containerTemplate(
                         name: 'ibmcloud',
@@ -30,7 +27,6 @@ podTemplate(
                         command: '/bin/bash',
                         workingDir: '/home/jenkins',
                         envVars: [
-                                envVar(key: 'DOCKER_CONFIG', value: '/home/jenkins/.docker/'),
                                 envVar(key: 'APIURL', value: 'https://cloud.ibm.com'),
                                 secretEnvVar(key: 'APIKEY', secretName: 'ibmcloud-apikey', secretKey: 'password'),
                                 secretEnvVar(key: 'RESOURCE_GROUP', secretName: 'ibmcloud-apikey', secretKey: 'resource_group'),
@@ -61,11 +57,9 @@ podTemplate(
                     npm run env | grep "^npm_package_name" | sed "s/npm_package_name/IMAGE_NAME/g"  > ./env-config
                     npm run env | grep "^npm_package_version" | sed "s/npm_package_version/IMAGE_VERSION/g" >> ./env-config
                     
-    
-                    npm run env | grep "^npm_package_name" | sed "s/npm_package_name/IMAGE_NAME/g"
-                    
                     cat ./env-config
                     pwd
+                    
                 '''
             }
         }
@@ -102,9 +96,11 @@ podTemplate(
                     
                     whoami
                     
+                    pwd
+                    cat ./env-config
                     . ./env-config
                     
-                    cat ./env-config
+ 
 
                     if [[ -z "${APIKEY}" ]]; then
                       echo "APIKEY is required"
