@@ -48,7 +48,7 @@ podTemplate(
         serviceAccount: 'jenkins'
 ) {
     node(buildLabel) {
-        container(name: 'node', shell: '/bin/bash') {
+        container(name: 'ibmcloud', shell: '/bin/bash') {
             checkout scm
             stage('Setup') {
                 sh '''#!/bin/bash
