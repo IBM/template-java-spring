@@ -60,6 +60,9 @@ podTemplate(
                     # Export project name, version, and build number to ./env-config
                     npm run env | grep "^npm_package_name" | sed "s/npm_package_name/IMAGE_NAME/g"  > ./env-config
                     npm run env | grep "^npm_package_version" | sed "s/npm_package_version/IMAGE_VERSION/g" >> ./env-config
+                    
+                    cat ./env_config
+                    pwd
                 '''
             }
         }

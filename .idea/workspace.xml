@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f81a2f7f-94df-4279-9618-d7a0b41e8afd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ibm/health/HealthEndpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ibm/health/HealthEndpoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -73,7 +73,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/test/java/com/ibm/test" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../template-node-typescript/Jenkinsfile" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -218,7 +218,7 @@
       <workItem from="1565110635182" duration="606000" />
       <workItem from="1565111293552" duration="5029000" />
       <workItem from="1565308646536" duration="675000" />
-      <workItem from="1565636246079" duration="629000" />
+      <workItem from="1565636246079" duration="1241000" />
     </task>
     <task id="LOCAL-00001" summary="updates to support build with Jenkins">
       <created>1565055262978</created>
