@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 public class HealthEndpoint implements HealthIndicator {
 
-  @Override
-  @GetMapping("/health")
-  public Health health() {
-    /*
-    if (!healthy) {
-      return Health.down().withDetail("Not healthy", 500).build();
+    @Override
+    @GetMapping("/health")
+    public Health health() {
+        /*
+          if (!healthy) {
+           return Health.down().withDetail("Not healthy", 500).build();
+          }
+        */
+        return Health.up().build();
     }
-    */
-    return Health.up().build();
-  }
 }
