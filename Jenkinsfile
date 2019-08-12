@@ -6,7 +6,7 @@ podTemplate(
         containers: [
                 containerTemplate(
                         name: 'gradle',
-                        image: 'quay.io/quarkus/ubi-quarkus-native-image',
+                        image: 'registry.access.redhat.com/openshift3/jenkins-slave-base-rhel7',
                         command: 'cat',
                         ttyEnabled: true,
                         workingDir: '/home/jenkins',
@@ -25,7 +25,7 @@ podTemplate(
                 ),
                 containerTemplate(
                         name: 'ibmcloud',
-                        image: 'garagecatalyst/ibmcloud-dev:1.0.1-root',
+                        image: 'garagecatalyst/ibmcloud-dev:1.0.5',
                         ttyEnabled: true,
                         command: '/bin/bash',
                         workingDir: '/home/jenkins',
