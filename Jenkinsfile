@@ -53,11 +53,7 @@ podTemplate(
                     # Export project name, version, and build number to ./env-config
                     npm run env | grep "^npm_package_name" | sed "s/npm_package_name/IMAGE_NAME/g"  > ./env-config
                     npm run env | grep "^npm_package_version" | sed "s/npm_package_version/IMAGE_VERSION/g" >> ./env-config
-                    
-                    cat ./env-config
-                    pwd
-                    ls -al
-                    
+                    cat ./env-config                    
                 '''
             }
 
@@ -67,8 +63,7 @@ podTemplate(
             stage('Clean') {
                 sh '''
                     chmod +x gradlew
-                    echo "$GRADLE_USER_HOME"
-                    #./gradlew clean --no-daemon
+                    ./gradlew clean --no-daemon
                     
                     ls -al
                     cat ./env-config
@@ -76,29 +71,17 @@ podTemplate(
             }
             stage('Unit test') {
                 sh '''
-                    ./gradlew test --no-daemon
-                    
-                    ls -al
-                    cat ./env-config
-
+                    ./gradlew test --no-daemon                    
                 '''
             }
             stage('Lint and code coverage tests') {
                 sh '''
-                    ./gradlew check --no-daemon
-                    
-                    ls -al
-                    cat ./env-config
-
+                    ./gradlew check --no-daemon                    
                 '''
             }
             stage('Build') {
                 sh '''
-                    ./gradlew assemble --no-daemon
-                    # gradle build
-                    
-                    ls -al
-                    cat ./env-config
+                    ./gradlew assemble --no-daemon                    
                 '''
             }
         }
@@ -106,13 +89,11 @@ podTemplate(
             stage('Verify environment') {
                 sh '''#!/bin/bash
                     set -x
-                    
-                    whoami
-                    
+                                        
                     pwd
                     ls -al
                     cat ./env-config
-                    . env-config
+                    . ./env-config
 
                     if [[ -z "${APIKEY}" ]]; then
                       echo "APIKEY is required"
