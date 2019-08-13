@@ -9,7 +9,6 @@ podTemplate(
                         image: 'jenkins/slave:latest-jdk11',
                         command: 'cat',
                         ttyEnabled: true,
-                        workingDir: '/home/jenkins',
                         envVars: [
                                 envVar(key: 'GRADLE_USER_HOME', value: '/home/jenkins/.gradle/')
                         ]),
@@ -17,15 +16,13 @@ podTemplate(
                         name: 'node',
                         image: 'node:11-stretch',
                         ttyEnabled: true,
-                        command: '/bin/bash',
-                        workingDir: '/home/jenkins'
+                        command: '/bin/bash'
                 ),
                 containerTemplate(
                         name: 'ibmcloud',
                         image: 'garagecatalyst/ibmcloud-dev:1.0.5',
                         ttyEnabled: true,
                         command: '/bin/bash',
-                        workingDir: '/home/jenkins',
                         envVars: [
                                 envVar(key: 'APIURL', value: 'https://cloud.ibm.com'),
                                 secretEnvVar(key: 'APIKEY', secretName: 'ibmcloud-apikey', secretKey: 'password'),
