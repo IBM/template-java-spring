@@ -68,7 +68,7 @@ podTemplate(
                 sh '''
                     chmod +x gradlew
                     echo "$GRADLE_USER_HOME"
-                    ./gradlew clean --no-daemon
+                    #./gradlew clean --no-daemon
                     
                     ls -al
                     cat ./env-config
