@@ -60,12 +60,6 @@ podTemplate(
         }
         container(name: 'gradle', shell: '/bin/bash') {
             checkout scm
-            stage('Clean') {
-                sh '''
-                    chmod +x gradlew
-                    #./gradlew clean --no-daemon
-                '''
-            }
             stage('Unit test') {
                 sh '''
                     ./gradlew test --no-daemon                    
@@ -87,6 +81,8 @@ podTemplate(
                 sh '''#!/bin/bash
                     set -x
 
+                    . ./env-config
+                    
                     if [[ -z "${APIKEY}" ]]; then
                       echo "APIKEY is required"
                       exit 1
