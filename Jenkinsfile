@@ -63,6 +63,13 @@ podTemplate(
                     
                 '''
             }
+            stage("Check") {
+                sh '''#!/bin/bash
+
+                    cat ./env-config
+
+                '''
+            }
         }
         container(name: 'gradle', shell: '/bin/bash') {
             checkout scm
