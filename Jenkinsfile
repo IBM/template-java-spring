@@ -98,6 +98,9 @@ podTemplate(
                 sh '''
                     ./gradlew assemble --no-daemon
                     # gradle build
+                    
+                    ls -al
+                    cat ./env-config
                 '''
             }
         }
