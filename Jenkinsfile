@@ -63,7 +63,7 @@ podTemplate(
             stage('Clean') {
                 sh '''
                     chmod +x gradlew
-                    ./gradlew clean --no-daemon
+                    #./gradlew clean --no-daemon
                 '''
             }
             stage('Unit test') {
