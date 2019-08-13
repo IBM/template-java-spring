@@ -66,6 +66,7 @@ podTemplate(
             stage("Check") {
                 sh '''#!/bin/bash
 
+                    ls -al
                     cat ./env-config
 
                 '''
@@ -78,6 +79,9 @@ podTemplate(
                     chmod +x gradlew
                     echo "$GRADLE_USER_HOME"
                     ./gradlew clean --no-daemon
+                    
+                    ls -al
+                    cat ./env-config
                 '''
             }
             stage('Unit test') {
