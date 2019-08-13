@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f81a2f7f-94df-4279-9618-d7a0b41e8afd" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/templates/_helpers.tpl" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/templates/_helpers.tpl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/templates/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/templates/deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/templates/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/templates/ingress.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/values.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/values.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -223,7 +222,7 @@
       <workItem from="1565308646536" duration="675000" />
       <workItem from="1565636246079" duration="3201000" />
       <workItem from="1565640862740" duration="3935000" />
-      <workItem from="1565721175659" duration="1814000" />
+      <workItem from="1565721175659" duration="2524000" />
     </task>
     <task id="LOCAL-00001" summary="updates to support build with Jenkins">
       <created>1565055262978</created>
