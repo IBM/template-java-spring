@@ -60,14 +60,7 @@ podTemplate(
                     
                 '''
             }
-            stage("Check") {
-                sh '''#!/bin/bash
 
-                    ls -al
-                    cat ./env-config
-
-                '''
-            }
         }
         container(name: 'gradle', shell: '/bin/bash') {
             checkout scm
@@ -84,11 +77,19 @@ podTemplate(
             stage('Unit test') {
                 sh '''
                     ./gradlew test --no-daemon
+                    
+                    ls -al
+                    cat ./env-config
+
                 '''
             }
             stage('Lint and code coverage tests') {
                 sh '''
                     ./gradlew check --no-daemon
+                    
+                    ls -al
+                    cat ./env-config
+
                 '''
             }
             stage('Build') {
