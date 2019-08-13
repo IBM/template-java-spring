@@ -127,6 +127,9 @@ podTemplate(
                 sh '''#!/bin/bash
                     set -x
                     
+                    ls -al
+                    cat ./env-config
+                    
                     . ./env-config
 
                     echo "Checking registry namespace: ${REGISTRY_NAMESPACE}"
