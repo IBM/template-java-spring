@@ -64,9 +64,6 @@ podTemplate(
                 sh '''
                     chmod +x gradlew
                     ./gradlew clean --no-daemon
-                    
-                    ls -al
-                    cat ./env-config
                 '''
             }
             stage('Unit test') {
@@ -89,11 +86,6 @@ podTemplate(
             stage('Verify environment') {
                 sh '''#!/bin/bash
                     set -x
-                                        
-                    pwd
-                    ls -al
-                    cat ./env-config
-                    . ./env-config
 
                     if [[ -z "${APIKEY}" ]]; then
                       echo "APIKEY is required"
