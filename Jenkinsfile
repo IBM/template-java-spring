@@ -59,6 +59,7 @@ podTemplate(
                     
                     cat ./env-config
                     pwd
+                    ls -al
                     
                 '''
             }
@@ -97,6 +98,7 @@ podTemplate(
                     whoami
                     
                     pwd
+                    ls -al
                     cat ./env-config
                     . env-config
 
