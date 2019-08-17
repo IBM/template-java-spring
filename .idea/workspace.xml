@@ -2,7 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f81a2f7f-94df-4279-9618-d7a0b41e8afd" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/chart/starter-kit-chart/templates/ingress.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chart/starter-kit-chart/values.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.cfignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/.helmignore" beforeDir="false" afterPath="$PROJECT_DIR$/chart/starter-kit-chart/.helmignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/Chart.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/starter-kit-chart/Chart.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/templates/NOTES.txt" beforeDir="false" afterPath="$PROJECT_DIR$/chart/starter-kit-chart/templates/NOTES.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/templates/_helpers.tpl" beforeDir="false" afterPath="$PROJECT_DIR$/chart/starter-kit-chart/templates/_helpers.tpl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/templates/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/starter-kit-chart/templates/deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/templates/ingress.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/templates/service.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/starter-kit-chart/templates/service.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/templates/tests/test-connection.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/values.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,35 +47,29 @@
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="template-spring-boot" type="f1a62948:ProjectNode" />
+                <item name="template-java-spring" type="f1a62948:ProjectNode" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="template-spring-boot" type="f1a62948:ProjectNode" />
+                <item name="template-java-spring" type="f1a62948:ProjectNode" />
                 <item name="Source Sets" type="e897c970:GradleViewContributor$SourceSetsNode" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="template-spring-boot" type="f1a62948:ProjectNode" />
+                <item name="template-java-spring" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="template-spring-boot" type="f1a62948:ProjectNode" />
+                <item name="template-java-spring" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="application" type="c8890929:TasksNode$1" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="template-spring-boot" type="f1a62948:ProjectNode" />
+                <item name="template-java-spring" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="build" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="template-spring-boot" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="verification" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -72,7 +87,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../template-node-typescript/chart/template-node-typescript/templates/_helpers.tpl" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../template-node-react/Jenkinsfile" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -86,18 +101,19 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.16961133" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
-    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/../template-node-typescript/chart/template-node-typescript/templates/_helpers.tpl" />
+    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/../template-node-react/Jenkinsfile" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/test/java/com/ibm/test" />
-      <recent name="$PROJECT_DIR$/src/main/java/com/ibm/health" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java/com/ibm/health" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
       <recent name="$PROJECT_DIR$/src/main" />
       <recent name="$PROJECT_DIR$/src/test/java" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/test/java/com/ibm/test" />
+      <recent name="$PROJECT_DIR$/src/main/java/com/ibm/health" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -112,7 +128,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.template-java-spring [bootRun]">
+  <component name="RunManager" selected="Gradle.template-java-spring [sonarqube]">
     <configuration name="template-java-spring [bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -144,6 +160,25 @@
         <option name="taskNames">
           <list>
             <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="template-java-spring [sonarqube]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="sonarqube" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -198,6 +233,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.template-java-spring [sonarqube]" />
         <item itemvalue="Gradle.template-java-spring [bootRun]" />
         <item itemvalue="Gradle.template-java-spring [test]" />
         <item itemvalue="Gradle.template-java-spring [testClasses]" />
@@ -222,6 +258,7 @@
       <workItem from="1565721175659" duration="2579000" />
       <workItem from="1565726885101" duration="1020000" />
       <workItem from="1565883829271" duration="9000" />
+      <workItem from="1566082341219" duration="1216000" />
     </task>
     <task id="LOCAL-00001" summary="updates to support build with Jenkins">
       <created>1565055262978</created>

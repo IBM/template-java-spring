@@ -39,11 +39,13 @@ buildscript {
 
         // needed for build-jaxb
         classpath("gradle.plugin.org.openrepose:gradle-jaxb-plugin:2.5.0")
+
+        classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1")
     }
 }
 
 // rootProject.name can be found in settings.gradle
-project.version = '0.1.0'
+project.version = '1.0.0'
 
 // Configuration provided to nested scripts
 ext {
@@ -92,6 +94,8 @@ apply from:   'gradle/build-springsleuth.gradle'
 apply from:   'gradle/build-githooks.gradle'
 // apply from:   'gradle/build-liberty.gradle'
 apply from:   'gradle/build-pact-provider.gradle'
+
+apply plugin: "org.sonarqube"
 
 ext['junit-jupiter.version']   = '${junitVersion}'
 

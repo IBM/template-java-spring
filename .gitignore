@@ -34,3 +34,5 @@ env-config
 node_modules/
 devops/tmp.cf.manifest.yml
 patch.diff
+
+pipeline-build-config.json
