@@ -108,7 +108,7 @@ spec:
                 sh '''#!/bin/bash
                     set -x
                     
-                    ./gradlew -Dsonar.login={$SONARQUBE_USER} -Dsonar.password=${SONARQUBE_PASSWORD} $-Dsonar.host=${SONARQUBE_URL} sonarqube
+                    ./gradlew -Dsonar.login={$SONARQUBE_USER} -Dsonar.password=${SONARQUBE_PASSWORD} -Dsonar.host=${SONARQUBE_URL} sonarqube
                 '''
             }
         }

@@ -2,28 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f81a2f7f-94df-4279-9618-d7a0b41e8afd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/chart/starter-kit-chart/templates/ingress.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chart/starter-kit-chart/values.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.cfignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/.helmignore" beforeDir="false" afterPath="$PROJECT_DIR$/chart/starter-kit-chart/.helmignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/Chart.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/starter-kit-chart/Chart.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/templates/NOTES.txt" beforeDir="false" afterPath="$PROJECT_DIR$/chart/starter-kit-chart/templates/NOTES.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/templates/_helpers.tpl" beforeDir="false" afterPath="$PROJECT_DIR$/chart/starter-kit-chart/templates/_helpers.tpl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/templates/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/starter-kit-chart/templates/deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/templates/ingress.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/templates/service.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/starter-kit-chart/templates/service.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/templates/tests/test-connection.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/values.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -258,7 +238,8 @@
       <workItem from="1565721175659" duration="2579000" />
       <workItem from="1565726885101" duration="1020000" />
       <workItem from="1565883829271" duration="9000" />
-      <workItem from="1566082341219" duration="1216000" />
+      <workItem from="1566082341219" duration="1350000" />
+      <workItem from="1566084060496" duration="20000" />
     </task>
     <task id="LOCAL-00001" summary="updates to support build with Jenkins">
       <created>1565055262978</created>
@@ -267,7 +248,14 @@
       <option name="project" value="LOCAL" />
       <updated>1565055262978</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="updates to support build with Jenkins">
+      <created>1566083576219</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1566083576219</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
