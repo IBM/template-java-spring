@@ -95,6 +95,10 @@ spec:
             }
             stage('Build') {
                 sh '''
+
+                    ls -al
+                    cat ./env-config
+
                     ./gradlew assemble --no-daemon                    
                 '''
             }
@@ -106,7 +110,12 @@ spec:
             }
             stage('Sonar scan') {
                 sh '''#!/bin/bash
-                    set -x                    
+                    set -x
+                    
+                    ls -al
+                    cat ./env-config
+
+                                        
                     ./gradlew -Dsonar.login=${SONARQUBE_USER} -Dsonar.password=${SONARQUBE_PASSWORD} -Dsonar.host.url=${SONARQUBE_URL} sonarqube
                 '''
             }
@@ -115,6 +124,9 @@ spec:
             stage('Verify environment') {
                 sh '''#!/bin/bash
                     set -x
+                    
+                    ls -al
+                    cat ./env-config
 
                     . ./env-config
                     
