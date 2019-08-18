@@ -82,7 +82,7 @@ spec:
 """
 ) {
     node(buildLabel) {
-        container(name: 'jdk11', shell: '/bin/bash') {
+        container(name: 'node', shell: '/bin/bash') {
             checkout scm
             stage('Setup') {
                 sh '''#!/bin/bash
@@ -92,8 +92,12 @@ spec:
                     npm run env | grep "^npm_package_version" | sed "s/npm_package_version/IMAGE_VERSION/g" >> ./env-config
                     echo "BUILD_NUMBER=${BUILD_NUMBER}" >> ./env-config
                 '''
+
             }
-            stage('Build') {
+        }
+        container(name: 'jdk11', shell: '/bin/bash') {
+
+                stage('Build') {
                 sh '''
 
                     ls -al
