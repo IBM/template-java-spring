@@ -65,7 +65,7 @@ public class LoggingFilter implements SimpleFilter {
     protected byte[] getRequestPayload(final HttpServletRequest request) {
         try {
             return ReaderHelper.readerToByteArray(request.getReader());
-        } catch (Throwable ex) {
+        } catch (Exception ex) {
             return "<error>".getBytes();
         }
     }

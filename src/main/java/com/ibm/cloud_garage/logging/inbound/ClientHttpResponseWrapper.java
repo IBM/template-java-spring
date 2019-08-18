@@ -46,11 +46,11 @@ public class ClientHttpResponseWrapper implements ClientHttpResponse {
     public HttpHeaders getHeaders() {
         HttpHeaders headers = new HttpHeaders();
 
-        response.getHeaderNames().forEach(headerName -> {
-            response.getHeaders(headerName).forEach(headerValue -> {
+        for (String headerName : response.getHeaderNames()) {
+            for (String headerValue : response.getHeaders(headerName)) {
                 headers.add(headerName, headerValue);
-            });
-        });
+            }
+        }
 
         return headers;
     }

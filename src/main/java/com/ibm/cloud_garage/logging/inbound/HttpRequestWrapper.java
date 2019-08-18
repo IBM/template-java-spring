@@ -59,11 +59,11 @@ public class HttpRequestWrapper implements HttpRequest {
     public HttpHeaders getHeaders() {
         HttpHeaders headers = new HttpHeaders();
 
-        new IterableEnumeration<>(request.getHeaderNames()).forEach(headerName -> {
-            new IterableEnumeration<>(request.getHeaders(headerName)).forEach(headerValue -> {
+        for (String headerName : new IterableEnumeration<>(request.getHeaderNames())) {
+            for (String headerValue : new IterableEnumeration<>(request.getHeaders(headerName))) {
                 headers.add(headerName, headerValue);
-            });
-        });
+            }
+        }
 
         return headers;
     }

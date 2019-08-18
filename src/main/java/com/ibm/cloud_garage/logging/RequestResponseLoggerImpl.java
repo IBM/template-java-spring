@@ -1,9 +1,9 @@
 package com.ibm.cloud_garage.logging;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -50,7 +50,7 @@ public class RequestResponseLoggerImpl implements RequestResponseLogger {
             try {
                 return objectMapper.readValue(body, Object.class);
             } catch (IOException e) {
-                return new String(body, Charset.forName("UTF-8"));
+                return new String(body, StandardCharsets.UTF_8);
             }
         } else {
             return null;
@@ -103,7 +103,7 @@ public class RequestResponseLoggerImpl implements RequestResponseLogger {
 
     protected Object getResponseBody(ClientHttpResponse response) {
         try {
-            if (response != null && response.getBody() != null) {
+            if (response != null) {
                 return objectMapper.readValue(response.getBody(), Object.class);
             } else {
                 return null;

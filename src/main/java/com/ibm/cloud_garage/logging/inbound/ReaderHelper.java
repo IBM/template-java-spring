@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 // didn't seem like it was worth bringing in that entire
 // package just for this functionality
 public final class ReaderHelper {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ReaderHelper.class);
 
     private ReaderHelper() {
         super();
