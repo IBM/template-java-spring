@@ -27,35 +27,29 @@
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="template-spring-boot" type="f1a62948:ProjectNode" />
+                <item name="template-java-spring" type="f1a62948:ProjectNode" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="template-spring-boot" type="f1a62948:ProjectNode" />
+                <item name="template-java-spring" type="f1a62948:ProjectNode" />
                 <item name="Source Sets" type="e897c970:GradleViewContributor$SourceSetsNode" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="template-spring-boot" type="f1a62948:ProjectNode" />
+                <item name="template-java-spring" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="template-spring-boot" type="f1a62948:ProjectNode" />
+                <item name="template-java-spring" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="application" type="c8890929:TasksNode$1" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="template-spring-boot" type="f1a62948:ProjectNode" />
+                <item name="template-java-spring" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="build" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="template-spring-boot" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="verification" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -73,7 +67,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../template-node-typescript/chart/template-node-typescript/templates/_helpers.tpl" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../template-node-react/Jenkinsfile" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -87,18 +81,19 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.16961133" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
-    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/../template-node-typescript/chart/template-node-typescript/templates/_helpers.tpl" />
+    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/../template-node-react/Jenkinsfile" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/test/java/com/ibm/test" />
-      <recent name="$PROJECT_DIR$/src/main/java/com/ibm/health" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java/com/ibm/health" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
       <recent name="$PROJECT_DIR$/src/main" />
       <recent name="$PROJECT_DIR$/src/test/java" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/test/java/com/ibm/test" />
+      <recent name="$PROJECT_DIR$/src/main/java/com/ibm/health" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -113,7 +108,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.template-java-spring [bootRun]">
+  <component name="RunManager" selected="Gradle.template-java-spring [sonarqube]">
     <configuration name="template-java-spring [bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -145,6 +140,25 @@
         <option name="taskNames">
           <list>
             <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="template-java-spring [sonarqube]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="sonarqube" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -199,6 +213,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.template-java-spring [sonarqube]" />
         <item itemvalue="Gradle.template-java-spring [bootRun]" />
         <item itemvalue="Gradle.template-java-spring [test]" />
         <item itemvalue="Gradle.template-java-spring [testClasses]" />
@@ -221,7 +236,10 @@
       <workItem from="1565636246079" duration="3201000" />
       <workItem from="1565640862740" duration="3935000" />
       <workItem from="1565721175659" duration="2579000" />
-      <workItem from="1565726885101" duration="663000" />
+      <workItem from="1565726885101" duration="1020000" />
+      <workItem from="1565883829271" duration="9000" />
+      <workItem from="1566082341219" duration="1350000" />
+      <workItem from="1566084060496" duration="2083000" />
     </task>
     <task id="LOCAL-00001" summary="updates to support build with Jenkins">
       <created>1565055262978</created>
@@ -230,7 +248,14 @@
       <option name="project" value="LOCAL" />
       <updated>1565055262978</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="updates to support build with Jenkins">
+      <created>1566083576219</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1566083576219</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

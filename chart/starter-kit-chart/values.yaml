@@ -1,0 +1,28 @@
+# Default values for starter-kit-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: replace
+  tag: replace
+  pullPolicy: IfNotPresent
+  port: 9080
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+
+#  host: hello
+  namespaceInHost: true
+  subdomain: containers.appdomain.cloud
+  path: "/"
+
+#  tlsSecretName: ""

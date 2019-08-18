@@ -69,14 +69,12 @@ public class RestTemplateBuilder {
     }
 
     protected RequestConfig buildRequestConfig(RestTemplateProperties restTemplateProperties) {
-        RequestConfig config = RequestConfig.custom()
+        return RequestConfig.custom()
                 .setSocketTimeout(restTemplateProperties.getSocketTimeOutInSeconds() * MILLISECONDS_PER_SECOND)
                 .setConnectTimeout(restTemplateProperties.getConnectTimeOutInSeconds() * MILLISECONDS_PER_SECOND)
                 .setConnectionRequestTimeout(
                         restTemplateProperties.getConnectionRequestTimeOutInSeconds() * MILLISECONDS_PER_SECOND)
                 .build();
-
-        return config;
     }
 
     protected HttpHost buildProxySettings(RestTemplateProperties restTemplateProperties) {
