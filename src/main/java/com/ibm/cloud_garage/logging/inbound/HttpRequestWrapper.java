@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
@@ -95,6 +96,11 @@ public class HttpRequestWrapper implements HttpRequest {
 
         @Override
         public T next() {
+
+            if(!hasNext()){
+                throw new NoSuchElementException();
+            }
+
             return enumeration.nextElement();
         }
     }

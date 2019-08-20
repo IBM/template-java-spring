@@ -11,7 +11,7 @@ import org.apache.http.protocol.HttpContext;
 
 public class HttpConnectionKeepAliveStrategy implements ConnectionKeepAliveStrategy {
     static final int MILLISECONDS_PER_SECOND = 1000;
-    private static final long MILLISECONDS_PER_MINUTE = 60 * MILLISECONDS_PER_SECOND;
+    private static final long MILLISECONDS_PER_MINUTE = 60L * MILLISECONDS_PER_SECOND;
     static final long DEFAULT_KEEP_ALIVE_DURATION = MILLISECONDS_PER_MINUTE;
 
     @Override

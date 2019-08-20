@@ -2,7 +2,6 @@ package com.ibm.cloud_garage.logging.inbound;
 
 import static com.ibm.cloud_garage.logging.inbound.ReaderHelper.readerToString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;

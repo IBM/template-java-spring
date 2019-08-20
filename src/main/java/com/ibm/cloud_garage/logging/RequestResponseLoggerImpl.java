@@ -2,7 +2,6 @@ package com.ibm.cloud_garage.logging;
 
 import java.io.IOException;
 import java.net.URI;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 

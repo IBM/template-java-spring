@@ -1,7 +1,5 @@
 package com.ibm.cloud_garage.rest_template;
 
-import java.util.Objects;
-
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 
 public class SimpleRestTemplateProperties implements RestTemplateProperties<SimpleRestTemplateProperties> {

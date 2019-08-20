@@ -8,9 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 // this functionality is available in apache.io package but
 // didn't seem like it was worth bringing in that entire
 // package just for this functionality
