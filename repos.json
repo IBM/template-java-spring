@@ -1,0 +1,6 @@
+[ {
+  "key" : "generic-local",
+  "type" : "LOCAL",
+  "url" : "http://artifactory.catalyst-team-iks-cluster.us-east.containers.appdomain.cloud/artifactory/generic-local",
+  "packageType" : "Generic"
+} ]

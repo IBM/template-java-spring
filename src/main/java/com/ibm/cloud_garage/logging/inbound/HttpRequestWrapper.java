@@ -82,7 +82,7 @@ public class HttpRequestWrapper implements HttpRequest {
         }
     }
 
-    private static class EnumerationIterator<T> implements Iterator<T> {
+    static class EnumerationIterator<T> implements Iterator<T> {
         private final Enumeration<T> enumeration;
 
         public EnumerationIterator(Enumeration<T> enumeration) {

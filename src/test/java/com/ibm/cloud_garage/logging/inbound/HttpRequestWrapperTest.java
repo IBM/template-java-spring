@@ -2,6 +2,7 @@ package com.ibm.cloud_garage.logging.inbound;
 
 import static junit.framework.TestCase.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -14,6 +15,8 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Vector;
 import javax.servlet.http.HttpServletRequest;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -186,18 +189,18 @@ public class HttpRequestWrapperTest {
             @Test
             @DisplayName("Then return HttpHeaders with single value")
             public void thenReturnHttpHeadersWithSingleValue() {
-                final Enumeration headerNames = mock(Enumeration.class);
-                when(headerNames.hasMoreElements()).thenReturn(true, false);
 
                 final String headerName = "header";
-                when(headerNames.nextElement()).thenReturn(headerName);
-
-                final Enumeration headers = mock(Enumeration.class);
-                when(headers.hasMoreElements()).thenReturn(true, true, false);
+                final Vector headerNamesVector= new Vector<String>();
+                headerNamesVector.add(headerName);
+                final Enumeration headerNames = headerNamesVector.elements();
 
                 final String value1 = "value1";
                 final String value2 = "value2";
-                when(headers.nextElement()).thenReturn(value1, value2);
+                final Vector headersVector= new Vector<String>();
+                headersVector.add(value1);
+                headersVector.add(value2);
+                final Enumeration headers = headersVector.elements();
 
                 when(requestMock.getHeaderNames()).thenReturn(headerNames);
                 when(requestMock.getHeaders(headerName)).thenReturn(headers);
@@ -209,4 +212,30 @@ public class HttpRequestWrapperTest {
             }
         }
     }
+
+    @Nested
+    @DisplayName("Given EnumerationIterator")
+    public class GivenEnumerationIterator {
+
+        @Nested
+        @DisplayName("When TrytoReadPassedTheEndofIterator")
+        public class WhenTrytoReadPassedTheEndofIterator {
+
+            @Test
+            @DisplayName("Then throw exception")
+            public void thenThrowException() {
+
+                Enumeration enumVar= new Vector<String>().elements();
+                HttpRequestWrapper.EnumerationIterator classUnderTest = new HttpRequestWrapper.EnumerationIterator(enumVar);
+
+                assertThrows(NoSuchElementException.class, () -> {
+                    classUnderTest.next();
+                });
+
+            }
+        }
+
+    }
+
+
 }
