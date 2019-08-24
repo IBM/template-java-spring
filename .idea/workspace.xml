@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f81a2f7f-94df-4279-9618-d7a0b41e8afd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -254,7 +255,7 @@
       <workItem from="1566238084450" duration="440000" />
       <workItem from="1566319975461" duration="1648000" />
       <workItem from="1566489631839" duration="1944000" />
-      <workItem from="1566612389219" duration="742000" />
+      <workItem from="1566612389219" duration="1009000" />
     </task>
     <task id="LOCAL-00001" summary="updates to support build with Jenkins">
       <created>1565055262978</created>
