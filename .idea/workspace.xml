@@ -5,17 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f81a2f7f-94df-4279-9618-d7a0b41e8afd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/stages/artifactory-stage.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/starter-kit-chart/.helmignore" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/.helmignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/starter-kit-chart/Chart.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/Chart.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/starter-kit-chart/templates/NOTES.txt" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/templates/NOTES.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/starter-kit-chart/templates/_helpers.tpl" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/templates/_helpers.tpl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/starter-kit-chart/templates/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/templates/deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/starter-kit-chart/templates/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/templates/ingress.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/starter-kit-chart/templates/service.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/templates/service.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/starter-kit-chart/values.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/values.yaml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -264,7 +254,7 @@
       <workItem from="1566238084450" duration="440000" />
       <workItem from="1566319975461" duration="1648000" />
       <workItem from="1566489631839" duration="1944000" />
-      <workItem from="1566612389219" duration="185000" />
+      <workItem from="1566612389219" duration="468000" />
     </task>
     <task id="LOCAL-00001" summary="updates to support build with Jenkins">
       <created>1565055262978</created>

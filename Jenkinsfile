@@ -22,6 +22,24 @@ kind: Pod
 spec:
   serviceAccountName: jenkins
   containers:
+    - name: jdk11
+      image: jenkins/slave:latest-jdk11
+      tty: true
+      command: ["/bin/bash"]
+      workingDir: ${workingDir}
+      envFrom:
+        - configMapRef:
+            name: pactbroker-config
+            optional: true
+        - configMapRef:
+            name: sonarqube-config
+            optional: true
+        - secretRef:
+            name: sonarqube-access
+            optional: true
+      env:
+        - name: HOME
+          value: ${workingDir}
     - name: node
       image: node:11-stretch
       tty: true
@@ -58,7 +76,7 @@ spec:
             optional: true
       env:
         - name: CHART_NAME
-          value: template-node-react
+          value: template-java-spring
         - name: CHART_ROOT
           value: chart
         - name: TMP_DIR
