@@ -5,11 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f81a2f7f-94df-4279-9618-d7a0b41e8afd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.8.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stages/artifactory-stage.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ibm/cloud_garage/logging/inbound/HttpRequestWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ibm/cloud_garage/logging/inbound/HttpRequestWrapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/ibm/cloud_garage/logging/inbound/HttpRequestWrapperTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/ibm/cloud_garage/logging/inbound/HttpRequestWrapperTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/starter-kit-chart/.helmignore" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/.helmignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/starter-kit-chart/Chart.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/Chart.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/starter-kit-chart/templates/NOTES.txt" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/templates/NOTES.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/starter-kit-chart/templates/_helpers.tpl" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/templates/_helpers.tpl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/starter-kit-chart/templates/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/templates/deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/starter-kit-chart/templates/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/templates/ingress.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/starter-kit-chart/templates/service.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/templates/service.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/starter-kit-chart/values.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/values.yaml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -79,7 +85,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../template-node-react/Jenkinsfile" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -98,16 +104,16 @@
     <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/../template-node-react/Jenkinsfile" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/test/java/com/ibm/test" />
+      <recent name="$PROJECT_DIR$/src/main/java/com/ibm/health" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java/com/ibm/health" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
       <recent name="$PROJECT_DIR$/src/main" />
       <recent name="$PROJECT_DIR$/src/test/java" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/src/test/java/com/ibm/test" />
-      <recent name="$PROJECT_DIR$/src/main/java/com/ibm/health" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -257,7 +263,8 @@
       <workItem from="1566084060496" duration="2083000" />
       <workItem from="1566238084450" duration="440000" />
       <workItem from="1566319975461" duration="1648000" />
-      <workItem from="1566489631839" duration="1503000" />
+      <workItem from="1566489631839" duration="1944000" />
+      <workItem from="1566612389219" duration="185000" />
     </task>
     <task id="LOCAL-00001" summary="updates to support build with Jenkins">
       <created>1565055262978</created>
@@ -299,11 +306,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/ibm/cloud_garage/logging/inbound/HttpRequestWrapperTest.java</url>
-          <line>192</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/com/ibm/cloud_garage/logging/inbound/HttpRequestWrapperTest.java</url>
           <line>207</line>

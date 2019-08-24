@@ -22,24 +22,6 @@ kind: Pod
 spec:
   serviceAccountName: jenkins
   containers:
-    - name: jdk11
-      image: jenkins/slave:latest-jdk11
-      tty: true
-      command: ["/bin/bash"]
-      workingDir: ${workingDir}
-      envFrom:
-        - configMapRef:
-            name: pactbroker-config
-            optional: true
-        - configMapRef:
-            name: sonarqube-config
-            optional: true
-        - secretRef:
-            name: sonarqube-access
-            optional: true
-      env:
-        - name: HOME
-          value: ${workingDir}
     - name: node
       image: node:11-stretch
       tty: true
@@ -68,9 +50,15 @@ spec:
             name: ibmcloud-config
         - secretRef:
             name: ibmcloud-apikey
+        - configMapRef:
+            name: artifactory-config
+            optional: true
+        - secretRef:
+            name: artifactory-access
+            optional: true
       env:
         - name: CHART_NAME
-          value: starter-kit-chart
+          value: template-node-react
         - name: CHART_ROOT
           value: chart
         - name: TMP_DIR
@@ -92,7 +80,6 @@ spec:
                     npm run env | grep "^npm_package_version" | sed "s/npm_package_version/IMAGE_VERSION/g" >> ./env-config
                     echo "BUILD_NUMBER=${BUILD_NUMBER}" >> ./env-config
                 '''
-
             }
         }
         container(name: 'jdk11', shell: '/bin/bash') {
@@ -120,9 +107,11 @@ spec:
             stage('Verify environment') {
                 sh '''#!/bin/bash
                     set -x
-
-                    . ./env-config
                     
+                    whoami
+                    
+                    . ./env-config
+
                     if [[ -z "${APIKEY}" ]]; then
                       echo "APIKEY is required"
                       exit 1
@@ -236,6 +225,61 @@ spec:
                     # ${SCRIPT_ROOT}/deploy-checkstatus.sh ${ENVIRONMENT_NAME} ${IMAGE_NAME} ${IMAGE_REPOSITORY} ${IMAGE_VERSION}
                 '''
             }
+            stage('Package Helm Chart') {
+                sh '''#!/bin/bash
+                    set -x
+
+                    . ./env-config
+
+                    if [[ -n "${BUILD_NUMBER}" ]]; then
+                      IMAGE_BUILD_VERSION="${IMAGE_VERSION}-${BUILD_NUMBER}"
+                    fi
+
+                    if [[ -z "${ARTIFACTORY_ENCRPT}" ]]; then
+                        echo "Encrption key not available for Jenkins pipeline, please add it to the artifactory-access"
+                        exit 1
+                    fi
+
+                    sudo apt-get install jq.
+
+                    # Check if a Generic Local Repo has been created and retrieve the URL for it
+                    export URL=$(curl -u${ARTIFACTORY_USER}:${ARTIFACTORY_PASSWORD} -X GET "${ARTIFACTORY_URL}/artifactory/api/repositories?type=LOCAL" | jq '.[0].url' | tr -d \\")
+                    echo ${URL}
+
+                    # Check if the URL is valid and we can continue
+                    if [ -n "${URL}" ]; then
+                        echo "Successfully read Repo ${URL}"
+                    else
+                        echo "No Repository Created"
+                        exit 1;
+                    fi;
+
+                    # Package Helm Chart
+                    helm package --version ${IMAGE_BUILD_VERSION} chart/${CHART_NAME}
+
+                    # Get the index and re index it with current Helm Chart
+                    curl -u${ARTIFACTORY_USER}:${ARTIFACTORY_ENCRPT} -O "${URL}/${REGISTRY_NAMESPACE}/index.yaml"
+
+                    if [[ $(cat index.yaml | jq '.errors[0].status') != "404" ]]; then
+                        # Merge the chart index with the current index.yaml held in Artifactory
+                        echo "Merging Chart into index.yaml for Chart Repository"
+                        helm repo index . --url ${URL}/${REGISTRY_NAMESPACE} --merge index.yaml
+                    else
+                        # Dont Merge this is first time one is being created
+                        echo "Creating a new index.yaml for Chart Repository"
+                        rm index.yaml
+                        helm repo index . --url ${URL}/${REGISTRY_NAMESPACE}
+                    fi;
+
+                    # Persist the Helm Chart in Artifactory for us by ArgoCD
+                    curl -u${ARTIFACTORY_USER}:${ARTIFACTORY_ENCRPT} -i -vvv -T ${CHART_NAME}-${IMAGE_BUILD_VERSION}.tgz "${URL}/${REGISTRY_NAMESPACE}/${CHART_NAME}-${IMAGE_BUILD_VERSION}.tgz"
+
+                    # Persist the Helm Chart in Artifactory for us by ArgoCD
+                    curl -u${ARTIFACTORY_USER}:${ARTIFACTORY_ENCRPT} -i -vvv -T index.yaml "${URL}/${REGISTRY_NAMESPACE}/index.yaml"
+
+                '''
+            }
+
             stage('Health Check') {
                 sh '''#!/bin/bash
                     . ./env-config
