@@ -69,6 +69,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="Jenkins.Settings">
+    <option name="username" value="admin" />
+    <option name="jenkinsVersion" value="VERSION_2" />
+  </component>
   <component name="PackageJsonUpdateNotifier">
     <dismissed value="$PROJECT_DIR$/package.json" />
   </component>
@@ -93,7 +97,7 @@
     <property name="project.structure.side.proportion" value="0.16961133" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="editing.templates" />
+    <property name="settings.editor.selected.configurable" value="preferences.Jenkins" />
     <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/../template-node-react/Jenkinsfile" />
   </component>
   <component name="RecentsManager">
@@ -259,7 +263,9 @@
       <workItem from="1566489631839" duration="1944000" />
       <workItem from="1566612389219" duration="1120000" />
       <workItem from="1566841251715" duration="322000" />
-      <workItem from="1567355089178" duration="833000" />
+      <workItem from="1567355089178" duration="2096000" />
+      <workItem from="1567715992923" duration="226000" />
+      <workItem from="1568062570890" duration="415000" />
     </task>
     <task id="LOCAL-00001" summary="updates to support build with Jenkins">
       <created>1565055262978</created>
