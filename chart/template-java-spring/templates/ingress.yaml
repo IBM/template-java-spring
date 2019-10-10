@@ -1,5 +1,7 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "starter-kit-chart.fullname" . -}}
+{{- $namespace := .Release.Namespace -}}
+{{- $requestType := .Values.ingress.appid.requestType -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
