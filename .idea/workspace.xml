@@ -5,7 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f81a2f7f-94df-4279-9618-d7a0b41e8afd" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.classpath" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.project" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.buildship.core.prefs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/templates/NOTES.txt" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/templates/NOTES.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/templates/_helpers.tpl" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/templates/_helpers.tpl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/templates/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/templates/deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/templates/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/templates/ingress.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/templates/service.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/templates/service.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/template-java-spring/values.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/template-java-spring/values.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/devops/cf.manifest.dev.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/devops/deploy.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/devops/deploy.template" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pipeline-build-config.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/repos.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/stages/artifactory-stage.txt" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -82,7 +100,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../template-node-react/Jenkinsfile" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../template-node-typescript/chart/template-node-typescript/templates/_helpers.tpl" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -98,19 +116,19 @@
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.Jenkins" />
-    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/../template-node-react/Jenkinsfile" />
+    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/../template-node-typescript/chart/template-node-typescript/templates/_helpers.tpl" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/src/test/java/com/ibm/test" />
-      <recent name="$PROJECT_DIR$/src/main/java/com/ibm/health" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java/com/ibm/health" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
       <recent name="$PROJECT_DIR$/src/main" />
       <recent name="$PROJECT_DIR$/src/test/java" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/test/java/com/ibm/test" />
+      <recent name="$PROJECT_DIR$/src/main/java/com/ibm/health" />
     </key>
   </component>
   <component name="RunDashboard">

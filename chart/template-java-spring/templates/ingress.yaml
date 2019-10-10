@@ -1,27 +1,27 @@
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "stater-kit-chart.fullname" . -}}
+{{- $fullName := include "starter-kit-chart.fullname" . -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    app.kubernetes.io/name: {{ include "stater-kit-chart.name" . }}
-    helm.sh/chart: {{ include "stater-kit-chart.chart" . }}
+    app.kubernetes.io/name: {{ include "starter-kit-chart.name" . }}
+    helm.sh/chart: {{ include "starter-kit-chart.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app: {{ .Release.Name }}
-  {{- with .Values.ingress.annotations }}
+  {{- if .Values.ingress.appid.enabled }}
   annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+    ingress.bluemix.net/appid-auth: {{ printf "bindSecret=%s namespace=%s requestType=%s serviceName=%s" (required "AppId binding is required to enable auth on the ingress" .Values.appidBinding) $namespace $requestType $fullName }}
+  {{- end}}
 spec:
-{{- if .Values.ingress.tlsSecretName }}
+{{- if include "starter-kit-chart.tlsSecretName" . }}
   tls:
     - hosts:
-        - {{ include "stater-kit-chart.host" . }}
-      secretName: {{ .Values.ingress.tlsSecretName }}
+        - {{ include "starter-kit-chart.host" . }}
+      secretName: {{ include "starter-kit-chart.tlsSecretName" . }}
 {{- end }}
   rules:
-    - host: {{ include "stater-kit-chart.host" . }}
+    - host: {{ include "starter-kit-chart.host" . }}
       http:
         paths:
           - path: {{ .path }}
