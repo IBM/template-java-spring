@@ -11,7 +11,7 @@ spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "template-node-typescript.name" . }}
+      app.kubernetes.io/name: {{ include "starter-kit-chart.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
