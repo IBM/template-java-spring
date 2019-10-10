@@ -40,6 +40,8 @@ spec:
       env:
         - name: HOME
           value: ${workingDir}
+        - name: SONAR_USER_HOME
+          value: ${workingDir}
     - name: node
       image: node:11-stretch
       tty: true
