@@ -39,7 +39,7 @@ npm i -g @garage-catalyst/ibm-garage-cloud-cli
 
 Use the IBM Garage for Cloud CLI to register the GIT Repo with Jenkins 
 ```$bash
-igc register
+igc pipeline
 ```
 
 ### Building Locally
