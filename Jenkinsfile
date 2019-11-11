@@ -11,14 +11,15 @@
  */
 
 def buildAgentName(String jobName, String buildNumber) {
-    if (jobName.length() > 40) {
-        jobName = jobName.substring(0, 40);
+    if (jobName.length() > 55) {
+        jobName = jobName.substring(0, 55);
     }
 
-    return "agent.${jobName}.${buildNumber}".replace('_', '-').replace('/', '-').replace('-.', '.');
+    return "a.${jobName}.${buildNumber}".replace('_', '-').replace('/', '-').replace('-.', '.');
 }
 
 def buildLabel = buildAgentName(env.JOB_NAME, env.BUILD_NUMBER);
+def namespace = env.NAMESPACE ?: "dev"
 def cloudName = env.CLOUD_NAME == "openshift" ? "openshift" : "kubernetes"
 def workingDir = env.CLOUD_NAME == "openshift" ? "/home/jenkins" : "/home/jenkins/agent"
 podTemplate(
@@ -97,7 +98,7 @@ spec:
         - name: HOME
           value: /home/devops
         - name: ENVIRONMENT_NAME
-          value: dev
+          value: ${env.NAMESPACE}
         - name: BUILD_NUMBER
           value: ${env.BUILD_NUMBER}
 """
@@ -107,9 +108,9 @@ spec:
             checkout scm
             stage('Setup') {
                 sh '''#!/bin/bash
-                    set -x
-                    # Export project name (lowercase), version, and build number to ./env-config
-                    npm run env | grep "^npm_package_name" | tr '[:upper:]' '[:lower:]' | sed "s/_/-/g" | sed "s/npm-package-name/IMAGE_NAME/g" > ./env-config
+                    # Export project name, version, and build number to ./env-config
+                    IMAGE_NAME=$(basename -s .git `git config --get remote.origin.url` | tr '[:upper:]' '[:lower:]' | sed "s/_/-/g")
+                    echo "IMAGE_NAME=${IMAGE_NAME}" > ./env-config
                     npm run env | grep "^npm_package_version" | sed "s/npm_package_version/IMAGE_VERSION/g" >> ./env-config
                     echo "BUILD_NUMBER=${BUILD_NUMBER}" >> ./env-config
                     cat ./env-config
@@ -120,13 +121,11 @@ spec:
 
                 stage('Build') {
                 sh '''
-                    set -x
-                    ./gradlew assemble --no-daemon                    
+                    ./gradlew assemble --no-daemon
                 '''
             }
             stage('Test') {
                 sh '''#!/bin/bash
-                    set -x
                     ./gradlew testClasses --no-daemon
                 '''
             }
@@ -138,51 +137,38 @@ spec:
                   exit 0
                 fi
 
-                set -x
                 ./gradlew -Dsonar.login=${SONARQUBE_USER} -Dsonar.password=${SONARQUBE_PASSWORD} -Dsonar.host.url=${SONARQUBE_URL} sonarqube
                 '''
             }
         }
         container(name: 'ibmcloud', shell: '/bin/bash') {
-
             stage('Build image') {
                 sh '''#!/bin/bash
-                    set -x
-                    
                     . ./env-config
 
-                    echo "Checking registry namespace: ${REGISTRY_NAMESPACE}"
-                    NS=$( ibmcloud cr namespaces | grep ${REGISTRY_NAMESPACE} ||: )
-                    if [[ -z "${NS}" ]]; then
-                        echo -e "Registry namespace ${REGISTRY_NAMESPACE} not found, creating it."
-                        ibmcloud cr namespace-add ${REGISTRY_NAMESPACE}
-                    else
-                        echo -e "Registry namespace ${REGISTRY_NAMESPACE} found."
-                    fi
-
-                    echo -e "Existing images in registry"
-                    ibmcloud cr images --restrict "${REGISTRY_NAMESPACE}/${IMAGE_NAME}"
-                    
                     echo -e "=========================================================================================="
                     echo -e "BUILDING CONTAINER IMAGE: ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}:${IMAGE_VERSION}"
                     set -x
                     ibmcloud cr build -t ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}:${IMAGE_VERSION} .
+                    if [[ $? -ne 0 ]]; then
+                      exit 1
+                    fi
+
                     if [[ -n "${BUILD_NUMBER}" ]]; then
                         echo -e "BUILDING CONTAINER IMAGE: ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}:${IMAGE_VERSION}-${BUILD_NUMBER}"
                         ibmcloud cr image-tag ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}:${IMAGE_VERSION} ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}:${IMAGE_VERSION}-${BUILD_NUMBER}
                     fi
-                    
-                    echo -e "Available images in registry"
-                    ibmcloud cr images --restrict ${REGISTRY_NAMESPACE}/${IMAGE_NAME}
                 '''
             }
             stage('Deploy to DEV env') {
                 sh '''#!/bin/bash
-                    set -x
-
                     . ./env-config
                     
-                    CHART_PATH="${CHART_ROOT}/${CHART_NAME}"
+                    if [[ "${CHART_NAME}" != "${IMAGE_NAME}" ]]; then
+                      cp -R "${CHART_ROOT}/${CHART_NAME}" "${CHART_ROOT}/${IMAGE_NAME}"
+                      cat "${CHART_ROOT}/${CHART_NAME}/Chart.yaml" | \
+                          yq w - name "${IMAGE_NAME}" > "${CHART_ROOT}/${IMAGE_NAME}/Chart.yaml"
+                    fi
 
                     echo "KUBECONFIG=${KUBECONFIG}"
 
@@ -250,7 +236,6 @@ spec:
             }
             stage('Package Helm Chart') {
                 sh '''#!/bin/bash
-                set -x
 
                 if [[ -z "${ARTIFACTORY_ENCRPT}" ]]; then
                   echo "Skipping Artifactory step as Artifactory is not installed or configured"
@@ -268,9 +253,6 @@ spec:
                     exit 1
                 fi
 
-                sudo apt-get install jq.
-
-                # Check if a Generic Local Repo has been created and retrieve the URL for it
                 export URL=$(curl -u${ARTIFACTORY_USER}:${ARTIFACTORY_PASSWORD} -X GET "${ARTIFACTORY_URL}/artifactory/api/repositories?type=LOCAL" | jq '.[0].url' | tr -d \\")
                 echo ${URL}
 
@@ -283,7 +265,7 @@ spec:
                 fi;
 
                 # Package Helm Chart
-                helm package --version ${IMAGE_BUILD_VERSION} chart/${CHART_NAME}
+                helm package --version ${IMAGE_BUILD_VERSION} ${CHART_ROOT}/${CHART_NAME}
 
                 # Get the index and re index it with current Helm Chart
                 curl -u${ARTIFACTORY_USER}:${ARTIFACTORY_ENCRPT} -O "${URL}/${REGISTRY_NAMESPACE}/index.yaml"
