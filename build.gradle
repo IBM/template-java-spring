@@ -104,6 +104,8 @@ repositories {
 }
 
 task copyJarToServerJar(type: Copy) {
-    from "build/libs/${project.name}-${project.version}.jar"
-    into "build/libs/server.jar"
+    from ('build/libs') {
+        rename "${project.name}-${project.version}.jar", 'server.jar'
+    }
+    into 'build/libs'
 }
