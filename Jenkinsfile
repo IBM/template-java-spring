@@ -98,7 +98,7 @@ spec:
         - name: HOME
           value: /home/devops
         - name: ENVIRONMENT_NAME
-          value: ${env.NAMESPACE}
+          value: ${namespace}
         - name: BUILD_NUMBER
           value: ${env.BUILD_NUMBER}
 """
@@ -170,6 +170,8 @@ spec:
                           yq w - name "${IMAGE_NAME}" > "${CHART_ROOT}/${IMAGE_NAME}/Chart.yaml"
                     fi
 
+                    CHART_PATH="${CHART_ROOT}/${IMAGE_NAME}"
+
                     echo "KUBECONFIG=${KUBECONFIG}"
 
                     RELEASE_NAME="${IMAGE_NAME}"
@@ -184,14 +186,15 @@ spec:
                     
                     echo "CHECKING CHART (lint)"
                     helm lint ${CHART_PATH}
+                    if [[ $? -ne 0 ]]; then
+                      exit 1
+                    fi
                     
                     IMAGE_REPOSITORY="${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}"
                     PIPELINE_IMAGE_URL="${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}:${IMAGE_VERSION}"
                     
                     # Update helm chart with repository and tag values
                     cat ${CHART_PATH}/values.yaml | \
-                        yq w - nameOverride "${IMAGE_NAME}" | \
-                        yq w - fullnameOverride "${IMAGE_NAME}" | \
                         yq w - image.repository "${IMAGE_REPOSITORY}" | \
                         yq w - image.tag "${IMAGE_VERSION}" > ./values.yaml.tmp
                     cp ./values.yaml.tmp ${CHART_PATH}/values.yaml
@@ -265,7 +268,7 @@ spec:
                 fi;
 
                 # Package Helm Chart
-                helm package --version ${IMAGE_BUILD_VERSION} ${CHART_ROOT}/${CHART_NAME}
+                helm package --version ${IMAGE_BUILD_VERSION} ${CHART_ROOT}/${IMAGE_NAME}
 
                 # Get the index and re index it with current Helm Chart
                 curl -u${ARTIFACTORY_USER}:${ARTIFACTORY_ENCRPT} -O "${URL}/${REGISTRY_NAMESPACE}/index.yaml"
@@ -282,7 +285,7 @@ spec:
                 fi;
 
                 # Persist the Helm Chart in Artifactory for us by ArgoCD
-                curl -u${ARTIFACTORY_USER}:${ARTIFACTORY_ENCRPT} -i -vvv -T ${CHART_NAME}-${IMAGE_BUILD_VERSION}.tgz "${URL}/${REGISTRY_NAMESPACE}/${CHART_NAME}-${IMAGE_BUILD_VERSION}.tgz"
+                curl -u${ARTIFACTORY_USER}:${ARTIFACTORY_ENCRPT} -i -vvv -T ${IMAGE_NAME}-${IMAGE_BUILD_VERSION}.tgz "${URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}-${IMAGE_BUILD_VERSION}.tgz"
 
                 # Persist the Helm Chart in Artifactory for us by ArgoCD
                 curl -u${ARTIFACTORY_USER}:${ARTIFACTORY_ENCRPT} -i -vvv -T index.yaml "${URL}/${REGISTRY_NAMESPACE}/index.yaml"
@@ -319,7 +322,7 @@ spec:
                     
                     # Write the updated requirements.yaml
                     echo "dependencies:" > ./requirements.yaml.tmp
-                    echo "  - name: ${CHART_NAME}" >> ./requirements.yaml.tmp
+                    echo "  - name: ${IMAGE_NAME}" >> ./requirements.yaml.tmp
                     echo "    version: ${IMAGE_BUILD_VERSION}" >> ./requirements.yaml.tmp
                     echo "    repository: ${HELM_REPO}" >> ./requirements.yaml.tmp
                     
