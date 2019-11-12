@@ -9,9 +9,9 @@
     "verify:pact": "./gradlew pactVerify",
     "clean": "./gradlew clean",
     "test": "./gradlew test",
-    "test:pact": "yarn test && ./pact-validate-provider.sh ./build/pacts",
+    "test:pact": "npm test && ./pact-validate-provider.sh ./build/pacts",
     "publish:pact": "./gradlew pactPublish",
-    "start": "yarn start:liberty",
+    "start": "npm run start:tomcat",
     "start:tomcat": "./gradlew bootRun",
     "start:liberty": "./gradlew libertyRun"
   },
@@ -22,8 +22,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "swagger-mock-validator": "^4.0.1",
-    "yarn": "^1.17.3"
+    "swagger-mock-validator": "^4.0.1"
   },
   "dependencies": {},
   "engines": {

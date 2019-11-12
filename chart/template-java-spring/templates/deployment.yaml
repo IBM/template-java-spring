@@ -41,6 +41,8 @@ spec:
               path: /
               port: http
           env:
+            - name: IMAGE_NAME
+              value: {{ .Chart.Name | quote }}
             - name: INGRESS_HOST
               value: {{ include "starter-kit-chart.host" . }}
             - name: PROTOCOLS
