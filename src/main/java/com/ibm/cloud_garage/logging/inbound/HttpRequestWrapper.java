@@ -97,7 +97,7 @@ public class HttpRequestWrapper implements HttpRequest {
         @Override
         public T next() {
 
-            if(!hasNext()){
+            if (!hasNext()) {
                 throw new NoSuchElementException();
             }
 

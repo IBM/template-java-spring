@@ -191,13 +191,13 @@ public class HttpRequestWrapperTest {
             public void thenReturnHttpHeadersWithSingleValue() {
 
                 final String headerName = "header";
-                final Vector headerNamesVector= new Vector<String>();
+                final Vector headerNamesVector = new Vector<String>();
                 headerNamesVector.add(headerName);
                 final Enumeration headerNames = headerNamesVector.elements();
 
                 final String value1 = "value1";
                 final String value2 = "value2";
-                final Vector headersVector= new Vector<String>();
+                final Vector headersVector = new Vector<String>();
                 headersVector.add(value1);
                 headersVector.add(value2);
                 final Enumeration headers = headersVector.elements();
@@ -225,8 +225,9 @@ public class HttpRequestWrapperTest {
             @DisplayName("Then throw exception")
             public void thenThrowException() {
 
-                Enumeration enumVar= new Vector<String>().elements();
-                HttpRequestWrapper.EnumerationIterator classUnderTest = new HttpRequestWrapper.EnumerationIterator(enumVar);
+                Enumeration enumVar = new Vector<String>().elements();
+                HttpRequestWrapper.EnumerationIterator classUnderTest =
+                        new HttpRequestWrapper.EnumerationIterator(enumVar);
 
                 assertThrows(NoSuchElementException.class, () -> {
                     classUnderTest.next();
