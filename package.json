@@ -1,0 +1,33 @@
+{
+  "name": "template-java-spring",
+  "version": "1.0.0",
+  "description": "Spring Boot application",
+  "main": "index.js",
+  "scripts": {
+    "build": "./gradlew assemble",
+    "verify": "./gradlew check",
+    "verify:pact": "./gradlew pactVerify",
+    "clean": "./gradlew clean",
+    "tdd": "./gradlew test --continuous",
+    "test": "./gradlew test",
+    "test:pact": "npm test && ./pact-validate-provider.sh ./build/pacts",
+    "publish:pact": "./gradlew pactPublish",
+    "start": "npm run start:tomcat",
+    "start:tomcat": "./gradlew bootRun",
+    "start:liberty": "./gradlew libertyRun"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.ibm.com:seansund/template-spring-boot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "swagger-mock-validator": "^4.0.1"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">= v8.11.1",
+    "npm": ">= 5.6.0"
+  }
+}
