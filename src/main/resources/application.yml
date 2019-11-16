@@ -32,7 +32,7 @@ server:
 
 logging:
   level:
-    ROOT: INFO
+    ROOT: ${LOG_LEVEL:INFO}
     com.ibm.hello: DEBUG
     com.ibm.cloud_garage: DEBUG
     org.springframework: ERROR
