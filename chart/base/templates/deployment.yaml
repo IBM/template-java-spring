@@ -41,7 +41,6 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-
           ports:
             - name: http
               containerPort: {{ .Values.image.port }}
@@ -55,12 +54,25 @@ spec:
               path: /
               port: http
           env:
+            - name: IMAGE_NAME
+              value: {{ .Chart.Name | quote }}
             - name: INGRESS_HOST
               value: ""
             - name: PROTOCOLS
               value: ""
             - name: LOG_LEVEL
               value: {{ .Values.logLevel | quote }}
+            {{- if .Values.cloudantBinding }}
+            - name: CLOUDANT_CONFIG
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.cloudantBinding | quote }}
+                  key: binding
+            {{- end }}
+            {{- if .Values.databaseName }}
+            - name: DATABASE_NAME
+              value: {{ .Values.databaseName | quote }}
+            {{- end }}
           envFrom:
             - configMapRef:
                 name: {{ default "jaeger-config" .Values.jaegerConfigName }}
