@@ -1,0 +1,7 @@
+dependencies {
+    compile group: 'com.cloudant', name: 'cloudant-client', version: '2.17.0'
+    compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
+    compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.1'
+    compile group: 'joda-time', name: 'joda-time', version: '2.10.3'
+}
+
