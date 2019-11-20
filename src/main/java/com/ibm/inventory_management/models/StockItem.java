@@ -12,6 +12,7 @@ public class StockItem implements Serializable {
     public StockItem() {
         super();
     }
+
     public StockItem(String id) {
         this.id = id;
     }
@@ -19,9 +20,11 @@ public class StockItem implements Serializable {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+    
     public StockItem withName(String name) {
         this.setName(name);
         return this;
