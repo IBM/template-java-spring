@@ -39,7 +39,7 @@ npm i -g @garage-catalyst/ibm-garage-cloud-cli
 
 Use the IBM Garage for Cloud CLI to register the GIT Repo with Jenkins 
 ```$bash
-igc pipeline
+igc pipeline -n dev
 ```
 
 ### Building Locally
@@ -58,6 +58,10 @@ To build and run an application:
 1. `./gradlew build`
 2. `./gradlew bootRun`
 
+
+## More Details
+
+For more details on how to use this Starter Kit Template please review the [IBM Garage for Cloud Developer Tools Developer Guide](https://ibm-garage-cloud.github.io/ibm-garage-developer-guide/)
 
 ## Next Steps
 * Learn more about augmenting your Java applications on IBM Cloud with the [Java Programming Guide](https://cloud.ibm.com/docs/java?topic=java-getting-started).
