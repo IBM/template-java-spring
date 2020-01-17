@@ -1,6 +1,6 @@
 spring:
   application:
-    name: "template-spring-boot"
+    name: "${IMAGE_NAME:template-spring-boot}"
 
 hello:
   pattern: "Hello there, %s!"
@@ -12,7 +12,7 @@ swagger:
   baseApiPackage:
   - "com.ibm.hello"
   - "com.ibm.health"
-  title: "Sample API Documentation"
+  title: "${IMAGE_NAME:template-spring-boot}"
   description: "Description"
   version: "1.0.0"
   termsOfServiceUrl: ""
@@ -28,11 +28,11 @@ management:
         include: "*"
 
 server:
-  port: 9080
+  port: ${PORT:9080}
 
 logging:
   level:
-    ROOT: INFO
+    ROOT: ${LOG_LEVEL:INFO}
     com.ibm.hello: DEBUG
     com.ibm.cloud_garage: DEBUG
     org.springframework: ERROR

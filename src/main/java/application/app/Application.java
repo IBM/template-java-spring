@@ -1,4 +1,4 @@
-package com.ibm.hello.app;
+package application.app;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
