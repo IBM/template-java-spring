@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "starter-kit-chart.fullname" . }}
+  name: {{ include "starter-kit.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "starter-kit-chart.name" . }}
-    helm.sh/chart: {{ include "starter-kit-chart.chart" . }}
+    app.kubernetes.io/name: {{ include "starter-kit.name" . }}
+    helm.sh/chart: {{ include "starter-kit.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app: {{ .Release.Name }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "starter-kit-chart.name" . }}
+      app.kubernetes.io/name: {{ include "starter-kit.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "starter-kit-chart.name" . }}
+        app.kubernetes.io/name: {{ include "starter-kit.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       {{- if .Values.image.secretName }}
@@ -41,12 +41,10 @@ spec:
               path: /
               port: http
           env:
-            - name: IMAGE_NAME
-              value: {{ .Chart.Name | quote }}
             - name: INGRESS_HOST
-              value: {{ include "starter-kit-chart.host" . }}
+              value: {{ include "starter-kit.host" . }}
             - name: PROTOCOLS
-              value: {{ include "starter-kit-chart.protocols" . }}
+              value: {{ include "starter-kit.protocols" . }}
             - name: LOG_LEVEL
               value: {{ .Values.logLevel | quote }}
           resources:

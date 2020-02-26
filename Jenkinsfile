@@ -10,7 +10,9 @@
  * to run in both Kubernetes and OpenShift environments.
  */
 
-def buildAgentName(String jobName, String buildNumber) {
+def buildAgentName(String jobNameWithNamespace, String buildNumber, String namespace) {
+    def jobName = removeNamespaceFromJobName(jobNameWithNamespace, namespace);
+
     if (jobName.length() > 55) {
         jobName = jobName.substring(0, 55);
     }
@@ -18,7 +20,11 @@ def buildAgentName(String jobName, String buildNumber) {
     return "a.${jobName}${buildNumber}".replace('_', '-').replace('/', '-').replace('-.', '.');
 }
 
-def buildLabel = buildAgentName(env.JOB_NAME, env.BUILD_NUMBER);
+def removeNamespaceFromJobName(String jobName, String namespace) {
+    return jobName.replaceAll(namespace + "-", "");
+}
+
+def buildLabel = buildAgentName(env.JOB_NAME, env.BUILD_NUMBER, env.NAMESPACE);
 def namespace = env.NAMESPACE ?: "dev"
 def cloudName = env.CLOUD_NAME == "openshift" ? "openshift" : "kubernetes"
 def workingDir = "/home/jenkins/agent"
@@ -87,7 +93,7 @@ spec:
             optional: true
       env:
         - name: CHART_NAME
-          value: template-java-spring
+          value: base
         - name: CHART_ROOT
           value: chart
         - name: TMP_DIR
@@ -172,7 +178,9 @@ spec:
             stage('Deploy to DEV env') {
                 sh '''#!/bin/bash
                     . ./env-config
-                    
+
+                    set +x
+
                     if [[ "${CHART_NAME}" != "${IMAGE_NAME}" ]]; then
                       cp -R "${CHART_ROOT}/${CHART_NAME}" "${CHART_ROOT}/${IMAGE_NAME}"
                       cat "${CHART_ROOT}/${CHART_NAME}/Chart.yaml" | \
@@ -195,17 +203,23 @@ spec:
                     
                     echo "CHECKING CHART (lint)"
                     helm lint ${CHART_PATH}
-                    if [[ $? -ne 0 ]]; then
-                      exit 1
-                    fi
-                    
+
                     IMAGE_REPOSITORY="${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}"
                     PIPELINE_IMAGE_URL="${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}:${IMAGE_VERSION}"
-                    
+
+                    INGRESS_ENABLED="true"
+                    ROUTE_ENABLED="false"
+                    if [[ "${CLUSTER_TYPE}" == "openshift" ]]; then
+                        INGRESS_ENABLED="false"
+                        ROUTE_ENABLED="true"
+                    fi
+
                     # Update helm chart with repository and tag values
                     cat ${CHART_PATH}/values.yaml | \
                         yq w - image.repository "${IMAGE_REPOSITORY}" | \
-                        yq w - image.tag "${IMAGE_VERSION}" > ./values.yaml.tmp
+                        yq w - image.tag "${IMAGE_VERSION}" | \
+                        yq w - ingress.enabled "${INGRESS_ENABLED}" | \
+                        yq w - route.enabled "${ROUTE_ENABLED}" > ./values.yaml.tmp
                     cp ./values.yaml.tmp ${CHART_PATH}/values.yaml
                     cat ${CHART_PATH}/values.yaml
 
@@ -220,29 +234,31 @@ spec:
                     cat ./release.yaml
                     
                     echo -e "Deploying into: ${CLUSTER_NAME}/${ENVIRONMENT_NAME}."
-                    kubectl apply -n ${ENVIRONMENT_NAME} -f ./release.yaml
-
-                    # ${SCRIPT_ROOT}/deploy-checkstatus.sh ${ENVIRONMENT_NAME} ${IMAGE_NAME} ${IMAGE_REPOSITORY} ${IMAGE_VERSION}
+                    kubectl apply -n ${ENVIRONMENT_NAME} -f ./release.yaml --validate=false
                 '''
             }
             stage('Health Check') {
                 sh '''#!/bin/bash
                     . ./env-config
-                    
-                    INGRESS_NAME="${IMAGE_NAME}"
-                    INGRESS_HOST=$(kubectl get ingress/${INGRESS_NAME} --namespace ${ENVIRONMENT_NAME} --output=jsonpath='{ .spec.rules[0].host }')
-                    PORT='80'
+
+                    if [[ "${CLUSTER_TYPE}" == "openshift" ]]; then
+                        ROUTE_HOST=$(kubectl get route/${IMAGE_NAME} --namespace ${ENVIRONMENT_NAME} --output=jsonpath='{ .spec.host }')
+                        URL="https://${ROUTE_HOST}"
+                    else
+                        INGRESS_HOST=$(kubectl get ingress/${IMAGE_NAME} --namespace ${ENVIRONMENT_NAME} --output=jsonpath='{ .spec.rules[0].host }')
+                        URL="http://${INGRESS_HOST}"
+                    fi
 
                     # sleep for 10 seconds to allow enough time for the server to start
                     sleep 30
 
-                    if [ $(curl -sL -w "%{http_code}\\n" "http://${INGRESS_HOST}:${PORT}/health" -o /dev/null --connect-timeout 3 --max-time 5 --retry 3 --retry-max-time 30) == "200" ]; then
-                        echo "Successfully reached health endpoint: http://${INGRESS_HOST}:${PORT}/health"
-                    echo "====================================================================="
-                        else
-                    echo "Could not reach health endpoint: http://${INGRESS_HOST}:${PORT}/health"
-                        exit 1;
-                    fi;
+                    if [ $(curl -sL -w "%{http_code}\\n" "${URL}/health" -o /dev/null --connect-timeout 3 --max-time 5 --retry 3 --retry-max-time 30) == "200" ]; then
+                        echo "Successfully reached health endpoint: ${URL}/health"
+                        echo "====================================================================="
+                    else
+                        echo "Could not reach health endpoint: ${URL}/health"
+                        exit 1
+                    fi
 
                 '''
             }

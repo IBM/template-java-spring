@@ -19,6 +19,9 @@ service:
   type: ClusterIP
   port: 80
 
+route:
+  enabled: false
+
 ingress:
   enabled: true
   appid:
@@ -26,7 +29,7 @@ ingress:
     # web or app - https://cloud.ibm.com/docs/services/appid?topic=appid-kube-auth
     requestType: web
 
-#  host: hello
+  #  host: hello
   namespaceInHost: true
   subdomain: containers.appdomain.cloud
   path: "/"
