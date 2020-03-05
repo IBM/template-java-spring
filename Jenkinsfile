@@ -21,10 +21,19 @@ def buildAgentName(String jobNameWithNamespace, String buildNumber, String names
 }
 
 def removeNamespaceFromJobName(String jobName, String namespace) {
-    return jobName.replaceAll(namespace + "-", "");
+    return jobName.replaceAll(namespace + "-", "").replaceAll(jobName + "/", "");
 }
 
+def buildSecretName(String jobNameWithNamespace, String namespace) {
+    return jobNameWithNamespace.replaceFirst(namespace + "/", "").replace(".", "-").toLowerCase();
+}
+
+def secretName = buildSecretName(env.JOB_NAME, env.NAMESPACE)
+println "Job name: ${env.JOB_NAME}"
+println "Secret name: ${secretName}"
+
 def buildLabel = buildAgentName(env.JOB_NAME, env.BUILD_NUMBER, env.NAMESPACE);
+def branch = env.BRANCH ?: "master"
 def namespace = env.NAMESPACE ?: "dev"
 def cloudName = env.CLOUD_NAME == "openshift" ? "openshift" : "kubernetes"
 def workingDir = "/home/jenkins/agent"
@@ -58,7 +67,7 @@ spec:
         - name: SONAR_USER_HOME
           value: ${workingDir}
     - name: node
-      image: node:11-stretch
+      image: node:12-stretch
       tty: true
       command: ["/bin/bash"]
       workingDir: ${workingDir}
@@ -75,6 +84,8 @@ spec:
       env:
         - name: HOME
           value: ${workingDir}
+        - name: BRANCH
+          value: ${branch}
     - name: ibmcloud
       image: docker.io/garagecatalyst/ibmcloud-dev:1.0.8
       tty: true
@@ -119,22 +130,9 @@ spec:
 """
 ) {
     node(buildLabel) {
-        container(name: 'node', shell: '/bin/bash') {
-            checkout scm
-            stage('Setup') {
-                sh '''#!/bin/bash
-                    # Export project name, version, and build number to ./env-config
-                    IMAGE_NAME=$(basename -s .git `git config --get remote.origin.url` | tr '[:upper:]' '[:lower:]' | sed "s/_/-/g")
-                    echo "IMAGE_NAME=${IMAGE_NAME}" > ./env-config
-                    npm run env | grep "^npm_package_version" | sed "s/npm_package_version/IMAGE_VERSION/g" >> ./env-config
-                    echo "BUILD_NUMBER=${BUILD_NUMBER}" >> ./env-config
-                    cat ./env-config
-                '''
-            }
-        }
         container(name: 'jdk11', shell: '/bin/bash') {
-
-                stage('Build') {
+            checkout scm
+            stage('Build') {
                 sh '''
                     ./gradlew assemble --no-daemon
                 '''
@@ -152,8 +150,48 @@ spec:
                   exit 0
                 fi
 
+                if [[ ./gradlew tasks --all | grep -Eq "^sonarqube" ]]; then
+                    echo "SonarQube task found"
+                else
+                    echo "Skipping SonarQube step, no task defined"
+                    exit 0
+                fi
+
                 ./gradlew -Dsonar.login=${SONARQUBE_USER} -Dsonar.password=${SONARQUBE_PASSWORD} -Dsonar.host.url=${SONARQUBE_URL} sonarqube
                 '''
+            }
+        }
+        container(name: 'node', shell: '/bin/bash') {
+            stage('Tag release') {
+                withCredentials([usernamePassword(credentialsId: secretName, passwordVariable: 'GIT_AUTH_PWD', usernameVariable: 'GIT_AUTH_USER')]) {
+                    sh '''#!/bin/bash
+                        set -x
+                        set -e
+
+                        git fetch origin ${BRANCH} --tags
+                        git checkout ${BRANCH}
+                        git branch --set-upstream-to=origin/${BRANCH} ${BRANCH}
+
+                        git config --global user.name "Jenkins Pipeline"
+                        git config --global user.email "jenkins@ibmcloud.com"
+                        git config --local credential.helper "!f() { echo username=\\$GIT_AUTH_USER; echo password=\\$GIT_AUTH_PWD; }; f"
+
+                        mkdir -p ~/.npm
+                        npm config set prefix ~/.npm
+                        export PATH=$PATH:~/.npm/bin
+                        npm i -g release-it
+
+                        if [[ "${BRANCH}" != "master" ]]; then
+                            PRE_RELEASE="--preRelease=${BRANCH}"
+                        fi
+
+                        release-it patch --ci --no-npm ${PRE_RELEASE} \
+                          --hooks.after:release='echo "IMAGE_VERSION=${version}" > ./env-config; echo "IMAGE_NAME=${repo.project}" >> ./env-config' \
+                          --verbose
+
+                        cat ./env-config
+                    '''
+                }
             }
         }
         container(name: 'ibmcloud', shell: '/bin/bash') {
@@ -163,16 +201,7 @@ spec:
 
                     echo -e "=========================================================================================="
                     echo -e "BUILDING CONTAINER IMAGE: ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}:${IMAGE_VERSION}"
-                    set -x
                     ibmcloud cr build -t ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}:${IMAGE_VERSION} .
-                    if [[ $? -ne 0 ]]; then
-                      exit 1
-                    fi
-
-                    if [[ -n "${BUILD_NUMBER}" ]]; then
-                        echo -e "BUILDING CONTAINER IMAGE: ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}:${IMAGE_VERSION}-${BUILD_NUMBER}"
-                        ibmcloud cr image-tag ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}:${IMAGE_VERSION} ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}:${IMAGE_VERSION}-${BUILD_NUMBER}
-                    fi
                 '''
             }
             stage('Deploy to DEV env') {
@@ -194,10 +223,6 @@ spec:
                     RELEASE_NAME="${IMAGE_NAME}"
                     echo "RELEASE_NAME: $RELEASE_NAME"
 
-                    if [[ -n "${BUILD_NUMBER}" ]]; then
-                      IMAGE_VERSION="${IMAGE_VERSION}-${BUILD_NUMBER}"
-                    fi
-                    
                     echo "INITIALIZING helm with client-only (no Tiller)"
                     helm init --client-only 1> /dev/null 2> /dev/null
                     
@@ -252,7 +277,7 @@ spec:
                     # sleep for 10 seconds to allow enough time for the server to start
                     sleep 30
 
-                    if [ $(curl -sL -w "%{http_code}\\n" "${URL}/health" -o /dev/null --connect-timeout 3 --max-time 5 --retry 3 --retry-max-time 30) == "200" ]; then
+                    if [[ $(curl -sL -w "%{http_code}\\n" "${URL}/health" -o /dev/null --connect-timeout 3 --max-time 5 --retry 3 --retry-max-time 30) == "200" ]]; then
                         echo "Successfully reached health endpoint: ${URL}/health"
                         echo "====================================================================="
                     else
@@ -265,18 +290,14 @@ spec:
             stage('Package Helm Chart') {
                 sh '''#!/bin/bash
 
-                if [[ -z "${ARTIFACTORY_ENCRPT}" ]]; then
+                if [[ -z "${ARTIFACTORY_ENCRYPT}" ]]; then
                   echo "Skipping Artifactory step as Artifactory is not installed or configured"
                   exit 0
                 fi
 
                 . ./env-config
 
-                if [[ -n "${BUILD_NUMBER}" ]]; then
-                  IMAGE_BUILD_VERSION="${IMAGE_VERSION}-${BUILD_NUMBER}"
-                fi
-
-                if [[ -z "${ARTIFACTORY_ENCRPT}" ]]; then
+                if [[ -z "${ARTIFACTORY_ENCRYPT}" ]]; then
                     echo "Encrption key not available for Jenkins pipeline, please add it to the artifactory-access"
                     exit 1
                 fi
@@ -293,10 +314,10 @@ spec:
                 fi;
 
                 # Package Helm Chart
-                helm package --version ${IMAGE_BUILD_VERSION} ${CHART_ROOT}/${IMAGE_NAME}
+                helm package --version ${IMAGE_VERSION} ${CHART_ROOT}/${IMAGE_NAME}
 
                 # Get the index and re index it with current Helm Chart
-                curl -u${ARTIFACTORY_USER}:${ARTIFACTORY_ENCRPT} -O "${URL}/${REGISTRY_NAMESPACE}/index.yaml"
+                curl -u${ARTIFACTORY_USER}:${ARTIFACTORY_ENCRYPT} -O "${URL}/${REGISTRY_NAMESPACE}/index.yaml"
 
                 if [[ $(cat index.yaml | jq '.errors[0].status') != "404" ]]; then
                     # Merge the chart index with the current index.yaml held in Artifactory
@@ -310,10 +331,10 @@ spec:
                 fi;
 
                 # Persist the Helm Chart in Artifactory for us by ArgoCD
-                curl -u${ARTIFACTORY_USER}:${ARTIFACTORY_ENCRPT} -i -vvv -T ${IMAGE_NAME}-${IMAGE_BUILD_VERSION}.tgz "${URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}-${IMAGE_BUILD_VERSION}.tgz"
+                curl -u${ARTIFACTORY_USER}:${ARTIFACTORY_ENCRYPT} -i -vvv -T ${IMAGE_NAME}-${IMAGE_VERSION}.tgz "${URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}-${IMAGE_VERSION}.tgz"
 
                 # Persist the Helm Chart in Artifactory for us by ArgoCD
-                curl -u${ARTIFACTORY_USER}:${ARTIFACTORY_ENCRPT} -i -vvv -T index.yaml "${URL}/${REGISTRY_NAMESPACE}/index.yaml"
+                curl -u${ARTIFACTORY_USER}:${ARTIFACTORY_ENCRYPT} -i -vvv -T index.yaml "${URL}/${REGISTRY_NAMESPACE}/index.yaml"
 
             '''
             }
@@ -336,10 +357,6 @@ spec:
 
                     . ./env-config
 
-                    if [[ -n "${BUILD_NUMBER}" ]]; then
-                      IMAGE_BUILD_VERSION="${IMAGE_VERSION}-${BUILD_NUMBER}"
-                    fi
-
                     # This email is not used and is not valid, you can ignore but git requires it
                     git config --global user.email "jenkins@ibmcloud.com"
                     git config --global user.name "Jenkins Pipeline"
@@ -353,13 +370,13 @@ spec:
                     cat "./${IMAGE_NAME}/requirements.yaml"
 
                     npm i -g @garage-catalyst/ibm-garage-cloud-cli
-                    igc yq w ./${IMAGE_NAME}/requirements.yaml "dependencies[?(@.name == '${IMAGE_NAME}')].version" ${IMAGE_BUILD_VERSION} -i
+                    igc yq w ./${IMAGE_NAME}/requirements.yaml "dependencies[?(@.name == '${IMAGE_NAME}')].version" ${IMAGE_VERSION} -i
 
                     echo "Requirements after update"
                     cat "./${IMAGE_NAME}/requirements.yaml"
 
                     git add -u
-                    git commit -m "Updates ${IMAGE_NAME} to ${IMAGE_BUILD_VERSION}"
+                    git commit -m "Updates ${IMAGE_NAME} to ${IMAGE_VERSION}"
                     git push -v
                 '''
             }
