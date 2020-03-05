@@ -150,7 +150,7 @@ spec:
                   exit 0
                 fi
 
-                if [[ ./gradlew tasks --all | grep -Eq "^sonarqube" ]]; then
+                if [[ $(./gradlew tasks --all | grep -Eq "^sonarqube") ]]; then
                     echo "SonarQube task found"
                 else
                     echo "Skipping SonarQube step, no task defined"
