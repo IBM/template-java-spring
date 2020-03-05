@@ -25,7 +25,7 @@ def removeNamespaceFromJobName(String jobName, String namespace) {
 }
 
 def buildSecretName(String jobNameWithNamespace, String namespace) {
-    return jobNameWithNamespace.replaceFirst(namespace + "/", "").replace(".", "-").toLowerCase();
+    return jobNameWithNamespace.replaceFirst(namespace + "/", "").replaceFirst(namespace + "-", "").replace(".", "-").toLowerCase();
 }
 
 def secretName = buildSecretName(env.JOB_NAME, env.NAMESPACE)
@@ -86,6 +86,16 @@ spec:
           value: ${workingDir}
         - name: BRANCH
           value: ${branch}
+        - name: GIT_AUTH_USER
+          valueFrom:
+            secretKeyRef:
+              name: ${secretName}
+              key: username
+        - name: GIT_AUTH_PWD
+          valueFrom:
+            secretKeyRef:
+              name: ${secretName}
+              key: password
     - name: ibmcloud
       image: docker.io/garagecatalyst/ibmcloud-dev:1.0.8
       tty: true
@@ -163,7 +173,6 @@ spec:
         }
         container(name: 'node', shell: '/bin/bash') {
             stage('Tag release') {
-                withCredentials([usernamePassword(credentialsId: secretName, passwordVariable: 'GIT_AUTH_PWD', usernameVariable: 'GIT_AUTH_USER')]) {
                     sh '''#!/bin/bash
                         set -x
                         set -e
@@ -191,7 +200,6 @@ spec:
 
                         cat ./env-config
                     '''
-                }
             }
         }
         container(name: 'ibmcloud', shell: '/bin/bash') {
