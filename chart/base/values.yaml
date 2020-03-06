@@ -3,9 +3,6 @@
 # Declare variables to be passed into your templates.
 global: {}
 
-cloudantBinding: ""
-databaseName: ""
-
 replicaCount: 1
 logLevel: "debug"
 
