@@ -196,7 +196,7 @@ spec:
 
                     release-it patch --ci --no-npm ${PRE_RELEASE} \
                       --hooks.after:release='echo "IMAGE_VERSION=${version}" > ./env-config' \
-                      --verbose
+                      --verbose \
                       -VV
 
                     echo "IMAGE_NAME=$(basename -s .git `git config --get remote.origin.url` | tr '[:upper:]' '[:lower:]' | sed 's/_/-/g')" >> ./env-config
