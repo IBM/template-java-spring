@@ -195,7 +195,8 @@ spec:
                         fi
 
                         release-it patch --ci --no-npm ${PRE_RELEASE} \
-                          --verbose
+                          --verbose \
+                          -VV
 
                         cat ./env-config
                     '''
