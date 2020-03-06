@@ -2,6 +2,9 @@ spring:
   application:
     name: "${IMAGE_NAME:template-spring-boot}"
 
+  profiles:
+    active: mock
+
 hello:
   pattern: "Hello there, %s!"
 

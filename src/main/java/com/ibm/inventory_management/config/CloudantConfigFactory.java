@@ -40,7 +40,16 @@ public class CloudantConfigFactory {
     protected CloudantConfig buildConfigFromBinding(String binding, String databaseName) throws IOException {
         final ObjectMapper mapper = new ObjectMapper();
 
-        return mapper.readValue(binding, CloudantConfig.class)
-                .withDatabaseName(databaseName);
+        if (binding == null) {
+            return new CloudantConfig();
+        }
+
+        final CloudantConfig baseConfig = mapper.readValue(binding, CloudantConfig.class);
+
+        if (baseConfig == null) {
+            return new CloudantConfig();
+        }
+
+        return baseConfig.withDatabaseName(databaseName);
     }
 }

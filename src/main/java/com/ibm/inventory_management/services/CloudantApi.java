@@ -6,11 +6,13 @@ import java.net.URL;
 import com.cloudant.client.api.ClientBuilder;
 import com.cloudant.client.api.CloudantClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.ibm.inventory_management.config.CloudantConfig;
 
 @Component
+@Profile("!mock")
 public class CloudantApi {
     @Bean
     public CloudantClient buildCloudant(CloudantConfig config) throws CloudServicesException {
