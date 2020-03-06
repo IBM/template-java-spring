@@ -195,7 +195,6 @@ spec:
                         fi
 
                         release-it patch --ci --no-npm ${PRE_RELEASE} \
-                          --hooks.after:release='echo "IMAGE_VERSION=${version}" > ./env-config; echo "IMAGE_NAME=${repo.project}" >> ./env-config' \
                           --verbose
 
                         cat ./env-config
