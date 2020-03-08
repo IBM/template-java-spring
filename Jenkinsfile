@@ -452,6 +452,7 @@ spec:
         container(name: 'ibmcloud', shell: '/bin/bash') {
             stage('Package Helm Chart') {
                 sh '''#!/bin/bash
+                set -x
 
                 if [[ -z "${ARTIFACTORY_URL}" ]]; then
                   echo "Skipping Artifactory step as Artifactory is not installed or configured"
