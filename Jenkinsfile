@@ -431,6 +431,7 @@ spec:
                     fi
 
                     set -x
+                    set -e
                     . ./env-config
 
                     if ./gradlew tasks --all | grep -Eq "^pactVerify"; then
