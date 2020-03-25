@@ -1,5 +1,5 @@
 {
-  "name": "template-java-spring",
+  "name": "inventory-management-svc",
   "version": "1.0.0",
   "description": "Spring Boot application",
   "main": "index.js",
