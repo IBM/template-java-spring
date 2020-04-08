@@ -2,9 +2,7 @@ package com.ibm.cloud_garage.logging.inbound;
 
 import static java.lang.System.lineSeparator;
 import static org.assertj.core.util.Strings.join;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

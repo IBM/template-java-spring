@@ -1,5 +1,0 @@
-apply from: 'gradle/build-jaxb.gradle'
-
-dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web-services")
-}
