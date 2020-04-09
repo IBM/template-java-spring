@@ -30,7 +30,12 @@ public class StockItemMockService implements StockItemApi {
                         .withName("Item 3")
                         .withStock(10)
                         .withPrice(1000.0)
-                        .withManufacturer("Panasonic")
+                        .withManufacturer("Panasonic"),
+                new StockItem("4")
+                        .withName("Item 4")
+                        .withStock(9)
+                        .withPrice(990.0)
+                        .withManufacturer("JVC")
         );
     }
 }
