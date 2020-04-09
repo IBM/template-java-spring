@@ -241,7 +241,8 @@ spec:
                     set -x
                     set -e
 
-                    git fetch origin ${BRANCH} --tags
+                    git fetch --unshallow
+                    git fetch --tags
                     git checkout ${BRANCH}
                     git branch --set-upstream-to=origin/${BRANCH} ${BRANCH}
 
@@ -316,7 +317,7 @@ spec:
 
                     echo "INITIALIZING helm with client-only (no Tiller)"
                     helm init --client-only 1> /dev/null 2> /dev/null
-                    
+
                     echo "CHECKING CHART (lint)"
                     helm lint ${CHART_PATH}
 
@@ -345,10 +346,10 @@ spec:
                         --namespace ${ENVIRONMENT_NAME} \
                         --set ingress.tlsSecretName="${TLS_SECRET_NAME}" \
                         --set ingress.subdomain="${INGRESS_SUBDOMAIN}" > ./release.yaml
-                    
+
                     echo -e "Generated release yaml for: ${CLUSTER_NAME}/${ENVIRONMENT_NAME}."
                     cat ./release.yaml
-                    
+
                     echo -e "Deploying into: ${CLUSTER_NAME}/${ENVIRONMENT_NAME}."
                     kubectl apply -n ${ENVIRONMENT_NAME} -f ./release.yaml --validate=false
                 '''
