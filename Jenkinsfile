@@ -241,7 +241,7 @@ spec:
                     set -x
                     set -e
 
-                    git fetch --unshallow
+                    git fetch origin ${BRANCH}
                     git fetch --tags
                     git checkout ${BRANCH}
                     git branch --set-upstream-to=origin/${BRANCH} ${BRANCH}
