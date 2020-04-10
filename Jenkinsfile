@@ -241,6 +241,11 @@ spec:
                     set -x
                     set -e
 
+                    if [[ -z "$GIT_AUTH_USER" ]] || [[ -z "$GIT_AUTH_PWD" ]]; then
+                      echo "Git credentials not found. Store your git credentials in a secret named 'git-credentials'."
+                      exit 1
+                    fi
+
                     git fetch origin ${BRANCH}
                     git fetch --tags
                     git checkout ${BRANCH}
@@ -428,7 +433,7 @@ spec:
 
                 if [[ -z "${ARTIFACTORY_ENCRYPT}" ]]; then
                     echo "Encrption key not available for Jenkins pipeline, please add it to the artifactory-access"
-                    exit 1
+                    exit 0
                 fi
 
                 export URL=$(curl -u${ARTIFACTORY_USER}:${ARTIFACTORY_PASSWORD} -X GET "${ARTIFACTORY_URL}/artifactory/api/repositories?type=LOCAL" | jq '.[0].url' | tr -d \\")
