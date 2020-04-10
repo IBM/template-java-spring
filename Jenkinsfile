@@ -370,7 +370,7 @@ spec:
                         PORT="443"
                     else
                         PROTOCOL="http"
-                        HOST=$(kubectl get ingress/${IMAGE_NAME} --namespace ${ENVIRONMENT_NAME} --output=jsonpath='{ .spec.rules[0].host }')
+                        HOST=$(kubectl get ingress.networking.k8s.io/${IMAGE_NAME} --namespace ${ENVIRONMENT_NAME} --output=jsonpath='{ .spec.rules[0].host }')
                         PORT="80"
                     fi
 
