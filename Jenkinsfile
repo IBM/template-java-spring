@@ -242,9 +242,11 @@ spec:
                     set -e
 
                     if [[ -z "$GIT_AUTH_USER" ]] || [[ -z "$GIT_AUTH_PWD" ]]; then
-                      echo "Git credentials not found. Store your git credentials in a secret named 'git-credentials'."
+                      echo "Git credentials not found. The pipeline expects to find them in a secret named 'git-credentials'."
+                      echo "  Update your CLI and register the pipeline again"
                       exit 1
                     fi
+                    git config --local credential.helper "!f() { echo username=\\$GIT_AUTH_USER; echo password=\\$GIT_AUTH_PWD; }; f"
 
                     git fetch origin ${BRANCH}
                     git fetch --tags
@@ -253,7 +255,6 @@ spec:
 
                     git config --global user.name "Jenkins Pipeline"
                     git config --global user.email "jenkins@ibmcloud.com"
-                    git config --local credential.helper "!f() { echo username=\\$GIT_AUTH_USER; echo password=\\$GIT_AUTH_PWD; }; f"
 
                     mkdir -p ~/.npm
                     npm config set prefix ~/.npm
@@ -432,8 +433,8 @@ spec:
                 . ./env-config
 
                 if [[ -z "${ARTIFACTORY_ENCRYPT}" ]]; then
-                    echo "Encrption key not available for Jenkins pipeline, please add it to the artifactory-access"
-                    exit 0
+                    echo "It looks like your Artifactory installation is not complete. Please complete the steps found here - http://ibm.biz/complete-setup"
+                    exit 1
                 fi
 
                 export URL=$(curl -u${ARTIFACTORY_USER}:${ARTIFACTORY_PASSWORD} -X GET "${ARTIFACTORY_URL}/artifactory/api/repositories?type=LOCAL" | jq '.[0].url' | tr -d \\")
