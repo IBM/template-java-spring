@@ -380,17 +380,21 @@ spec:
 
                     URL="${PROTOCOL}://${HOST}"
 
+                    sleep_countdown=5
+
                     # sleep for 10 seconds to allow enough time for the server to start
-                    sleep 30
+                    sleep 10
+                    while [ $(curl -sL -w "%{http_code}\\n" "${URL}/health" -o /dev/null --connect-timeout 3 --max-time 5 --retry 3 --retry-max-time 30) != "200" ]; do
+                        sleep 30
+                        sleep_countdown=$((sleep_countdown-1))
+                        if [ sleep_countdown=0 ]; then
+                                echo "Could not reach health endpoint: ${URL}/health"
+                                exit 1;
+                        fi
+                    done
 
-                    if [[ $(curl -sL -w "%{http_code}\\n" "${URL}/health" -o /dev/null --connect-timeout 3 --max-time 5 --retry 3 --retry-max-time 30) == "200" ]]; then
-                        echo "Successfully reached health endpoint: ${URL}/health"
-                        echo "====================================================================="
-                    else
-                        echo "Could not reach health endpoint: ${URL}/health"
-                        exit 1
-                    fi
-
+                    echo "Successfully reached health endpoint: ${URL}/health"
+                    echo "====================================================================="
                 '''
             }
         }
