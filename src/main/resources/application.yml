@@ -50,4 +50,4 @@ logging:
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
     ch.qos.logback.classic: ERROR
   pattern:
-    console: "%d{YYYY-dd-MM HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %X{X-B3-TraceId:-} ${spring.application.name} %logger{39}.%M %L - %msg%n"
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%X] %5p ${hostName} --- [%15.15t] %-40.40c{1.} : %m%n%ex"
