@@ -69,6 +69,9 @@ dependencies {
     implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: "${swaggerVersion}"
 	
     testImplementation("org.powermock:powermock-api-mockito2:${powermockMockitoVersion}")
+
+    // https://mvnrepository.com/artifact/io.opentracing.contrib/opentracing-spring-jaeger-cloud-starter
+    compile group: 'io.opentracing.contrib', name: 'opentracing-spring-jaeger-cloud-starter', version: '3.1.1'
 }
 
 test {
