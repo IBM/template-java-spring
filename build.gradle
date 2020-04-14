@@ -62,9 +62,13 @@ dependencies {
     // sprimg sleuth
     // implementation("org.springframework.cloud:spring-cloud-starter-sleuth:${springStarterSleuth}")
 	// spring sleuth
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin'
-    implementation group: 'io.opentracing.brave', name: 'brave-opentracing'
+//    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth'
+//    implementation group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin'
+//    implementation group: 'io.opentracing.brave', name: 'brave-opentracing'
+
+    implementation group: 'io.opentracing', name: 'opentracing-api', version: '0.31.0'
+    implementation group: 'io.opentracing.contrib', name: 'opentracing-spring-cloud-starter', version: '0.1.13'
+    implementation group: 'io.jaegertracing', name: 'jaeger-client', version: '0.31.0'
 
 	// cloudant
     implementation group: 'com.cloudant', name: 'cloudant-client', version: '2.17.0'
