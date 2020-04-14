@@ -5,6 +5,8 @@ import java.util.List;
 
 import io.opentracing.Span;
 import io.opentracing.Tracer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,27 +16,25 @@ import com.ibm.inventory_management.services.StockItemApi;
 @RestController
 public class StockItemController {
 
-    private final StockItemApi service;
-    private final Tracer tracer;
+    private static final Logger log = LoggerFactory.getLogger(StockItemController.class);
 
-    public StockItemController(StockItemApi service, Tracer tracer) {
+    private final StockItemApi service;
+
+    public StockItemController(StockItemApi service) {
         this.service = service;
-        this.tracer = tracer;
     }
 
     @GetMapping(path = "/stock-items", produces = "application/json")
     public List<StockItem> listStockItems() {
-        Span span = this.tracer.buildSpan("stock-items").start();
+
+        log.info("Getting stock items");
 
         List<StockItem> items = new ArrayList<StockItem>();
         try {
             items = this.service.listStockItems();
 
-            span.log("Got items: " + items);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            span.finish();
         }
 
         return items;
