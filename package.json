@@ -12,9 +12,7 @@
     "test": "./gradlew test",
     "test:pact": "npm test && ./pact-validate-provider.sh ./build/pacts",
     "publish:pact": "./gradlew pactPublish",
-    "start": "npm run start:tomcat",
-    "start:tomcat": "./gradlew bootRun",
-    "start:liberty": "./gradlew libertyRun"
+    "start": "./gradlew bootRun"
   },
   "repository": {
     "type": "git",
