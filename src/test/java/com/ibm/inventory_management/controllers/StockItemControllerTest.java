@@ -1,5 +1,6 @@
 package com.ibm.inventory_management.controllers;
 
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
@@ -10,6 +11,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Arrays;
 import java.util.List;
 
+import io.opentracing.Span;
+import io.opentracing.Tracer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -24,14 +27,22 @@ import com.ibm.inventory_management.services.StockItemApi;
 public class StockItemControllerTest {
     StockItemController controller;
     StockItemApi service;
+    Tracer tracer;
+    Span span;
 
     MockMvc mockMvc;
 
     @BeforeEach
     public void setup() {
         service = mock(StockItemApi.class);
+        tracer = mock(Tracer.class);
+        span = mock(Span.class);
 
-        controller = spy(new StockItemController(service));
+        Tracer.SpanBuilder spanBuilder = mock(Tracer.SpanBuilder.class);
+        when(tracer.buildSpan(anyString())).thenReturn(spanBuilder);
+        when(spanBuilder.start()).thenReturn(span);
+
+        controller = spy(new StockItemController(service, tracer));
 
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
