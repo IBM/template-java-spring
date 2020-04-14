@@ -51,6 +51,8 @@ dependencies {
     implementation group: 'io.opentracing', name: 'opentracing-api', version: '0.33.0'
     implementation group: 'io.opentracing.contrib', name: 'opentracing-spring-cloud-starter', version: '0.5.4'
     implementation group: 'io.jaegertracing', name: 'jaeger-client', version: '1.2.0'
+    // sprimg sleuth
+    // implementation("org.springframework.cloud:spring-cloud-starter-sleuth:${springStarterSleuth}")
 
 	// cloudant
     implementation group: 'com.cloudant', name: 'cloudant-client', version: '2.17.0'
