@@ -12,6 +12,9 @@ spring:
     opentracing:
       enabled: true
 
+  zipkin:
+    baseUrl: ${ZIPKIN_BASE_URL:jaeger-all-in-one-inmemory-collector}
+
 hello:
   pattern: "Hello there, %s!"
 
