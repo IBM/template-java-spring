@@ -5,6 +5,13 @@ spring:
   profiles:
     active: mock
 
+  sleuth:
+    traceId128: true
+    sampler:
+      probability: 1.0
+    opentracing:
+      enabled: true
+
 hello:
   pattern: "Hello there, %s!"
 
