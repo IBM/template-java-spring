@@ -249,6 +249,10 @@ spec:
                     fi
 
                     git config --local credential.helper "!f() { echo username=\\$GIT_AUTH_USER; echo password=\\$GIT_AUTH_PWD; }; f"
+                    
+                    git fetch
+                    git fetch --tags
+                    git tag -l
 
                     git fetch
                     git fetch --tags
