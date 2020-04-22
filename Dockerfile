@@ -4,7 +4,7 @@ WORKDIR /home/gradle
 COPY . .
 RUN ./gradlew assemble copyJarToServerJar --no-daemon
 
-FROM registry.access.redhat.com/ubi8/ubi
+FROM registry.access.redhat.com/ubi8/ubi:8.1-408
 
 RUN dnf install -y java-11-openjdk.x86_64
 
