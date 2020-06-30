@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.context.annotation.Lazy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ public class StockItemController {
 
     private final StockItemApi service;
 
-    public StockItemController(StockItemApi service) {
+    public StockItemController(@Lazy StockItemApi service) {
         this.service = service;
     }
 

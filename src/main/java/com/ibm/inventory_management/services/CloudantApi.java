@@ -26,8 +26,9 @@ public class CloudantApi {
 
         return ClientBuilder
                 .url(url)
-                .username(config.getUsername())
-                .password(config.getPassword())
+                .iamApiKey(config.getApikey())
+                //.username(config.getUsername())
+                //.password(config.getPassword())
                 .build();
     }
 }
