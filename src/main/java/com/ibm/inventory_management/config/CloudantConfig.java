@@ -8,6 +8,7 @@ public class CloudantConfig {
     private String username;
     private String password;
     private String databaseName;
+    private String apikey;
 
     public String getUrl() {
         return url;
@@ -21,6 +22,14 @@ public class CloudantConfig {
         this.setUrl(url);
 
         return this;
+    }
+
+    public String getApikey() {
+        return apikey;
+    }
+
+    public void setApikey(String apikey) {
+        this.apikey = apikey;
     }
 
     public String getUsername() {
