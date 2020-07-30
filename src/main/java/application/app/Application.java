@@ -18,7 +18,7 @@ import org.springframework.core.env.Environment;
 public class Application extends SpringBootServletInitializer {
     @Autowired
     Environment environment;
-    @Value("spring.application.name")
+    @Value("${spring.application.name}")
     private String applicationName;
 
     public static void main(String[] args) {
