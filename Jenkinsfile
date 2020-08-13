@@ -60,16 +60,8 @@ spec:
         - configMapRef:
             name: pactbroker-config
             optional: true
-        - configMapRef:
-            name: sonarqube-config
-            optional: true
-        - secretRef:
-            name: sonarqube-access
-            optional: true
       env:
         - name: HOME
-          value: ${workingDir}
-        - name: SONAR_USER_HOME
           value: ${workingDir}
     - name: node
       image: node:12-stretch
@@ -79,12 +71,6 @@ spec:
       envFrom:
         - configMapRef:
             name: pactbroker-config
-            optional: true
-        - configMapRef:
-            name: sonarqube-config
-            optional: true
-        - secretRef:
-            name: sonarqube-access
             optional: true
       env:
         - name: HOME
@@ -193,6 +179,18 @@ spec:
         - secretRef:
             name: git-credentials
             optional: true
+    - name: sonarqube-cli
+      image: docker.io/sonarsource/sonar-scanner-cli:4.4
+      tty: true
+      command: ["/bin/bash"]
+      workingDir: ${workingDir}
+      envFrom:
+        - configMapRef:
+            name: sonarqube-config
+            optional: true
+        - secretRef:
+            name: sonarqube-access
+            optional: true
 """
 ) {
     node(buildLabel) {
@@ -216,27 +214,25 @@ spec:
                     ./gradlew testClasses --no-daemon
                 '''
             }
+        }
+        container(name: 'sonarqube-cli', shell: '/bin/bash') {
             stage('Sonar scan') {
                 sh '''#!/bin/bash
 
-                if [[ -z "${SONARQUBE_URL}" ]]; then
-                  echo "Skipping Sonar Qube step as Sonar Qube not installed or configured"
-                  exit 0
-                fi
-
-                if ./gradlew tasks --all | grep -Eq "^sonarqube"; then
-                    echo "SonarQube task found"
-                else
+                if ! command -v sonar-scanner &> /dev/null
+                then
                     echo "Skipping SonarQube step, no task defined"
                     exit 0
                 fi
 
-                ./gradlew \
-                  -Dsonar.login=${SONARQUBE_USER} \
-                  -Dsonar.password=${SONARQUBE_PASSWORD} \
-                  -Dsonar.host.url=${SONARQUBE_URL} \
-                  -Psonar.projectName=${IMAGE_NAME} \
-                  sonarqube
+                if [ -n "${SONARQUBE_URL}" ]; then
+                  sonar-scanner \
+                    -Dsonar.login=${SONARQUBE_USER} \
+                    -Dsonar.password=${SONARQUBE_PASSWORD} \
+                    -Dsonar.host.url=${SONARQUBE_URL} 
+                else 
+                    echo "Skipping Sonar Qube step"
+                fi
                 '''
             }
         }
