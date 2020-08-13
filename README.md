@@ -28,7 +28,7 @@ You can [deploy this application to IBM Cloud](https://cloud.ibm.com/developer/a
 ### Deploying 
 
 After you have created a new git repo from this git template, remember to rename the project.
-Edit `package.json` and change the default name to the name you used to create the template.
+Edit `settings.gradle` and change the `rootProject.name` from the default name to the name you used to create the template.
 
 Make sure you are logged into the IBM Cloud using the IBM Cloud CLI and have access 
 to you development cluster. If you are using OpenShift make sure you have logged into OpenShift CLI on the command line.
