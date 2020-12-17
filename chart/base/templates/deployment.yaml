@@ -5,10 +5,10 @@ metadata:
   annotations:
   {{- if and .Values.vcsInfo.repoUrl .Values.vcsInfo.branch }}
     app.openshift.io/vcs-ref: {{ .Values.vcsInfo.branch }}
-    app.openshift.io/vcs-uri: {{ .Values.vcsInfo.repoUrl }}
+    app.openshift.io/vcs-uri: {{ trimSuffix ".git" .Values.vcsInfo.repoUrl }}
   {{- end }}
   {{- if .Values.connectsTo }}
-    app.openshift.io/connects-to: {{ .Values.connectsTo }}
+    app.openshift.io/connects-to: {{ printf "[{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"name\":%s}]" (toJson .Values.connectsTo) | squote }}
   {{- end }}
   labels:
     app.kubernetes.io/name: {{ include "starter-kit.name" . }}
