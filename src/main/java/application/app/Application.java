@@ -52,4 +52,6 @@ public class Application extends SpringBootServletInitializer {
                 .withSampler(samplerConfig)
                 .withReporter(reporterConfig).getTracer();
     }
+    
+    // Comment for CICD
 }
