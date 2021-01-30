@@ -1,4 +1,4 @@
-FROM gradle:jdk11 AS builder
+FROM quay.io/ibmgaragecloud/gradle:jdk11 AS builder
 
 WORKDIR /home/gradle
 COPY . .
