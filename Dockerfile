@@ -12,7 +12,9 @@ USER root
 RUN dnf -y update-minimal --security --sec-severity=Important --sec-severity=Critical
 # USER default
 
-# Requirement 3, 4 & 5 is already taken care
+# Requirement 3 Do not modify, replace or combine Red Hat packages or layers is already taken care
+# Requirement 4 Non-root, arbitrary user IDs is already taken care
+# Requirement 5 Two-stage image builds is already taken care
 
 # Requirement 6 Image Identification
 LABEL name="test/certification-test" \
