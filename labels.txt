@@ -1,0 +1,7 @@
+name="rhosp13/openstack-cinder-volume-vendorx-plugin" \
+maintainer="maintainer@vendorX.com" \
+vendor="VendorX" \
+version="3.7" \
+release="1" \
+summary="Red Hat OpenStack Platform 13.0 cinder-volume VendorX PluginY" \
+description="Red Hat OpenStack Platform 13.0 cinder-volume VendorX PluginY"

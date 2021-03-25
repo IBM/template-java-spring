@@ -9,19 +9,19 @@ FROM registry.access.redhat.com/ubi8/ubi:8.2
 
 # Requirement 2 Updated image security content
 USER root
-RUN dnf -y update-minimal --security --sec-severity=Important --sec-severity=Critical && yum clean all
-# USER default
+RUN yum -y update-minimal --security --sec-severity=Important --sec-severity=Critical && yum clean all
+USER default
 
 # Requirement 3, 4 & 5 is already taken care
 
 # Requirement 6 Image Identification
-LABEL name="test/certification-test" \
-      maintainer="maintainer@test.com" \
-      vendor="Tester" \
-      version="3.5" \
+LABEL name="rhosp13/openstack-cinder-volume-vendorx-plugin" \
+      maintainer="maintainer@vendorX.com" \
+      vendor="VendorX" \
+      version="3.7" \
       release="1" \
-      summary="These labels are appended to pass the Red Hat certification" \
-      description="Image Identification clause of the certification"
+      summary="Red Hat OpenStack Platform 13.0 cinder-volume VendorX PluginY" \
+      description="Red Hat OpenStack Platform 13.0 cinder-volume VendorX PluginY"
 
 RUN dnf install -y java-11-openjdk.x86_64
 
