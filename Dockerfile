@@ -17,13 +17,21 @@ RUN dnf -y update-minimal --security --sec-severity=Important --sec-severity=Cri
 # Requirement 5 Two-stage image builds is already taken care
 
 # Requirement 6 Image Identification
-LABEL name="test/certification-test" \
-      maintainer="maintainer@test.com" \
-      vendor="Tester" \
-      version="3.5" \
-      release="1" \
-      summary="These labels are appended to pass the Red Hat certification" \
-      description="Image Identification clause of the certification"
+ARG NAME
+ARG MAINTAINER
+ARG VENDOR
+ARG VERSION
+ARG RESEASE
+ARG SUMMARY
+ARG DESCRIPTION
+
+LABEL name=${NAME} \
+      maintainer=${MAINTAINER} \
+      vendor=${VENDOR} \
+      version=${VERSION} \
+      release=${RESEASE} \
+      summary=${SUMMARY} \
+      description=${DESCRIPTION}
 
 RUN dnf install -y java-11-openjdk.x86_64
 
