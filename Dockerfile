@@ -9,7 +9,7 @@ FROM registry.access.redhat.com/ubi8/ubi:8.2
 
 # Requirement 2 Updated image security content
 USER root
-RUN dnf -y update-minimal --security --sec-severity=Important --sec-severity=Critical && yum clean all
+RUN dnf -y update-minimal --security --sec-severity=Important --sec-severity=Critical
 # USER default
 
 # Requirement 3, 4 & 5 is already taken care
