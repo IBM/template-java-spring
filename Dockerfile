@@ -10,6 +10,7 @@ FROM registry.access.redhat.com/ubi8/openjdk-11
 # Requirement 2: Updated image security content
 USER root
 RUN dnf -y update-minimal --security --sec-severity=Important --sec-severity=Critical && dnf clean all
+USER default
 
 # Requirement 3: Do not modify, replace or combine Red Hat packages or layers is already taken care
 # Requirement 4: Non-root, arbitrary user IDs is already taken care
@@ -40,5 +41,3 @@ COPY ./licenses ./licenses
 EXPOSE 9080/tcp
 
 CMD ["java", "-jar", "./server.jar"]
-
-USER cinder
