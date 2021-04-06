@@ -5,16 +5,17 @@ COPY . .
 RUN ./gradlew assemble copyJarToServerJar --no-daemon
 
 # Requirement 1: Universal base image (UBI)
+# Requirement 4: Non-root, arbitrary user IDs is already taken care
+# Requirement 5: Two-stage image builds is already taken care
+
 FROM registry.access.redhat.com/ubi8/openjdk-11
 
 # Requirement 2: Updated image security content
 USER root
-RUN dnf -y update-minimal --security --sec-severity=Important --sec-severity=Critical && dnf clean all
+RUN microdnf -y update-minimal --security --sec-severity=Important --sec-severity=Critical && microdnf clean all
 USER default
 
 # Requirement 3: Do not modify, replace or combine Red Hat packages or layers is already taken care
-# Requirement 4: Non-root, arbitrary user IDs is already taken care
-# Requirement 5: Two-stage image builds is already taken care
 
 # Requirement 6: Image Identification
 ARG NAME
