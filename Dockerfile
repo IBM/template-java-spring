@@ -4,20 +4,26 @@ WORKDIR /home/gradle
 COPY . .
 RUN ./gradlew assemble copyJarToServerJar --no-daemon
 
-# Requirement 1: Universal base image (UBI)
-# Requirement 4: Non-root, arbitrary user IDs is already taken care
-# Requirement 5: Two-stage image builds is already taken care
+## Requirement 1: Universal base image (UBI)
+## Requirement 4: Non-root, arbitrary user IDs is already taken care
+## Requirement 5: Two-stage image builds is already taken care
 
 FROM registry.access.redhat.com/ubi8/openjdk-11
 
-# Requirement 2: Updated image security content
+## Requirement 2: Updated image security content
 USER root
-RUN dnf -y update-minimal --security --sec-severity=Important --sec-severity=Critical && dnf clean all
+
+## Uncomment the below line to clear sec severities
+# RUN dnf -y update-minimal --security --sec-severity=Important --sec-severity=Critical && dnf clean all
+
+## Requirement 7: Image License
+COPY ./licenses ./licenses
+
 USER default
 
-# Requirement 3: Do not modify, replace or combine Red Hat packages or layers is already taken care
+## Requirement 3: Do not modify, replace or combine Red Hat packages or layers is already taken care
 
-# Requirement 6: Image Identification
+## Requirement 6: Image Identification
 ARG NAME
 ARG VENDOR
 ARG VERSION
@@ -33,9 +39,6 @@ LABEL name=${NAME} \
       description=${DESCRIPTION}
 
 COPY --from=builder /home/gradle/build/libs/server.jar ./server.jar
-
-# Requirement 7: Image License
-COPY ./licenses ./licenses
 
 EXPOSE 9080/tcp
 
