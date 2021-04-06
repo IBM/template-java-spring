@@ -24,17 +24,17 @@ USER default
 ## Requirement 3: Do not modify, replace or combine Red Hat packages or layers is already taken care
 
 ## Requirement 6: Image Identification
-ARG NAME
-ARG VENDOR
-ARG VERSION
-ARG RESEASE
-ARG SUMMARY
-ARG DESCRIPTION
+ARG NAME="vendorx/vendorX"
+ARG VENDOR="VendorX"
+ARG VERSION="1.0"
+ARG RELEASE="1"
+ARG SUMMARY="Red Hat VendorX Summary"
+ARG DESCRIPTION="Red Hat VendorX Description"
 
 LABEL name=${NAME} \
       vendor=${VENDOR} \
       version=${VERSION} \
-      release=${RESEASE} \
+      release=${RELEASE} \
       summary=${SUMMARY} \
       description=${DESCRIPTION}
 
