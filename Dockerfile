@@ -19,7 +19,6 @@ USER default
 
 # Requirement 6: Image Identification
 ARG NAME
-ARG MAINTAINER
 ARG VENDOR
 ARG VERSION
 ARG RESEASE
@@ -27,7 +26,6 @@ ARG SUMMARY
 ARG DESCRIPTION
 
 LABEL name=${NAME} \
-      maintainer=${MAINTAINER} \
       vendor=${VENDOR} \
       version=${VERSION} \
       release=${RESEASE} \
