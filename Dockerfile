@@ -13,11 +13,11 @@ FROM registry.access.redhat.com/ubi8/openjdk-11:1.3-10
 ## Requirement 2: Updated image security content
 USER root
 
-## Uncomment the below line to clear sec severities
-# RUN dnf -y update-minimal --security --sec-severity=Important --sec-severity=Critical && dnf clean all
+## comment the below line if there are no sec severities
+RUN dnf -y update-minimal --security --sec-severity=Important --sec-severity=Critical && dnf clean all
 
 ## Requirement 7: Image License
-COPY ./licenses ./licenses
+COPY ./licenses /licenses
 
 USER default
 
