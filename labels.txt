@@ -1,7 +1,0 @@
---build-arg NAME="rhosp13/openstack-cinder-volume-vendorY-plugin"
---build-arg MAINTAINER="maintainer@vendorY.com"
---build-arg VENDOR="VendorY"
---build-arg VERSION="3.7"
---build-arg RELEASE="1"
---build-arg SUMMARY="Red Hat OpenStack Platform 13.0 cinder-volume VendorY PluginY"
---build-arg DESCRIPTION="Red Hat OpenStack Platform 13.0 cinder-volume VendorY PluginY"
