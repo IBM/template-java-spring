@@ -24,19 +24,12 @@ USER default
 ## Requirement 3: Do not modify, replace or combine Red Hat packages or layers is already taken care
 
 ## Requirement 6: Image Identification
-ARG NAME="vendorx/vendorX"
-ARG VENDOR="VendorX"
-ARG VERSION="1.0"
-ARG RELEASE="1"
-ARG SUMMARY="Red Hat VendorX Summary"
-ARG DESCRIPTION="Red Hat VendorX Description"
-
-LABEL name=${NAME} \
-      vendor=${VENDOR} \
-      version=${VERSION} \
-      release=${RELEASE} \
-      summary=${SUMMARY} \
-      description=${DESCRIPTION}
+LABEL name="Java Spring App" \
+      vendor="IBM" \
+      version="v0.0.1" \
+      release="1" \
+      summary="This is an example of a container image." \
+      description="This container image will deploy an example Java Spring App"
 
 COPY --from=builder /home/gradle/build/libs/server.jar ./server.jar
 
