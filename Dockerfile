@@ -19,17 +19,17 @@ RUN dnf -y update-minimal --security --sec-severity=Important --sec-severity=Cri
 ## Requirement 7: Image License
 COPY ./licenses /licenses
 
-USER default
+USER 1001
 
 ## Requirement 3: Do not modify, replace or combine Red Hat packages or layers is already taken care
 
 ## Requirement 6: Image Identification
 LABEL name="Java Spring App" \
       vendor="IBM" \
-      version="v0.0.1" \
+      version="v1.0.0" \
       release="1" \
       summary="This is an example of a container image." \
-      description="This container image will deploy an example Java Spring App"
+      description="This container image will deploy a Java Spring App"
 
 COPY --from=builder /home/gradle/build/libs/server.jar ./server.jar
 
