@@ -8,7 +8,7 @@ RUN ./gradlew assemble copyJarToServerJar --no-daemon
 ## Requirement 4: Non-root, arbitrary user IDs is already taken care
 ## Requirement 5: Two-stage image builds is already taken care
 
-FROM registry.access.redhat.com/ubi8/openjdk-11:1.3-11
+FROM registry.access.redhat.com/ubi8/openjdk-11:1.3-9.1617297653
 
 ## Requirement 2: Updated image security content
 USER root
