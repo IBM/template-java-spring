@@ -22,8 +22,10 @@ LABEL name="ibm/template-java-spring" \
       summary="This is an example of a container image." \
       description="This container image will deploy a Java Spring App"
 
-COPY --from=builder /home/gradle/build/libs/server.jar ./server.jar
+# hadolint ignore=DL3045
+COPY --from=builder /home/gradle/build/libs/server.jar server.jar
 
 EXPOSE 9080/tcp
 
-CMD ["java", "-jar", "./server.jar"]
+CMD ["java", "-jar", "server.jar"]
+
