@@ -13,7 +13,7 @@ FROM registry.access.redhat.com/ubi8/openjdk-11:1.3-15
 
 USER 1001
 
-COPY ./licenses /licenses
+COPY licenses /licenses
 
 LABEL name="ibm/template-java-spring" \
       vendor="IBM" \
