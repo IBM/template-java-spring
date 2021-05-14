@@ -7,7 +7,7 @@ RUN ./gradlew assemble copyJarToServerJar --no-daemon
 
 FROM registry.access.redhat.com/ubi8/openjdk-11:1.3-15
 
-## Uncomment the below line to update image security content if any
+## Uncomment the lines below to update image security content if any
 # USER root
 # RUN dnf -y update-minimal --security --sec-severity=Important --sec-severity=Critical && dnf clean all
 
