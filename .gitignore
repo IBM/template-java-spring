@@ -31,3 +31,6 @@ out/
 ### VS Code ###
 .vscode/
 env-config
+*.tgz
+*.iml
+Chart.lock
