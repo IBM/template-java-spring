@@ -24,6 +24,7 @@ greetingservice:
 swagger:
   baseApiPackages:
   - "com.ibm.hello"
+  - "com.ibm.health"
   pathRegEx: []
   title: "${IMAGE_NAME:template-spring-boot}"
   description: "Description"
