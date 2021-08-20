@@ -22,9 +22,9 @@ greetingservice:
   beanName: "hola"
 
 swagger:
-  baseApiPackage:
+  baseApiPackages:
   - "com.ibm.hello"
-  - "com.ibm.health"
+  pathRegEx: []
   title: "${IMAGE_NAME:template-spring-boot}"
   description: "Description"
   version: "1.0.0"
