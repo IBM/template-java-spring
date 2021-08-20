@@ -1,7 +1,7 @@
 buildscript {
     ext {
-        springBootVersion = '2.2.5.RELEASE'
-        springStarterSleuth = '2.1.1.RELEASE'
+        springBootVersion = '2.2.8.RELEASE'
+        springStarterSleuth = '2.2.8.RELEASE'
         pactVersion = '4.0.7'
         checkstyleVersion = '7.6.1'
         junitVersion = '5.4.2'
@@ -16,8 +16,8 @@ buildscript {
 }
 
 plugins {
-	id 'org.springframework.boot' version '2.2.5.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'org.springframework.boot' version '2.5.4'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 	id 'jacoco'
 	id 'au.com.dius.pact' version '4.0.7'
@@ -35,8 +35,8 @@ repositories {
 
 dependencyManagement {
     dependencies {
-        dependency group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth', version: '2.2.5.RELEASE'
-        dependency group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin', version: '2.2.5.RELEASE'
+        dependency group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth', version: '2.2.8.RELEASE'
+        dependency group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin', version: '2.2.8.RELEASE'
         dependency group: 'io.opentracing.brave', name: 'brave-opentracing', version: '0.31.3'
     }
 }
