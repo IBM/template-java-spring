@@ -1,19 +1,6 @@
 package com.ibm.cloud_native_toolkit.swagger;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.ArgumentMatchers.anyCollection;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.google.common.base.Predicate;
+import com.ibm.cloud_native_toolkit.util.Predicates;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -24,6 +11,14 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.VendorExtension;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyCollection;
+import static org.mockito.Mockito.*;
 
 @DisplayName("SwaggerDocket")
 public class SwaggerDocketTest {
@@ -60,9 +55,9 @@ public class SwaggerDocketTest {
     public class GivenBuildApiRequestHandler {
         @Test
         public void empty_baseApiPackage_returns_any() {
-            Predicate<RequestHandler> actual = classUnderTest.buildApiRequestHandler();
+            java.util.function.Predicate<RequestHandler> actual = classUnderTest.buildApiRequestHandler();
 
-            assertEquals(RequestHandlerSelectors.any(), actual);
+            assertEquals(Predicates.any(), actual);
         }
 
         @Test
@@ -74,7 +69,7 @@ public class SwaggerDocketTest {
 
             doReturn(mock).when(classUnderTestSpy).buildBasePackageRequestHandler(anyCollection());
 
-            Predicate<RequestHandler> actual = classUnderTestSpy.buildApiRequestHandler();
+            java.util.function.Predicate<RequestHandler> actual = classUnderTestSpy.buildApiRequestHandler();
 
             assertEquals(mock, actual);
             verify(classUnderTestSpy).buildBasePackageRequestHandler(baseApiPackages);
