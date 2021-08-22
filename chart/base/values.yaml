@@ -37,13 +37,8 @@ base:
     enabled: false
 
   env:
-    - name: IMAGE_NAME
-      valueFrom:
-        fieldRef:
-          apiVersion: v1
-          fieldPath: metadata.name
     - name: LOG_LEVEL
-      value: "debug"
+      value: "info"
 
   envFrom:
     - configMapRef:
