@@ -1,52 +1,46 @@
-global:
-  tlsSecretName: ""
-  ingressSubdomain: ""
+# Default values for template-node-typescript.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+global: {}
 
-base:
-  runtime: spring
+replicaCount: 1
+logLevel: "INFO"
+image:
+  repository: replace
+  tag: replace
+  pullPolicy: IfNotPresent
+  port: 9080
 
-  image:
-    repository: replace
-    tag: replace
-    port: 9080
-    probePath: /
-    # Overrides the image tag whose default is the chart appVersion.
+nameOverride: ""
+fullnameOverride: ""
 
-  autoscaling:
+service:
+  type: ClusterIP
+  port: 80
+
+route:
+  enabled: false
+
+ingress:
+  enabled: true
+  appid:
     enabled: false
-    minReplicas: 1
-    maxReplicas: 100
-    targetCPUUtilizationPercentage: 80
+    # web or app - https://cloud.ibm.com/docs/services/appid?topic=appid-kube-auth
+    requestType: web
 
-  # resources: {}
-    # We usually recommend not to specify default resources and to leave this as a conscious
-    # choice for the user. This also increases chances charts run on environments with little
-    # resources, such as Minikube. If you do want to specify resources, uncomment the following
-    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+  #  host: hello
+  namespaceInHost: true
+  subdomain: containers.appdomain.cloud
+  path: "/"
 
-  route:
-    enabled: true
+#  tlsSecretName: ""
 
-  ingress:
-    enabled: false
+vcsInfo:
+  repoUrl: ""
+  branch: ""
 
-  env:
-    - name: LOG_LEVEL
-      value: "info"
+partOf: inventory
 
-  envFrom:
-    - configMapRef:
-        name: jaeger-config
-        optional: true
-    - secretRef:
-        name: jaeger-access
-        optional: true
+connectsTo: ""
 
-  partOf: ""
-  connectsTo: ""
+runtime: spring
