@@ -5,7 +5,7 @@ COPY . .
 RUN ./gradlew assemble copyJarToServerJar --no-daemon
 
 
-FROM registry.access.redhat.com/ubi8/openjdk-11:1.10-1
+FROM registry.access.redhat.com/ubi8/openjdk-11:1.14-3
 
 ## Uncomment the lines below to update image security content if any
 # USER root
