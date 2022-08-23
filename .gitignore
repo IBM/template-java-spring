@@ -37,3 +37,5 @@ env-config
 *.tgz
 *.iml
 Chart.lock
+
+node_modules
