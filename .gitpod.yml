@@ -6,4 +6,7 @@ tasks:
   - init: npm install && npm run build && ./gradlew build
     command: npm run start
 
-
+ports:
+  - description: The port in which the service is running
+    port: 9080
+    visibility: public
