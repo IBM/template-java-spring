@@ -1,30 +1,30 @@
-FROM quay.io/ibmgaragecloud/gradle:jdk11 AS builder
+FROM registry.access.redhat.com/ubi9/openjdk-17:1.14-2.1681917140 as builder
 
-WORKDIR /home/gradle
-COPY . .
-RUN ./gradlew assemble copyJarToServerJar --no-daemon
+COPY --chown=default . .
 
+RUN ./gradlew copyJarToServerJar --no-daemon && ls build/libs
 
-FROM registry.access.redhat.com/ubi8/openjdk-11:1.14-3
+FROM registry.access.redhat.com/ubi9/openjdk-17-runtime:1.14-2.1681917142
 
-## Uncomment the lines below to update image security content if any
-# USER root
-# RUN dnf -y update-minimal --security --sec-severity=Important --sec-severity=Critical && dnf clean all
+ARG NAME="ibm/template-java-spring"
+ARG SUMMARY="This is an example of a container image."
+ARG DESCRIPTION="This container image will deploy a Java Spring App"
+ARG VENDOR="IBM"
+ARG VERSION="1.3"
+ARG RELEASE="15"
 
-USER 1001
+## https://connect.redhat.com/en/partner-resources/container-certification-policy-guide--archived
+LABEL name=$NAME \
+      vendor=$VENDOR \
+      version=$VERSION \
+      release=$RELEASE \
+      summary=$SUMMARY \
+      description=$DESCRIPTION
 
 COPY licenses /licenses
 
-LABEL name="ibm/template-java-spring" \
-      vendor="IBM" \
-      version="1.3" \
-      release="15" \
-      summary="This is an example of a container image." \
-      description="This container image will deploy a Java Spring App"
+COPY --from=builder --chown=default /home/default/build/libs/server.jar .
 
-# hadolint ignore=DL3045
-COPY --from=builder /home/gradle/build/libs/server.jar server.jar
+EXPOSE 8080
 
-EXPOSE 9080/tcp
-
-CMD ["java", "-jar", "server.jar"]
+CMD java -jar server.jar
