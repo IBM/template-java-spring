@@ -25,6 +25,4 @@ COPY licenses /licenses
 
 COPY --from=builder --chown=default /home/default/build/libs/server.jar .
 
-EXPOSE 8080
-
 CMD ["java", "-jar", "server.jar"]
