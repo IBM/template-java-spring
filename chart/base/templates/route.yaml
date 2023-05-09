@@ -1,17 +1,18 @@
-{{- if .Values.route.enabled -}}
-{{- $fullName := include "starter-kit.fullname" . -}}
-kind: Route
+{{- if .Values.route.enabled }}
 apiVersion: route.openshift.io/v1
+kind: Route
 metadata:
-  name: {{ $fullName }}
-  annotations:
-    argocd.argoproj.io/sync-options: Validate=false
+  name: {{ include "starter-kit.name" . }}
+  labels:
+    {{- include "starter-kit.labels" . | nindent 4 }}
 spec:
+  port:
+    targetPort: http
   to:
     kind: Service
-    name: {{ $fullName }}
+    name: {{ include "starter-kit.fullname" . }}
     weight: 100
   tls:
-    termination: edge
-  wildcardPolicy: None
+    termination: {{ .Values.route.termination | default "edge" }}
+    insecureEdgeTerminationPolicy: {{ .Values.route.insecureEdgeTerminationPolicy | default "Redirect" }}
 {{- end }}

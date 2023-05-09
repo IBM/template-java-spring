@@ -3,17 +3,13 @@ kind: Service
 metadata:
   name: {{ include "starter-kit.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "starter-kit.name" . }}
-    helm.sh/chart: {{ include "starter-kit.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app: {{ .Release.Name }}
+    {{- include "starter-kit.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.image.port }}
+      targetPort: http
       protocol: TCP
       name: http
   selector:
-    app.kubernetes.io/name: {{ include "starter-kit.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
+    {{- include "starter-kit.selectorLabels" . | nindent 4 }}

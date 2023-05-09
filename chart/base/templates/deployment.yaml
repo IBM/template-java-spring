@@ -3,75 +3,70 @@ kind: Deployment
 metadata:
   name: {{ include "starter-kit.fullname" . }}
   annotations:
-  {{- if and .Values.vcsInfo.repoUrl .Values.vcsInfo.branch }}
-    app.openshift.io/vcs-ref: {{ .Values.vcsInfo.branch }}
-    app.openshift.io/vcs-uri: {{ .Values.vcsInfo.repoUrl }}
-  {{- end }}
-  {{- if .Values.connectsTo }}
-    app.openshift.io/connects-to: {{ .Values.connectsTo }}
-  {{- end }}
+    {{- include "starter-kit.annotations" . | nindent 4 }}
   labels:
-    app.kubernetes.io/name: {{ include "starter-kit.name" . }}
-    helm.sh/chart: {{ include "starter-kit.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app: {{ .Release.Name }}
-    {{- if .Values.partOf }}
-    app.kubernetes.io/part-of: {{ .Values.partOf }}
-    {{- end}}
-    {{- if .Values.runtime }}
-    app.openshift.io/runtime: {{ .Values.runtime }}
-    {{- end}}
+    {{- include "starter-kit.labels" . | nindent 4 }}
 spec:
+  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
+  {{- end }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "starter-kit.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
+      {{- include "starter-kit.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      labels:
-        app.kubernetes.io/name: {{ include "starter-kit.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
-    spec:
-      {{- if .Values.image.secretName }}
-      imagePullSecrets:
-        - name: {{ .Values.image.secretName }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
       {{- end }}
+      labels:
+        {{- include "starter-kit.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "starter-kit.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-
           ports:
             - name: http
               containerPort: {{ .Values.image.port }}
               protocol: TCP
+          env:
+            - name: PORT
+              value: {{ .Values.image.port }}
+            - name: API_ID
+              value: {{ .Values.openapi.id }}
+            - name: API_TITLE
+              value: {{ .Values.openapi.title }}
+            - name: API_DESCRIPTION
+              value: {{ .Values.openapi.description }}
           livenessProbe:
             httpGet:
-              path: /
+              path: /health
               port: http
           readinessProbe:
             httpGet:
-              path: /
+              path: /health
               port: http
-          env:
-            - name: INGRESS_HOST
-              value: ""
-            - name: PROTOCOLS
-              value: ""
-            - name: LOG_LEVEL
-              value: {{ .Values.logLevel | quote }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-    {{- with .Values.affinity }}
+      {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
+      {{- end }}
+      {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
+      {{- end }}
