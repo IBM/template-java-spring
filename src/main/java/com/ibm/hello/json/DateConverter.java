@@ -1,4 +1,4 @@
-package com.dex.hellowatson.json;
+package com.ibm.hello.json;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.DeserializationContext;

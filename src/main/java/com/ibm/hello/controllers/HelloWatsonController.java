@@ -1,4 +1,4 @@
-package com.dex.hellowatson.controllers;
+package com.ibm.hello.controllers;
 
 import com.dex.hellowatson.models.SimpleResponse;
 import io.swagger.v3.oas.annotations.Operation;
