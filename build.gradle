@@ -1,125 +1,49 @@
-buildscript {
-    ext {
-        springBootVersion = '2.2.8.RELEASE'
-        springStarterSleuth = '2.2.8.RELEASE'
-        pactVersion = '4.0.7'
-        checkstyleVersion = '7.6.1'
-        junitVersion = '5.4.2'
-        mockitoVersion = '2.27.0'
-        powermockMockitoVersion = '2.0.2'
-        jacocoVersion = '0.8.4'
-        libertyVersion = '18.0.0.1'
-        swaggerVersion = '2.9.2'
-        jaxbVersion = '2.2.11'
-        wsdlVersion = '1.6.1'
-    }
-}
-
 plugins {
-	id 'org.springframework.boot' version '2.5.4'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
-	id 'jacoco'
-	id 'au.com.dius.pact' version '4.0.7'
-	id 'com.adarshr.test-logger' version '2.0.0'
-	id 'org.sonarqube' version '2.8'
+    id 'java'
+    id 'org.springframework.boot' version '3.0.6'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id "org.springdoc.openapi-gradle-plugin" version "1.6.0"
 }
 
-group = 'application'
-version = '0.0.1'
-sourceCompatibility = "1.9"
+group = 'com.dex'
+version = '0.3.1'
+sourceCompatibility = '17'
 
 repositories {
-	mavenCentral()
-}
-
-dependencyManagement {
-    dependencies {
-        dependency group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth', version: '2.2.8.RELEASE'
-        dependency group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin', version: '2.2.8.RELEASE'
-        dependency group: 'io.opentracing.brave', name: 'brave-opentracing', version: '1.0.0'
-    }
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
-    implementation("org.apache.httpcomponents:httpclient")
-    compileOnly("org.springframework.boot:spring-boot-devtools")
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    // needed for IntelliJ
-    compileOnly("org.springframework.boot:spring-boot-configuration-processor")
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-	// spring actuator
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+    // openapi
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.1.0'
 
-    implementation group: 'io.opentracing', name: 'opentracing-api', version: '0.33.0'
-    implementation group: 'io.opentracing.contrib', name: 'opentracing-spring-cloud-starter', version: '0.5.9'
-    implementation group: 'io.jaegertracing', name: 'jaeger-client', version: '1.6.0'
+    // intellij
+    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-	// cloudant
-    implementation group: 'com.cloudant', name: 'cloudant-client', version: '2.17.0'
-    implementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
-    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.1'
-    implementation group: 'joda-time', name: 'joda-time', version: '2.10.3'
- 
-    // pact
-    testImplementation group: 'au.com.dius', name: 'pact-jvm-provider-junit5', version: project.pactVersion
-    testImplementation group: 'au.com.dius', name: 'pact-jvm-provider', version: project.pactVersion
-    testImplementation group: 'au.com.dius', name: 'pact-jvm-consumer-junit5', version: project.pactVersion
-    testImplementation group: 'au.com.dius', name: 'pact-jvm-consumer', version: project.pactVersion
-
-    // swagger
-    implementation group: 'io.springfox', name: 'springfox-swagger2', version: "${swaggerVersion}"
-    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: "${swaggerVersion}"
-	
-    testImplementation("org.powermock:powermock-api-mockito2:${powermockMockitoVersion}")
-
-    // https://mvnrepository.com/artifact/io.opentracing.contrib/opentracing-spring-jaeger-cloud-starter
-    compile group: 'io.opentracing.contrib', name: 'opentracing-spring-jaeger-cloud-starter', version: '3.3.1'
+    // https://mvnrepository.com/artifact/org.projectlombok/lombok
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.26'
 }
 
-test {
-	useJUnitPlatform()
+springBoot {
+    buildInfo()
 }
 
-testlogger {
-    theme 'mocha'
+tasks.named('test') {
+    useJUnitPlatform()
 }
 
-task copyJarToServerJar(type: Copy) {
-    from ('build/libs') {
+tasks.register('copyJarToServerJar', Copy) {
+    dependsOn('bootJar')
+    mustRunAfter('jar')
+    from('build/libs') {
         rename "${project.name}-${project.version}.jar", 'server.jar'
     }
     into 'build/libs'
 }
-
-task run {
-    dependsOn 'bootRun'
-}
-
-def pactBrokerUrl = project.hasProperty('pactBrokerUrl') ? pactBrokerUrl : 'http://localhost'
-def providerName = project.hasProperty('pactProvider') ? pactProvider : project.name
-def pactProtocol = project.hasProperty('pactProtocol') ? pactProtocol : 'http'
-def pactHost = project.hasProperty('pactHost') ? pactHost : 'localhost'
-def pactPort = project.hasProperty('pactPort') ? pactPort : '8080'
-pact {
-    serviceProviders {
-        // You can define as many as you need, but each must have a unique name
-        "${providerName}" {
-            // All the provider properties are optional, and have sensible defaults (shown below)
-            protocol = pactProtocol
-            host = pactHost
-            port = pactPort
-            path = '/'
-
-            if ('pactVerify' in gradle.startParameter.taskNames) {
-                hasPactsFromPactBroker(pactBrokerUrl)
-            }
-        }
-    }
-}
-targetCompatibility = JavaVersion.VERSION_1_9
