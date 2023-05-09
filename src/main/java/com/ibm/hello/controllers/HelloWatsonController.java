@@ -1,6 +1,6 @@
 package com.ibm.hello.controllers;
 
-import com.dex.hellowatson.models.SimpleResponse;
+import com.ibm.hello.models.SimpleResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.extensions.Extension;

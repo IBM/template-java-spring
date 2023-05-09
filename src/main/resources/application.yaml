@@ -1,0 +1,7 @@
+server:
+  port: "${PORT:8080}"
+
+openapi:
+  id: "${API_ID:hello-watson}"
+  title: "${API_TITLE:Hello Watson}"
+  description: "${API_DESCRIPTION:Simple Hello World API}"
